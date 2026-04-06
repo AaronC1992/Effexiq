@@ -8,7 +8,7 @@ AI-powered ambient sound designer that listens to your game in real time and aut
 
 <br>
 
-[![Play Now](https://img.shields.io/badge/Play%20Now-SoundGoblin-8a2be2?style=for-the-badge&logoColor=white)](https://sound-goblin-v57t.vercel.app)
+[![Play Now](https://img.shields.io/badge/Play%20Now-SoundGoblin-8a2be2?style=for-the-badge&logoColor=white)](https://sound-goblin.vercel.app)
 
 <br>
 
@@ -124,7 +124,7 @@ Current alternatives require manual playlist management (Syrinscape, Tabletop Au
 
 Interested in SoundGoblin? Reach out:
 
-- **Live Demo:** [sound-goblin-v57t.vercel.app](https://sound-goblin-v57t.vercel.app)
+- **Live Demo:** [sound-goblin.vercel.app](https://sound-goblin.vercel.app)
 - **GitHub:** [AaronC1992/SoundGoblin](https://github.com/AaronC1992/SoundGoblin)
 
 ---
