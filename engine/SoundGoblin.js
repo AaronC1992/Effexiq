@@ -4807,8 +4807,8 @@ class SoundGoblin {
             }
         });
         
-        const soundId = howl.play();
         const id = Date.now() + Math.random();
+        const soundId = howl.play();
         this.activeSounds.set(id, { 
             _howl: howl, 
             soundId, 
@@ -5326,15 +5326,15 @@ class SoundGoblin {
             let barHeight;
             let x = 0;
             
+            const gradient = this.canvasCtx.createLinearGradient(0, this.canvas.height, 0, 0);
+            gradient.addColorStop(0, colors.low);
+            gradient.addColorStop(0.5, colors.mid);
+            gradient.addColorStop(1, colors.high);
+            this.canvasCtx.fillStyle = gradient;
+            
             for (let i = 0; i < bufferLength; i++) {
                 barHeight = (dataArray[i] / 255) * this.canvas.height * 0.8;
                 
-                const gradient = this.canvasCtx.createLinearGradient(0, this.canvas.height, 0, 0);
-                gradient.addColorStop(0, colors.low);
-                gradient.addColorStop(0.5, colors.mid);
-                gradient.addColorStop(1, colors.high);
-                
-                this.canvasCtx.fillStyle = gradient;
                 this.canvasCtx.fillRect(x, this.canvas.height - barHeight, barWidth, barHeight);
                 
                 x += barWidth + 1;
@@ -5747,8 +5747,10 @@ class SoundGoblin {
         this.stopVisualizer();
         
         // Clear canvas
-        this.canvasCtx.fillStyle = '#000';
-        this.canvasCtx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        if (this.canvasCtx && this.canvas) {
+            this.canvasCtx.fillStyle = '#000';
+            this.canvasCtx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        }
         
         // Reset CB listen mode if active
         if (this.cbListenMode) {
@@ -5987,7 +5989,7 @@ class SoundGoblin {
             ...contextPredictions
         ])].slice(0, 3); // Top 3 predictions
         
-        toWarm.forEach(async (q) => {
+        Promise.allSettled(toWarm.map(async (q) => {
             const cacheKey = `sfx:${q}`;
             if (this.soundCache.has(cacheKey)) return; // already cached URL
             const url = await this.searchAudio(q, 'sfx');
@@ -6010,7 +6012,7 @@ class SoundGoblin {
                     if (e.name !== 'AbortError') debugLog('Predictive prefetch error:', e.message);
                 }
             }
-        });
+        }));
     }
 
     // ===== PREFETCH ALTERNATES =====

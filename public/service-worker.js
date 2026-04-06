@@ -10,24 +10,11 @@ const CACHE_NAME = 'soundgoblin-v14'; // Bumped for market-readiness pass
 
 const urlsToCache = [
   './',
-  './index.html',
-  './styles.css',
-  './game.js',
-  './api.js',
-  './config.js',
-  './integration.js',
   './manifest.json',
   './saved-sounds.json',
   './stories.json',
   './icon.svg',
-  './favicon.svg',
-  './modules/error-handler.js',
-  './modules/memory-manager.js',
-  './modules/performance-monitor.js',
-  './modules/accessibility.js',
-  './modules/trigger-system.js',
-  './modules/sound-engine.js',
-  './modules/ai-director.js'
+  './favicon.svg'
 ];
 
 // Install event - cache core files
