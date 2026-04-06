@@ -80,9 +80,9 @@ function setAccessToken(token) {
 }
 
 // ===== HELPER FUNCTIONS =====
-// Legacy OpenAI key (no longer used for AI analysis â€” kept only for Freesound/Pixabay compatibility)
+// Legacy OpenAI key (no longer used for AI analysis — kept only for Freesound/Pixabay compatibility)
 function getOpenAIKey() {
-    return null; // OpenAI key now managed on the backend â€” users subscribe instead
+    return null; // OpenAI key now managed on the backend — users subscribe instead
 }
 
 function setOpenAIKey(key) {} // no-op
@@ -171,7 +171,7 @@ class SoundGoblin {
     // Mixer levels (user-controlled)
     this.musicLevel = parseFloat(localStorage.getItem('SoundGoblin_music_level') ?? '0.5'); // default 50%
     this.sfxLevel = parseFloat(localStorage.getItem('SoundGoblin_sfx_level') ?? '0.9');   // default 90%
-    this.voiceIntensity = 0.5; // mic loudness ratio: ~0.4 quiet â†’ ~1.5 shouting
+    this.voiceIntensity = 0.5; // mic loudness ratio: ~0.4 quiet → ~1.5 shouting
     this._micAnalyser = null;  // AnalyserNode connected to mic (measurement only, no echo)
     this._startupSoundPlayed = false;
     this.currentMusicBase = 0.5; // last intensity-derived music gain (pre-user)
@@ -180,7 +180,7 @@ class SoundGoblin {
     try { this.lowLatencyMode = JSON.parse(localStorage.getItem('SoundGoblin_low_latency') ?? 'false'); } catch { this.lowLatencyMode = false; }
     this.preloadConcurrency = this.getPreloadConcurrency();
     this.keywordCooldownMs = parseInt(localStorage.getItem('SoundGoblin_keyword_cooldown_ms') ?? '3000');
-    // Scene presets â€” lazy-init from defaults if not yet saved
+    // Scene presets — lazy-init from defaults if not yet saved
     try { this.scenePresets = JSON.parse(localStorage.getItem('SoundGoblin_scene_presets') ?? 'null') || null; } catch { this.scenePresets = null; }
     // Control board listen mode (set after setupControlBoard)
     this.cbListenMode = false;
@@ -370,7 +370,7 @@ class SoundGoblin {
             // Use centralized API service (from api.js)
             this.soundCatalog = await fetchSounds();
             if (this.soundCatalog.length > 0) {
-                debugLog(`âœ“ Loaded ${this.soundCatalog.length} sounds`);
+                debugLog(`✓ Loaded ${this.soundCatalog.length} sounds`);
                 // Update indicators now that audio sources are available
                 this.updateApiStatusIndicators();
                 // Optional: verify first few catalog URLs in debug mode
@@ -542,7 +542,7 @@ class SoundGoblin {
         let i = this.storyIndex;
         let progressed = 0;
         
-        // Flexible sequential match â€” try each spoken word against current story
+        // Flexible sequential match — try each spoken word against current story
         // position, but if it doesn't match, look ahead in the story
         let spokenIdx = 0;
         while (spokenIdx < spoken.length && i < this.storyNorm.length) {
@@ -561,7 +561,7 @@ class SoundGoblin {
                 for (let skip = 1; skip <= skipLimit; skip++) {
                     const ahead = i + skip;
                     if (ahead < this.storyNorm.length && this.storyNorm[ahead] !== '' && this.eqLoose(this.storyNorm[ahead], spoken[spokenIdx])) {
-                        // Jump forward â€” fire cue sounds for skipped words
+                        // Jump forward — fire cue sounds for skipped words
                         for (let s = i; s <= ahead; s++) {
                             const w = this.storyNorm[s];
                             if (w) this.maybeTriggerStorySfx(w);
@@ -572,7 +572,7 @@ class SoundGoblin {
                     }
                 }
                 if (!found) {
-                    // Spoken word didn't match nearby â€” skip it
+                    // Spoken word didn't match nearby — skip it
                     spokenIdx++;
                 }
             }
@@ -635,11 +635,11 @@ class SoundGoblin {
                     lastK = k;
                     si++;
                     if (consecutive >= minConsecutive) {
-                        // Strong match â€” return position after last matched word
+                        // Strong match — return position after last matched word
                         return this.storyIndex + lastK + 1;
                     }
                 } else {
-                    // Reset â€” require consecutive matches
+                    // Reset — require consecutive matches
                     break;
                 }
             }
@@ -720,7 +720,7 @@ class SoundGoblin {
                 if (demoStatus) demoStatus.textContent = 'Generating AI narration...';
                 const ttsUrl = `${backendUrl}/tts`;
 
-                // OpenAI TTS has 4096 char limit â€” split if needed
+                // OpenAI TTS has 4096 char limit — split if needed
                 const chunks = this._splitTextForTTS(textFromHere, 4096);
                 const audioBlobs = [];
 
@@ -794,7 +794,7 @@ class SoundGoblin {
                 });
 
                 this._autoReadAudio.play();
-                return; // Success â€” AI TTS is running
+                return; // Success — AI TTS is running
             } catch (err) {
                 debugLog('AI TTS failed, falling back to browser TTS:', err.message);
                 this._cleanupAutoReadAudio();
@@ -872,7 +872,7 @@ class SoundGoblin {
 
             // Timer-based sync: runs in parallel as a fallback for mobile
             // where onboundary events may not fire reliably
-            const wordsPerMs = 370; // ~160 wpm â€” mobile TTS voices speak slower than desktop
+            const wordsPerMs = 370; // ~160 wpm — mobile TTS voices speak slower than desktop
             let timerPos = 0;
             this._browserTTSSyncTimer = null;
 
@@ -897,7 +897,7 @@ class SoundGoblin {
             // Start the timer fallback after a short delay to give onboundary a chance
             const watchdog = setTimeout(() => {
                 if (!boundaryFired && this._autoReading) {
-                    debugLog('TTS onboundary not firing â€” using timer sync');
+                    debugLog('TTS onboundary not firing — using timer sync');
                     this._browserTTSSyncTimer = setInterval(advanceByTimer, wordsPerMs);
                 }
             }, 1500);
@@ -1048,7 +1048,7 @@ class SoundGoblin {
             'clash': 'sword clash metal',
             'armor': 'armor clank footsteps',
             'armored': 'armor clank footsteps',
-            // Fire & Light â€” each maps to its specific sound
+            // Fire & Light — each maps to its specific sound
             'fire': 'campfire ambient gentle',
             'crackled': 'campfire ambient gentle',
             'flames': 'wildfire inferno',
@@ -1096,7 +1096,7 @@ class SoundGoblin {
             'exploded': 'explosion',
             'trembled': 'ground rumble',
             'collapsed': 'impact heavy',
-            // Vocal â€” demographic-specific scream routing
+            // Vocal — demographic-specific scream routing
             'growl': 'creature growl',
             'scream': 'female scream terror',
             'screamed': 'female scream terror',
@@ -1384,20 +1384,20 @@ class SoundGoblin {
     // Max duration (seconds) before auto-fadeout per category
     _storySfxMaxDuration(category) {
         switch (category) {
-            case 'combat':     return 6;
-            case 'weather':    return 8;
-            case 'fire':       return 8;
-            case 'creature':   return 5;
-            case 'celebration': return 8;
-            case 'nautical':   return 8;
-            case 'water':      return 8;
-            case 'atmosphere': return 10;
-            case 'dungeon':    return 5;
-            case 'occult':     return 6;
-            case 'scifi':      return 6;
-            case 'western':    return 5;
-            case 'social':     return 7;
-            default:           return 4; // short sounds: impacts, vocal, movement, magic
+            case 'combat':     return 20;
+            case 'weather':    return 60;
+            case 'fire':       return 45;
+            case 'creature':   return 15;
+            case 'celebration': return 30;
+            case 'nautical':   return 30;
+            case 'water':      return 45;
+            case 'atmosphere': return 60;
+            case 'dungeon':    return 30;
+            case 'occult':     return 20;
+            case 'scifi':      return 20;
+            case 'western':    return 15;
+            case 'social':     return 25;
+            default:           return 12;
         }
     }
 
@@ -1434,7 +1434,7 @@ class SoundGoblin {
     }
 
     // Fade out story SFX whose category conflicts with a new scene
-    // Ambient sounds (weather) persist â€” only faded when a new ambient replaces them
+    // Ambient sounds (weather) persist — only faded when a new ambient replaces them
     _fadeOutStaleStorySfx(newCategory) {
         if (!this._activeStorySfx) return;
         const newIsAmbient = (newCategory === 'weather' || newCategory === 'atmosphere');
@@ -1631,7 +1631,7 @@ class SoundGoblin {
             debugLog('Skipping CDN pre-warm (no catalog loaded yet)');
             return;
         }
-        // Skip in local-only mode â€” files are served directly
+        // Skip in local-only mode — files are served directly
         if (!this.backendAvailable) {
             return;
         }
@@ -1658,7 +1658,7 @@ class SoundGoblin {
             }
         });
         
-        debugLog(`âœ“ Pre-warming CDN for ${topSoundIds.length} common sounds`);
+        debugLog(`✓ Pre-warming CDN for ${topSoundIds.length} common sounds`);
     }
 
     getFullSoundUrl(src) {
@@ -1748,7 +1748,7 @@ class SoundGoblin {
                     this.updateStatus(`Activation failed: ${err.error || 'Please try again.'}`);
                 }
             } catch (err) {
-                this.updateStatus('Activation failed â€” check your connection.');
+                this.updateStatus('Activation failed — check your connection.');
             }
         }
 
@@ -1769,14 +1769,14 @@ class SoundGoblin {
         if (!el) return;
         if (this.accessToken) {
             try {
-                // JWT payloads use base64url (- and _ chars, no padding) â€” must normalise before atob()
+                // JWT payloads use base64url (- and _ chars, no padding) — must normalise before atob()
                 const b64 = this.accessToken.split('.')[1]
                     .replace(/-/g, '+').replace(/_/g, '/')
                     .padEnd(Math.ceil(this.accessToken.split('.')[1].length / 4) * 4, '=');
                 const payload = JSON.parse(atob(b64));
                 const exp = new Date(payload.exp * 1000);
                 const daysLeft = Math.ceil((exp - Date.now()) / 86400000);
-                el.textContent = `Active â€” token expires in ${daysLeft} day${daysLeft !== 1 ? 's' : ''}`;
+                el.textContent = `Active — token expires in ${daysLeft} day${daysLeft !== 1 ? 's' : ''}`;
                 el.style.color = daysLeft <= 5 ? 'orange' : '';
             } catch (_) {
                 el.textContent = 'Active subscription';
@@ -1813,7 +1813,7 @@ class SoundGoblin {
         if (!input) return;
         const token = input.value.trim();
         if (!token || token.split('.').length !== 3) {
-            this.updateStatus('Invalid token format â€” paste the full token you received');
+            this.updateStatus('Invalid token format — paste the full token you received');
             return;
         }
         setAccessToken(token);
@@ -1829,7 +1829,7 @@ class SoundGoblin {
     async refreshToken() {
         const backendUrl = this.getBackendUrl();
         if (!this.accessToken) {
-            this.updateStatus('No token to refresh â€” please subscribe first.');
+            this.updateStatus('No token to refresh — please subscribe first.');
             return;
         }
         try {
@@ -1971,12 +1971,12 @@ class SoundGoblin {
     
     async refreshApp() {
         try {
-            // Confirm before stopping â€” so cancelling does not disrupt the active session
+            // Confirm before stopping — so cancelling does not disrupt the active session
             if (!confirm('This will refresh the app and clear the cache to get the latest version. Continue?')) {
                 return;
             }
 
-            // User confirmed â€” now stop all audio and listening
+            // User confirmed — now stop all audio and listening
             this.stopListening();
             this.stopAllAudio();
             
@@ -2003,7 +2003,7 @@ class SoundGoblin {
             window.location.reload(true);
         } catch (err) {
             console.error('Refresh error:', err);
-            this.updateStatus('âš ï¸ Refresh failed. Try closing and reopening the app.', 'error');
+            this.updateStatus('⚠️ Refresh failed. Try closing and reopening the app.', 'error');
         }
     }
     
@@ -2197,7 +2197,7 @@ class SoundGoblin {
         const cooldownSlider = document.getElementById('keywordCooldown');
         const cooldownValue = document.getElementById('keywordCooldownValue');
         if (cooldownSlider) {
-            // Slider range is 1â€“30 (seconds); keywordCooldownMs stores milliseconds
+            // Slider range is 1–30 (seconds); keywordCooldownMs stores milliseconds
             cooldownSlider.value = Math.round(this.keywordCooldownMs / 1000);
             if (cooldownValue) cooldownValue.textContent = (this.keywordCooldownMs / 1000).toFixed(1) + 's';
             cooldownSlider.addEventListener('input', (e) => {
@@ -2359,7 +2359,7 @@ class SoundGoblin {
             });
         }
         
-        // Freesound Setup (modal removed in v2.2.0 â€” guard all)
+        // Freesound Setup (modal removed in v2.2.0 — guard all)
         const setupFreesoundBtn = document.getElementById('setupFreesound');
         if (setupFreesoundBtn) setupFreesoundBtn.addEventListener('click', () => this.showFreesoundSetup());
         const saveAudioKeysBtn = document.getElementById('saveAudioKeys');
@@ -2466,7 +2466,7 @@ class SoundGoblin {
             });
         });
 
-        // Render on section show (observe visibility) â€” disconnect previous if re-called
+        // Render on section show (observe visibility) — disconnect previous if re-called
         if (this._soundLibObserver) this._soundLibObserver.disconnect();
         this._soundLibObserver = new MutationObserver(() => {
             const section = document.getElementById('soundLibrarySection');
@@ -2841,7 +2841,7 @@ class SoundGoblin {
 
     // Clear mode-specific cache entries; keep cross-mode sounds (e.g. common SFX)
     for (const [key] of this.soundCache) {
-        // Cache keys are "type:query" â€” clear all music (mode-dependent) and mode-preload SFX
+        // Cache keys are "type:query" — clear all music (mode-dependent) and mode-preload SFX
         if (key.startsWith('music:')) this.soundCache.delete(key);
     }
     this.recentlyPlayed.clear();
@@ -2850,7 +2850,7 @@ class SoundGoblin {
         this.stopAllAudio();
 
         // Update UI/status and begin preload with overlay
-        this.updateStatus(`Mode changed to: ${mode.toUpperCase()} â€” reset sounds and context.`);
+        this.updateStatus(`Mode changed to: ${mode.toUpperCase()} — reset sounds and context.`);
         const version = ++this.preloadVersion;
         this.showLoadingOverlay('Preparing sounds...');
         setTimeout(() => {
@@ -2869,7 +2869,7 @@ class SoundGoblin {
     initializeAudioContext() {
         // Validate Howler.js loaded (CDN script may have failed)
         if (typeof Howl === 'undefined') {
-            console.error('Howler.js failed to load â€” audio playback will be limited');
+            console.error('Howler.js failed to load — audio playback will be limited');
             this.updateStatus('Audio library failed to load. Check your internet connection.', 'error');
         }
         this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -2950,7 +2950,7 @@ class SoundGoblin {
             this._micAnalyser.fftSize = 256;
             this._micAnalyser.smoothingTimeConstant = 0.8;
             micSource.connect(this._micAnalyser);
-            // Intentionally NOT connected to destination â€” measurement only, zero echo risk
+            // Intentionally NOT connected to destination — measurement only, zero echo risk
 
             const buf = new Uint8Array(this._micAnalyser.frequencyBinCount);
             const sample = () => {
@@ -2968,7 +2968,7 @@ class SoundGoblin {
                     sumSq += v * v;
                 }
                 const rms = Math.sqrt(sumSq / buf.length);
-                // Map: quiet â‰ˆ 0.01 RMS â†’ 0.4 multiplier, shouting â‰ˆ 0.15+ RMS â†’ 1.5 multiplier
+                // Map: quiet ≈ 0.01 RMS → 0.4 multiplier, shouting ≈ 0.15+ RMS → 1.5 multiplier
                 const raw = Math.min(1.0, rms / 0.15);
                 this.voiceIntensity = 0.4 + raw * 1.1;
                 requestAnimationFrame(sample);
@@ -2985,7 +2985,7 @@ class SoundGoblin {
     initializeSpeechRecognition() {
         // Feature detection with UI feedback
         if (!isSpeechRecognitionAvailable()) {
-            this.updateStatus('âš ï¸ Speech recognition not supported in this browser. Please use Chrome/Edge or connect to backend STT.', 'error');
+            this.updateStatus('⚠️ Speech recognition not supported in this browser. Please use Chrome/Edge or connect to backend STT.', 'error');
             console.warn('Speech recognition not available');
             return;
         }
@@ -3037,7 +3037,7 @@ class SoundGoblin {
             this._setupMicIntensityAnalyser().catch(() => {});
         } catch (error) {
             console.error('Failed to initialize speech recognition:', error);
-            this.updateStatus('âš ï¸ Failed to initialize speech recognition. Check console for details.', 'error');
+            this.updateStatus('⚠️ Failed to initialize speech recognition. Check console for details.', 'error');
         }
     }
     
@@ -3139,10 +3139,10 @@ class SoundGoblin {
             // Track interim text continuously
             this.currentInterim = interimTranscript.trim();
             this.updateTranscriptDisplay();
-            // Don't advance story on interim results â€” they're unstable and cause
+            // Don't advance story on interim results — they're unstable and cause
             // the highlight to jump around. Only final results move the story forward.
             
-                // Predictive prefetch on interim (but NOT instant triggers â€” those only fire on final
+                // Predictive prefetch on interim (but NOT instant triggers — those only fire on final
                 // results to prevent the same keyword triggering multiple times from unstable interim text)
                 this.predictivePrefetch(interimTranscript);
             
@@ -3175,7 +3175,7 @@ class SoundGoblin {
         }
     }
 
-    // Reset demo listen/stop button state and show a message â€” called when mic fails during demo
+    // Reset demo listen/stop button state and show a message — called when mic fails during demo
     _resetDemoListenUI(message) {
         if (!this.demoRunning) return;
         const demoStartBtn = document.getElementById('demoStartListening');
@@ -3371,7 +3371,7 @@ class SoundGoblin {
                 const effective = Math.max(0, Math.min(1, volume * this.sfxLevel));
                 gainNode.gain.value = effective;
                 
-                // Connect: source â†’ gain â†’ sfxBusGain â†’ master chain
+                // Connect: source → gain → sfxBusGain → master chain
                 source.connect(gainNode);
                 gainNode.connect(this.sfxBusGain);
                 
@@ -3394,7 +3394,7 @@ class SoundGoblin {
                 // Start playback
                 source.start(0);
                 
-                debugLog(`âœ“ Playing instant buffer: ${url}${loop ? ' (looping)' : ''}`);
+                debugLog(`✓ Playing instant buffer: ${url}${loop ? ' (looping)' : ''}`);
             } catch (e) {
                 console.error('Buffer playback error:', e);
             }
@@ -3498,7 +3498,7 @@ class SoundGoblin {
     async callBackendAnalyze(transcript) {
         // Build context for backend
         const moodSummary = this.moodHistory.length
-            ? this.moodHistory.slice(-5).map(m => `${m.primary}(${m.intensity})`).join(' â†’ ')
+            ? this.moodHistory.slice(-5).map(m => `${m.primary}(${m.intensity})`).join(' → ')
             : null;
         const context = {
             mode: this.currentMode,
@@ -3531,7 +3531,7 @@ class SoundGoblin {
         this.analysisInProgress = false;
         if (this._silenceAnalysisTimer) { clearTimeout(this._silenceAnalysisTimer); this._silenceAnalysisTimer = null; }
         this._pendingAnalysisTranscript = null;        // discard queued transcripts
-        // (analysisTimer/recognition stay alive â€” mic may still be running)
+        // (analysisTimer/recognition stay alive — mic may still be running)
 
         // Cancel stingers
         if (this.stingerTimer) { clearTimeout(this.stingerTimer); this.stingerTimer = null; }
@@ -3697,7 +3697,7 @@ class SoundGoblin {
         // Handle Music (mood-adaptive: prefer mood-matching tracks)
         if (this.musicEnabled && decisions.music && decisions.music.id) {
             if (!this.soundCatalog.find(s => s.id === decisions.music.id)) {
-                console.warn(`[SoundGoblin] AI returned unknown music ID: ${decisions.music.id} â€” skipping`);
+                console.warn(`[SoundGoblin] AI returned unknown music ID: ${decisions.music.id} — skipping`);
             } else {
                 this.bumpStat('transitions');
                 await this.updateMusicById(decisions.music);
@@ -3707,12 +3707,12 @@ class SoundGoblin {
             this.maybeAdaptMusicToMood();
         }
         
-        // Handle Sound Effects (skip in demo mode â€” story cue map handles SFX)
+        // Handle Sound Effects (skip in demo mode — story cue map handles SFX)
         if (this.sfxEnabled && !this.demoRunning && decisions.sfx && decisions.sfx.length > 0) {
             for (const sfx of decisions.sfx) {
                 // Skip sounds not found in catalog (hallucinated IDs)
                 if (sfx.id && !this.soundCatalog.find(s => s.id === sfx.id)) {
-                    console.warn(`[SoundGoblin] AI returned unknown sound ID: ${sfx.id} â€” skipping`);
+                    console.warn(`[SoundGoblin] AI returned unknown sound ID: ${sfx.id} — skipping`);
                     continue;
                 }
                 // Skip disabled sounds
@@ -4153,7 +4153,7 @@ class SoundGoblin {
         
         for (const recent of this.soundHistory) {
             if (now - recent.time > cooldownMs) continue;
-            // Exact match â€” always on cooldown
+            // Exact match — always on cooldown
             if (recent.id === sfxData.id) return true;
             // Tag overlap: if more than half the tags overlap, consider it semantically similar
             if (Array.isArray(recent.tags) && recent.tags.length > 0) {
@@ -4179,7 +4179,7 @@ class SoundGoblin {
         };
         const mul = moodMultipliers[mood] || 1.0;
         // Intensity further scales: high intensity = even shorter cooldowns
-        const intensityScale = 1.0 - (intensity - 0.5) * 0.4; // 0.5 int â†’ 1.0, 1.0 int â†’ 0.8
+        const intensityScale = 1.0 - (intensity - 0.5) * 0.4; // 0.5 int → 1.0, 1.0 int → 0.8
         this.sfxCooldownMs = Math.round(baseSfx * mul * intensityScale);
         this.musicChangeThreshold = Math.round(baseMusic * mul * intensityScale);
         debugLog(`Cooldowns adapted: mood=${mood} sfx=${this.sfxCooldownMs}ms music=${this.musicChangeThreshold}ms`);
@@ -4215,7 +4215,7 @@ class SoundGoblin {
             const prev = this.sceneState;
             this.sceneState = newState;
             this._sceneStateConfidence = (this._sceneStateConfidence || 0) + 1;
-            debugLog(`Scene state: ${prev} â†’ ${newState} (intensity=${intensity.toFixed(2)})`);
+            debugLog(`Scene state: ${prev} → ${newState} (intensity=${intensity.toFixed(2)})`);
             this.logActivity(`Scene state: ${newState}`, 'scene');
 
             // Immediate music responsiveness: if entering/leaving combat, slash the music threshold
@@ -4248,7 +4248,7 @@ class SoundGoblin {
         if (last && last.toLowerCase() === latestScene.toLowerCase()) return;
         this._sceneEvents.push(latestScene);
         if (this._sceneEvents.length > MAX_EVENTS) this._sceneEvents.shift();
-        this.rollingSceneSummary = this._sceneEvents.join(' â†’ ');
+        this.rollingSceneSummary = this._sceneEvents.join(' → ');
         debugLog('Rolling scene summary:', this.rollingSceneSummary);
     }
 
@@ -4421,7 +4421,7 @@ class SoundGoblin {
         if (this.pixabayApiKey) {
             url = await this.searchPixabay(query, type);
             if (url) {
-                debugLog(`âœ“ Found via Pixabay: ${query}`);
+                debugLog(`✓ Found via Pixabay: ${query}`);
                 return url;
             }
         }
@@ -4430,14 +4430,14 @@ class SoundGoblin {
         if (this.freesoundApiKey) {
             url = await this.searchFreesound(query, type);
             if (url) {
-                debugLog(`âœ“ Found via Freesound: ${query}`);
+                debugLog(`✓ Found via Freesound: ${query}`);
                 return url;
             }
         }
         
         if (!this.pixabayApiKey && !this.freesoundApiKey && !this._noApiKeysWarned) {
             this._noApiKeysWarned = true;
-            debugLog('No external audio API keys â€” using local sound library only.');
+            debugLog('No external audio API keys — using local sound library only.');
         }
         
         return url;
@@ -4521,7 +4521,7 @@ class SoundGoblin {
                 searchQuery = 'ambient music';
                 fallbackQueries = [];
             }
-            debugLog(`Simplified music query: "${query}" â†’ "${searchQuery}"${fallbackQueries.length ? ` (fallbacks: ${fallbackQueries.join(', ')})` : ''}`);
+            debugLog(`Simplified music query: "${query}" → "${searchQuery}"${fallbackQueries.length ? ` (fallbacks: ${fallbackQueries.join(', ')})` : ''}`);
         } else if (type === 'sfx') {
             // Simplify common SFX queries that often fail
             const keywords = query.toLowerCase();
@@ -4532,7 +4532,7 @@ class SoundGoblin {
             else searchQuery = query; // keep original for SFX
             
             if (searchQuery !== query) {
-                debugLog(`Simplified SFX query: "${query}" â†’ "${searchQuery}"`);
+                debugLog(`Simplified SFX query: "${query}" → "${searchQuery}"`);
             }
         }
         
@@ -4564,7 +4564,7 @@ class SoundGoblin {
             
             if (!response.ok) {
                 if (response.status === 401) {
-                    this.updateStatus('âŒ Invalid Freesound API key');
+                    this.updateStatus('❌ Invalid Freesound API key');
                     alert('Invalid Freesound API Key!\n\nPlease:\n1. Check your key at freesound.org/apiv2/apply\n2. Click "Setup Freesound API"\n3. Enter the correct key');
                     return null;
                 }
@@ -4637,7 +4637,7 @@ class SoundGoblin {
                                 const r = fallbackData.results[0];
                                 const url = r.previews['preview-hq-mp3'] || r.previews['preview-lq-mp3'];
                                 if (url) {
-                                 debugLog(`âœ“ Found music (${r.license}): "${r.name}" (${r.duration}s)`);
+                                 debugLog(`✓ Found music (${r.license}): "${r.name}" (${r.duration}s)`);
                                     this.soundCache.set(cacheKey, url);
                                     this.recentlyPlayed.add(url);
                                     return url;
@@ -4698,7 +4698,7 @@ class SoundGoblin {
         // Check long-lived buffer cache FIRST for instant playback
         const cachedBuffer = this.getFromBufferCache(url);
         if (cachedBuffer && options.type === 'sfx') {
-            debugLog(`âš¡ Playing from buffer cache: ${options.name || url}`);
+            debugLog(`⚡ Playing from buffer cache: ${options.name || url}`);
             this.playBufferDirect(url, cachedBuffer, options.volume, !!options.loop);
             return { cached: true }; // Signal success
         }
@@ -4713,7 +4713,7 @@ class SoundGoblin {
             }
         } catch (error) {
             console.error('Audio playback error:', error);
-            this.updateStatus('âš ï¸ Audio playback error - sound may be blocked');
+            this.updateStatus('⚠️ Audio playback error - sound may be blocked');
             return null;
         }
     }
@@ -4729,11 +4729,11 @@ class SoundGoblin {
         
         // Use Howler for SFX with spatial positioning
         const original = Math.max(0, Math.min(1, options.volume));
-        // Sound variation: randomize volume Â±10%
+        // Sound variation: randomize volume ±10%
         const volumeVariation = 0.9 + Math.random() * 0.2; // 0.9 to 1.1
         const effective = Math.max(0, Math.min(1, original * this.sfxLevel * volumeVariation));
         
-        // Sound variation: randomize pitch Â±5%
+        // Sound variation: randomize pitch ±5%
         const pitchVariation = 0.95 + Math.random() * 0.1; // 0.95 to 1.05
         
         // Spatial audio: use AI spatial hint with distance-based attenuation
@@ -4861,6 +4861,20 @@ class SoundGoblin {
             },
             onplayerror: (id, err) => {
                 console.warn('Music play error:', options.name, err, 'sources:', musicSrcs);
+            },
+            onend: () => {
+                // When a music track finishes, rotate to the next one
+                const next = this.getNextMusicInRotation();
+                if (next) {
+                    const nextUrl = encodeURI(next.src);
+                    this.playMusicElement(nextUrl, {
+                        type: 'music',
+                        name: next.id,
+                        volume: targetVol,
+                        loop: next.loop || true,
+                        id: next.id
+                    }).catch(e => debugLog('Music rotation failed:', e.message));
+                }
             }
         });
 
@@ -4881,7 +4895,7 @@ class SoundGoblin {
     // Persistent low-volume ambient track that runs under music for depth
     maybeUpdateAmbientBed() {
         const now = Date.now();
-        if (now - this.lastAmbientChange < 15000) return; // Don't change too fast
+        if (now - this.lastAmbientChange < 45000) return; // Don't change too fast
         
         const mood = this.currentMood.primary;
         // Map moods to ambient tags
@@ -4979,7 +4993,7 @@ class SoundGoblin {
         if (this.proceduralTimer) return; // Already running
         this.updateProceduralLayers();
         // Re-evaluate layers periodically
-        this.proceduralTimer = setInterval(() => this.updateProceduralLayers(), 20000);
+        this.proceduralTimer = setInterval(() => this.updateProceduralLayers(), 45000);
     }
     
     stopProceduralAmbient() {
@@ -4996,7 +5010,7 @@ class SoundGoblin {
     
     updateProceduralLayers() {
         const now = Date.now();
-        if (now - this.lastProceduralUpdate < 10000) return;
+        if (now - this.lastProceduralUpdate < 25000) return;
         this.lastProceduralUpdate = now;
         
         const mood = this.currentMood.primary;
@@ -5494,20 +5508,20 @@ class SoundGoblin {
                 const tipItems = [];
                 if (pct < 50) {
                     tipItems.push('Open your device sound settings and turn your <strong>microphone input volume up to at least 80%</strong>');
-                    tipItems.push('Make sure the correct microphone is selected in your browser â€” click the padlock/site-info icon in the address bar and check Microphone permissions');
+                    tipItems.push('Make sure the correct microphone is selected in your browser — click the padlock/site-info icon in the address bar and check Microphone permissions');
                     tipItems.push('If using a laptop built-in mic, try plugging in a <strong>headset or external microphone</strong> for much better results');
                 }
                 if (pct < 70) {
-                    tipItems.push('Move <strong>closer to the microphone</strong> â€” ideally within 30cm / 1 foot');
-                    tipItems.push('Reduce <strong>background noise</strong> â€” close windows, turn off fans, TV, or music');
-                    tipItems.push('Speak at a <strong>steady, moderate pace</strong> â€” avoid rushing or mumbling');
+                    tipItems.push('Move <strong>closer to the microphone</strong> — ideally within 30cm / 1 foot');
+                    tipItems.push('Reduce <strong>background noise</strong> — close windows, turn off fans, TV, or music');
+                    tipItems.push('Speak at a <strong>steady, moderate pace</strong> — avoid rushing or mumbling');
                 }
                 if (pct < 90) {
-                    tipItems.push('Pronounce each word <strong>clearly and fully</strong> â€” don\'t trail off at the end of sentences');
-                    tipItems.push('Avoid <strong>pausing too long</strong> between words â€” the mic may stop listening during silence');
+                    tipItems.push('Pronounce each word <strong>clearly and fully</strong> — don\'t trail off at the end of sentences');
+                    tipItems.push('Avoid <strong>pausing too long</strong> between words — the mic may stop listening during silence');
                 }
                 if (pct >= 70 && pct < 100) {
-                    tipItems.push('A few missed words is normal â€” the app is designed to keep up even when it misses some');
+                    tipItems.push('A few missed words is normal — the app is designed to keep up even when it misses some');
                 }
                 tips = `
                     <div style="text-align:left;background:rgba(255,255,255,0.05);border-radius:10px;padding:14px 18px;margin-bottom:14px;">
@@ -5538,7 +5552,7 @@ class SoundGoblin {
 
             document.getElementById('micTestClose').addEventListener('click', () => {
                 modal.remove();
-                this.updateStatus(pct >= 70 ? 'Mic test passed â€” ready to listen.' : 'Mic test done â€” check tips above to improve recognition.', pct >= 70 ? 'success' : 'warning');
+                this.updateStatus(pct >= 70 ? 'Mic test passed — ready to listen.' : 'Mic test done — check tips above to improve recognition.', pct >= 70 ? 'success' : 'warning');
             });
             document.getElementById('micTestRetry').addEventListener('click', () => {
                 modal.remove();
@@ -5567,7 +5581,7 @@ class SoundGoblin {
         
         // Check if speech recognition is available
         if (!this.recognition) {
-            this.updateStatus('âš ï¸ Speech recognition not initialized. Please use a supported browser.', 'error');
+            this.updateStatus('⚠️ Speech recognition not initialized. Please use a supported browser.', 'error');
             return;
         }
 
@@ -5647,7 +5661,7 @@ class SoundGoblin {
                 // Recognition already running, that's fine
                 this.updateStatus('Listening... Speak clearly!');
             } else {
-                this.updateStatus('âš ï¸ Failed to start speech recognition. Check microphone permissions and browser compatibility.', 'error');
+                this.updateStatus('⚠️ Failed to start speech recognition. Check microphone permissions and browser compatibility.', 'error');
                 this.isListening = false;
                 this.stopListening();
             }
@@ -5795,7 +5809,7 @@ class SoundGoblin {
                 console.warn('Status:', message);
                 break;
             case 'success':
-                 debugLog('âœ“ Status:', message);
+                 debugLog('✓ Status:', message);
                 break;
             default:
                  debugLog('Status:', message);
@@ -6007,7 +6021,7 @@ class SoundGoblin {
                     this.activeBuffers.set(url, buf);
                     // Also add to long-term cache
                     this.addToBufferCache(url, buf);
-                    debugLog(`âœ“ Predictively cached: ${q}`);
+                    debugLog(`✓ Predictively cached: ${q}`);
                 } catch(e) {
                     if (e.name !== 'AbortError') debugLog('Predictive prefetch error:', e.message);
                 }
@@ -6046,7 +6060,7 @@ class SoundGoblin {
     scheduleNextStinger() {
         if (!this.sfxEnabled || !this.predictionEnabled) return;
         if (this.stingerTimer) clearTimeout(this.stingerTimer);
-        const interval = 20000 + Math.random() * 25000; // 20â€“45s
+        const interval = 20000 + Math.random() * 25000; // 20–45s
         const modeAtSchedule = this.currentMode;
         this.stingerTimer = setTimeout(async () => {
             if (this.currentMode !== modeAtSchedule) return;
@@ -6165,7 +6179,7 @@ class SoundGoblin {
             const assumedBackend = this.backendAvailable && this.backendHealth == null;
             if (this.accessToken) {
                 openaiStatus.className = 'api-status active';
-                openaiStatus.setAttribute('aria-label', 'AI active â€” subscription valid');
+                openaiStatus.setAttribute('aria-label', 'AI active — subscription valid');
             } else if (backendOpenAI || assumedBackend) {
                 openaiStatus.className = 'api-status active';
                 openaiStatus.setAttribute('aria-label', 'OpenAI available via backend');
@@ -7157,7 +7171,7 @@ class SoundGoblin {
             const querySpan = document.createElement('span');
             querySpan.style.flex = '2';
             querySpan.style.color = 'var(--text-muted, #999)';
-            querySpan.textContent = `â†’ "${entry.query}" (vol ${entry.volume})`;
+            querySpan.textContent = `→ "${entry.query}" (vol ${entry.volume})`;
             const delBtn = document.createElement('button');
             delBtn.className = 'scene-preset-delete';
             delBtn.textContent = 'Delete';
@@ -7808,7 +7822,7 @@ class SoundGoblin {
         const btn = document.getElementById('demoBtn');
         if (btn) { btn.textContent = 'Loading...'; btn.disabled = true; }
         this.demoRunning = true;
-        this.demoCueCache = {}; // word â†’ resolved URL for instant playback
+        this.demoCueCache = {}; // word → resolved URL for instant playback
         this.logActivity('Demo mode starting - preloading sounds...', 'info');
 
         // Resume AudioContext before preloading (mobile requires user gesture)
@@ -7832,7 +7846,7 @@ class SoundGoblin {
         // Preload ALL demo story sounds into buffer cache
         await this.preloadDemoSounds();
 
-        // Now everything is ready â€” hide the loading overlay
+        // Now everything is ready — hide the loading overlay
         this.hideLoadingOverlay();
 
         // Launch the selected demo story
@@ -7858,7 +7872,7 @@ class SoundGoblin {
                 // Re-enable story tracking (may have been paused by Stop)
                 if (this.currentStory) this.storyActive = true;
                 if (demoStatus) demoStatus.textContent = 'Requesting microphone...';
-                // Start listening directly â€” bypass the context modal
+                // Start listening directly — bypass the context modal
                 if (!this.isListening) {
                     try {
                         await this.startListeningWithContext();
@@ -7935,7 +7949,7 @@ class SoundGoblin {
         let loaded = 0;
         this.updatePreloadProgress(0, total);
 
-        // Build reverse map: query â†’ list of cue words
+        // Build reverse map: query → list of cue words
         const queryToWords = {};
         for (const [word, query] of Object.entries(cueMap)) {
             if (!queryToWords[query]) queryToWords[query] = [];
