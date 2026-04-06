@@ -1,7 +1,7 @@
 // SoundGoblin Service Worker
 const CACHE_NAME = 'soundgoblin-v14'; // Bumped for market-readiness pass
 
-// Note: Backend media files (https://pub-b8fe695f5b4b490ebe0dc151042193e2.r2.dev/cueai-media/*) are NOT cached here
+// Note: Sound files are served via /r2-audio/* proxy (Cloudflare R2) and NOT cached here
 // because they are:
 // 1. Too large (~100MB total) for browser cache
 // 2. Cross-origin resources with CORS complexity

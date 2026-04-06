@@ -29,11 +29,12 @@ import ControlBoardSection from './sections/ControlBoardSection';
 import SoundLibrarySection from './sections/SoundLibrarySection';
 import SettingsSection from './sections/SettingsSection';
 import {
-  SubscribeModal,
   TutorialModal,
   FeedbackModal,
   LoadingOverlay,
   StoryContextModal,
+  StoryOverlay,
+  DemoSelectorOverlay,
 } from './modals/Modals';
 
 export default function AppShell() {
@@ -51,6 +52,8 @@ export default function AppShell() {
         if (backendUrl) {
           window.SoundGoblin_BACKEND_URL = backendUrl;
         }
+        // R2 audio proxy path (avoids CORS issues with pub-*.r2.dev)
+        window.__R2_PUBLIC_URL = '/r2-audio';
       }
 
       try {
@@ -110,9 +113,6 @@ export default function AppShell() {
       <a className="skip-link" href="#appContainer">
         Skip to main content
       </a>
-
-      {/* Subscribe / onboarding modal — shown before appContainer on first visit */}
-      <SubscribeModal />
 
       {/* ===== MAIN APPLICATION ===== */}
       <div id="appContainer" role="main">
@@ -181,6 +181,8 @@ export default function AppShell() {
       <FeedbackModal />
       <LoadingOverlay />
       <StoryContextModal />
+      <StoryOverlay />
+      <DemoSelectorOverlay />
     </>
   );
 }

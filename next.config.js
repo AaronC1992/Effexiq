@@ -13,9 +13,15 @@ const nextConfig = {
     return config;
   },
 
-  // Expose environment variables to the browser bundle
-  env: {
-    NEXT_PUBLIC_BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL || '',
+  // Proxy R2 audio through Next.js to avoid CORS issues with pub-*.r2.dev
+  async rewrites() {
+    const r2Base = process.env.R2_PUBLIC_URL || 'https://pub-b8fe695f5b4b490ebe0dc151042193e2.r2.dev';
+    return [
+      {
+        source: '/r2-audio/:path*',
+        destination: `${r2Base}/:path*`,
+      },
+    ];
   },
 
   // Security headers

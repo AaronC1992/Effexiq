@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /admin/
+Disallow: /api/
 
-# Sitemap (update when available)
-# Sitemap: https://yoursite.com/sitemap.xml
+Sitemap: https://soundgoblin.vercel.app/sitemap.xml

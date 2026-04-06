@@ -1,22 +1,30 @@
 /**
  * POST /api/analyze
- * Analyzes a story transcript and returns an AI sound decision.
+ * Analyzes a story transcript via OpenAI and returns a sound decision.
+ * The API key lives server-side only — never exposed to the browser.
  *
- * Currently proxies to the external Render backend. Once the backend is
- * migrated into this Next.js project, the OpenAI call will happen here
- * directly (server-side, key never exposed to the browser).
- *
- * TODO: Move OpenAI call here and remove the external Render backend.
  * TODO: Add auth middleware — validate Bearer token / Stripe subscription.
  * TODO: Add per-user rate limiting via Upstash/Redis.
  */
 
 import { NextResponse } from 'next/server';
+import OpenAI from 'openai';
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://cueai-backend.onrender.com';
-const BACKEND_TIMEOUT_MS = 28_000;
+let _openai;
+function getOpenAI() {
+  return (_openai ??= new OpenAI({ apiKey: process.env.OPENAI_API_KEY }));
+}
+
+const SYSTEM_PROMPT = `You are SoundGoblin, an AI sound director for tabletop RPG sessions.
+Given a transcript of what's happening in the story, respond with a JSON object describing
+the ideal sound to play. Include: action (play/stop/fade), type (music/sfx), name, mood,
+intensity (0-1), and tags (array of keywords). Be concise and atmospheric.`;
 
 export async function POST(request) {
+  if (!process.env.OPENAI_API_KEY) {
+    return NextResponse.json({ error: 'OpenAI not configured' }, { status: 503 });
+  }
+
   let body;
   try {
     body = await request.json();
@@ -29,37 +37,33 @@ export async function POST(request) {
     return NextResponse.json({ error: 'transcript is required' }, { status: 400 });
   }
 
-  // Forward the Authorization header from the client (subscription token)
-  const authHeader = request.headers.get('authorization') || '';
-
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), BACKEND_TIMEOUT_MS);
+  const userMessage = [
+    `Transcript: "${transcript.trim()}"`,
+    mode ? `Mode: ${mode}` : '',
+    context ? `Context: ${JSON.stringify(context)}` : '',
+  ].filter(Boolean).join('\n');
 
   try {
-    const upstream = await fetch(`${BACKEND_URL}/analyze`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(authHeader ? { Authorization: authHeader } : {}),
-      },
-      body: JSON.stringify({ transcript, mode, context }),
-      signal: controller.signal,
+    const completion = await getOpenAI().chat.completions.create({
+      model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
+      max_tokens: 300,
+      temperature: 0.7,
+      response_format: { type: 'json_object' },
+      messages: [
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user', content: userMessage },
+      ],
     });
 
-    const data = await upstream.json();
-
-    if (!upstream.ok) {
-      return NextResponse.json(data, { status: upstream.status });
-    }
+    const raw = completion.choices[0]?.message?.content;
+    const data = JSON.parse(raw);
 
     return NextResponse.json(data);
   } catch (err) {
-    if (err.name === 'AbortError') {
-      return NextResponse.json({ error: 'Upstream timeout' }, { status: 504 });
-    }
     console.error('[/api/analyze]', err);
+    if (err.status === 429) {
+      return NextResponse.json({ error: 'Rate limited by OpenAI' }, { status: 429 });
+    }
     return NextResponse.json({ error: 'Analysis failed' }, { status: 500 });
-  } finally {
-    clearTimeout(timeout);
   }
 }

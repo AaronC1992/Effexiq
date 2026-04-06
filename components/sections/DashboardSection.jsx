@@ -9,7 +9,7 @@ export default function DashboardSection() {
         <p className="dashboard-sub">
           AI-powered sound design for storytellers, dungeon masters, and creators.
         </p>
-        <button className="hub-hero-cta" data-section="demoMode">
+        <button id="demoBtn" className="hub-hero-cta" data-section="demoMode">
           Watch It In Action
         </button>
       </div>

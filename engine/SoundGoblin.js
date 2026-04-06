@@ -339,14 +339,18 @@ class SoundGoblin {
         return getBackendUrl();
     }
     
-    // Build candidate URL list (primary + backend fallback)
+    // Build candidate URL list (primary CDN + local fallback)
     // Callers MUST pass already-encoded URLs (via encodeURI)
     buildSrcCandidates(u) {
         const list = [];
-        list.push(u);
+        const cdnBase = (typeof window !== 'undefined' && window.__R2_PUBLIC_URL) || '';
+        if (cdnBase && !/^https?:\/\//i.test(u)) {
+            // CDN is primary source for relative paths
+            list.push(`${cdnBase.replace(/\/$/, '')}/${u.replace(/^\//, '')}`);
+        }
+        list.push(u); // local fallback
         try {
             if (/^https?:\/\//i.test(u)) {
-                // Attempt to build a local fallback path: map .../(cueai-media/)?(music|sfx|ambience)/file -> /media/$2/file
                 const m = u.match(/\/(?:cueai-media\/)?(music|sfx|ambience)\/(.+)$/i);
                 if (m) {
                     const localPath = `/media/${m[1]}/${m[2]}`;
@@ -355,7 +359,7 @@ class SoundGoblin {
                 }
             } else {
                 const backend = this.getBackendUrl().replace(/\/$/,'');
-                list.push(`${backend}${u.startsWith('/') ? u : '/' + u}`);
+                if (backend) list.push(`${backend}${u.startsWith('/') ? u : '/' + u}`);
             }
         } catch (_) {}
         return list;
@@ -1585,8 +1589,12 @@ class SoundGoblin {
         const tasks = toPreload.map(([file, { keyword, config }]) => async () => {
             try {
                 const url = encodeURI(file);
-                const resp = await fetch(url);
-                if (!resp.ok) { loaded++; this.updatePreloadProgress(loaded, toPreload.length); return; }
+                const srcs = this.buildSrcCandidates(url);
+                let resp = null;
+                for (const src of srcs) {
+                    try { resp = await fetch(src); if (resp.ok) break; } catch(_) { resp = null; }
+                }
+                if (!resp || !resp.ok) { loaded++; this.updatePreloadProgress(loaded, toPreload.length); return; }
                 const ab = await resp.arrayBuffer();
                 const buffer = await this.audioContext.decodeAudioData(ab);
                 
@@ -1746,41 +1754,13 @@ class SoundGoblin {
 
         this.accessToken = getAccessToken();
 
-        if (this.accessToken) {
-            if (modal) modal.classList.add('hidden');
-            if (noKeyBanner) noKeyBanner.classList.add('hidden');
-            this.updateStatus('Ready â€” AI features active');
-            this.updateApiStatusIndicators();
-            this._updateSubscriptionStatus();
-            return;
-        }
-
-        // No token â€” show subscribe modal
-        if (modal) modal.classList.remove('hidden');
+        // Free access - skip paywall, enable AI features directly
+        if (modal) modal.classList.add('hidden');
         if (noKeyBanner) noKeyBanner.classList.add('hidden');
+        this.backendAvailable = true;
+        this.updateStatus('Ready - AI features active');
         this.updateApiStatusIndicators();
         this._updateSubscriptionStatus();
-
-        // Wire up Skip/Try Without AI
-        const skipBtn = document.getElementById('skipApiKey');
-        if (skipBtn && !skipBtn._wired) {
-            skipBtn._wired = true;
-            skipBtn.addEventListener('click', () => {
-                if (modal) modal.classList.add('hidden');
-                if (noKeyBanner) noKeyBanner.classList.remove('hidden');
-                this.updateStatus('Running without AI â€” instant keyword triggers active');
-                this.logActivity('Skipped subscription â€” using instant triggers only', 'info');
-            });
-        }
-
-        // Wire up banner "Subscribe" button
-        const showSubBtn = document.getElementById('showSubscribeModal');
-        if (showSubBtn && !showSubBtn._wired) {
-            showSubBtn._wired = true;
-            showSubBtn.addEventListener('click', () => {
-                if (modal) modal.classList.remove('hidden');
-            });
-        }
     }
 
     /** Update subscription status text in Settings */
@@ -2952,7 +2932,7 @@ class SoundGoblin {
         if (this._startupSoundPlayed) return;
         this._startupSoundPlayed = true;
         const howl = new Howl({
-            src: ['startup.mp3'],
+            src: ['/startup.mp3'],
             volume: 0.7,
             onloaderror: () => debugLog('Startup sound unavailable, skipping'),
         });
@@ -4471,7 +4451,12 @@ class SoundGoblin {
             // Use TF-IDF style matching from trigger system
             const match = tfidfMatch(query, type, this.savedSounds.files);
             if (match) {
-                const url = encodeURI(match.file);
+                const encoded = encodeURI(match.file);
+                // Prepend CDN base for relative paths so all consumers get an absolute URL
+                const cdnBase = (typeof window !== 'undefined' && window.__R2_PUBLIC_URL) || '';
+                const url = (cdnBase && !/^https?:\/\//i.test(encoded))
+                    ? `${cdnBase.replace(/\/$/, '')}/${encoded.replace(/^\//, '')}`
+                    : encoded;
                 debugLog(`Found via Saved sounds: ${query} -> ${match.name}`);
                 return url;
             }
@@ -6106,7 +6091,12 @@ class SoundGoblin {
                 if (!url) { sfxLoaded++; this.updatePreloadProgress(sfxLoaded, target.length); return; }
                 try {
                     if (!this.activeBuffers.has(url)) {
-                        const resp = await fetch(url);
+                        const srcs = this.buildSrcCandidates(url);
+                        let resp = null;
+                        for (const src of srcs) {
+                            try { resp = await fetch(src); if (resp.ok) break; } catch(_) { resp = null; }
+                        }
+                        if (!resp || !resp.ok) throw new Error('fetch failed');
                         const ab = await resp.arrayBuffer();
                         const buf = await this.audioContext.decodeAudioData(ab);
                         this.activeBuffers.set(url, buf);
@@ -6473,11 +6463,8 @@ class SoundGoblin {
     _autosaveDraft() {
         const scTitle = (document.getElementById('scTitleInput')?.value || '').trim();
         const scText = (document.getElementById('scTextArea')?.value || '').trim();
-        const wyoTitle = (document.getElementById('wyoTitleInput')?.value || '').trim();
-        const wyoText = (document.getElementById('wyoTextArea')?.value || '').trim();
         const draft = {};
         if (scTitle || scText) draft.sc = { title: scTitle, text: scText };
-        if (wyoTitle || wyoText) draft.wyo = { title: wyoTitle, text: wyoText };
         if (Object.keys(draft).length > 0) {
             localStorage.setItem('SoundGoblin_draft', JSON.stringify(draft));
         }
@@ -6587,7 +6574,7 @@ class SoundGoblin {
         const fireSound = () => {
             if (fired) return;
             fired = true;
-            this._wyoPreviewHowl = new Howl({ src: [encodeURI(targetCue.file)], html5: true, volume: 0.7 });
+            this._wyoPreviewHowl = new Howl({ src: this.buildSrcCandidates(encodeURI(targetCue.file)), html5: true, volume: 0.7 });
             this._wyoPreviewHowl.play();
         };
 
@@ -6824,7 +6811,7 @@ class SoundGoblin {
             previewBtn.innerHTML = '&#9632;';
             previewBtn.classList.add('wyo-cue-playing');
             this._wyoPreviewBtn = previewBtn;
-            this._wyoPreviewHowl = new Howl({ src: [encodeURI(file)], html5: true, volume: 0.6 });
+            this._wyoPreviewHowl = new Howl({ src: this.buildSrcCandidates(encodeURI(file)), html5: true, volume: 0.6 });
             this._wyoPreviewHowl.on('end', () => {
                 previewBtn.innerHTML = '&#9654;';
                 previewBtn.classList.remove('wyo-cue-playing');
@@ -7554,7 +7541,7 @@ class SoundGoblin {
             // Play
             const isMusic = btn.type === 'music';
             btn.howl = new Howl({
-                src: [btn.file],
+                src: this.buildSrcCandidates(btn.file),
                 loop: isMusic,
                 volume: isMusic ? 0.5 : 0.8,
                 onend: () => {
@@ -7836,6 +7823,9 @@ class SoundGoblin {
             this.selectMode('auto');
         }
         this._suppressLoadingOverlay = false;
+
+        // Bump preloadVersion so selectMode's deferred preload won't hide our overlay
+        this.preloadVersion++;
 
         // Preload ALL demo story sounds into buffer cache
         await this.preloadDemoSounds();

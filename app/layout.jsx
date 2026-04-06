@@ -7,18 +7,18 @@ export const metadata = {
   manifest: '/manifest.json',
   openGraph: {
     type: 'website',
-    url: 'https://aaronc1992.github.io/CueAI/',
+    url: 'https://soundgoblin.vercel.app/',
     title: 'SoundGoblin - Intelligent Audio Companion',
     description:
       'AI-powered ambient sound designer that listens to conversations and automatically plays contextually-appropriate music and sound effects',
-    images: [{ url: 'https://aaronc1992.github.io/CueAI/icon.svg' }],
+    images: [{ url: 'https://soundgoblin.vercel.app/icon.svg' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'SoundGoblin - Intelligent Audio Companion',
     description:
       'AI-powered ambient sound designer that listens to conversations and automatically plays contextually-appropriate music and sound effects',
-    images: ['https://aaronc1992.github.io/CueAI/icon.svg'],
+    images: ['https://soundgoblin.vercel.app/icon.svg'],
   },
 };
 

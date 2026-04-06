@@ -276,3 +276,36 @@ export function StoryContextModal() {
     </div>
   );
 }
+
+export function StoryOverlay() {
+  return (
+    <div id="storyOverlay" className="story-overlay hidden">
+      <div className="story-header">
+        <button id="closeStory" className="close-btn" aria-label="Close story">✕</button>
+        <h2 id="storyTitle" className="story-title" />
+      </div>
+      <div id="storyContent" className="story-content" tabIndex={0} />
+      {/* Demo controls shown inside the story overlay when demo mode is active */}
+      <div id="demoControls" className="demo-controls hidden">
+        <span id="demoStatusText" className="demo-status-text" />
+        <div className="demo-controls-buttons">
+          <button id="demoStartListening" className="btn-primary demo-start-btn">Start Listening</button>
+          <button id="demoAutoReadBtn" className="btn-secondary">Auto Read</button>
+          <button id="demoStopBtn" className="btn-secondary demo-stop-btn hidden">Stop</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function DemoSelectorOverlay() {
+  return (
+    <div id="demoSelectorOverlay" className="overlay hidden">
+      <div className="overlay-content" style={{ flexDirection: 'column', maxWidth: 600, width: '90%' }}>
+        <button id="demoSelectorClose" className="close-btn" aria-label="Close" style={{ alignSelf: 'flex-end' }}>✕</button>
+        <h2 style={{ margin: 0 }}>Choose a Demo Story</h2>
+        <div id="demoStoryList" className="demo-story-list" />
+      </div>
+    </div>
+  );
+}
