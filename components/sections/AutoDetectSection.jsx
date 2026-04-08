@@ -68,11 +68,72 @@ export default function AutoDetectSection() {
           <button id="stopAudioBtn" className="btn-stop-audio">Stop Audio</button>
         </section>
 
-        {/* Mute Categories */}
-        <section className="mute-categories">
-          <button className="mute-cat-btn active" data-cat="music">Music</button>
-          <button className="mute-cat-btn active" data-cat="sfx">SFX</button>
-          <button className="mute-cat-btn active" data-cat="ambience">Ambience</button>
+        {/* Audio Controls */}
+        <section className="audio-controls-panel">
+          <h3 className="audio-controls-title">Audio Controls</h3>
+          <div className="audio-controls-grid">
+            <div className="audio-control-row">
+              <label className="audio-control-label" htmlFor="sfxToggle">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                </svg>
+                Sound Effects
+              </label>
+              <label className="toggle-switch">
+                <input type="checkbox" id="sfxToggle" defaultChecked />
+                <span className="toggle-slider" />
+              </label>
+            </div>
+            <div className="audio-control-row">
+              <label className="audio-control-label" htmlFor="musicToggle">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M9 18V5l12-2v13" />
+                  <circle cx="6" cy="18" r="3" />
+                  <circle cx="18" cy="16" r="3" />
+                </svg>
+                Music
+              </label>
+              <label className="toggle-switch">
+                <input type="checkbox" id="musicToggle" defaultChecked />
+                <span className="toggle-slider" />
+              </label>
+            </div>
+            <div className="audio-control-row">
+              <label className="audio-control-label" htmlFor="ambienceToggle">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M8 2s4.5 3.5 4.5 7a4.5 4.5 0 1 1-9 0C3.5 5.5 8 2 8 2z" />
+                  <path d="M16 8s3 2.5 3 5a3 3 0 1 1-6 0c0-2.5 3-5 3-5z" />
+                </svg>
+                Ambience
+              </label>
+              <label className="toggle-switch">
+                <input type="checkbox" id="ambienceToggle" defaultChecked />
+                <span className="toggle-slider" />
+              </label>
+            </div>
+            <div className="audio-control-row audio-control-slider-row">
+              <label className="audio-control-label" htmlFor="ambientDurationSlider">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+                Sound Duration
+              </label>
+              <div className="audio-slider-wrap">
+                <input
+                  type="range"
+                  id="ambientDurationSlider"
+                  min="50"
+                  max="300"
+                  defaultValue="100"
+                  className="audio-slider"
+                />
+                <span id="ambientDurationValue" className="audio-slider-value">1.0x</span>
+              </div>
+            </div>
+          </div>
         </section>
 
         {/* Live Transcript */}

@@ -171,6 +171,8 @@ class SoundGoblin {
     // Mixer levels (user-controlled)
     this.musicLevel = parseFloat(localStorage.getItem('SoundGoblin_music_level') ?? '0.5'); // default 50%
     this.sfxLevel = parseFloat(localStorage.getItem('SoundGoblin_sfx_level') ?? '0.9');   // default 90%
+    this.ambientDurationMultiplier = parseFloat(localStorage.getItem('SoundGoblin_ambient_duration') ?? '1.0'); // 0.5x to 3x
+    try { this.ambienceEnabled = JSON.parse(localStorage.getItem('SoundGoblin_ambience_enabled') ?? 'true'); } catch { this.ambienceEnabled = true; }
     this.voiceIntensity = 0.5; // mic loudness ratio: ~0.4 quiet → ~1.5 shouting
     this._micAnalyser = null;  // AnalyserNode connected to mic (measurement only, no echo)
     this._startupSoundPlayed = false;
@@ -1437,16 +1439,18 @@ class SoundGoblin {
     }
 
     // Fade out story SFX whose category conflicts with a new scene
-    // Ambient sounds (weather) persist — only faded when a new ambient replaces them
+    // Ambient sounds (weather, atmosphere, fire, water) coexist — only faded by non-ambient categories
     _fadeOutStaleStorySfx(newCategory) {
         if (!this._activeStorySfx) return;
-        const newIsAmbient = (newCategory === 'weather' || newCategory === 'atmosphere');
+        const ambientCategories = new Set(['weather', 'atmosphere', 'fire', 'water']);
+        const newIsAmbient = ambientCategories.has(newCategory);
         for (const [id, entry] of this._activeStorySfx) {
             if (entry._fadingOut) continue;
             if (entry.category === newCategory) continue; // same category, keep
-            const entryIsAmbient = (entry.category === 'weather' || entry.category === 'atmosphere');
-            // Only fade ambient sounds when a new ambient replaces them
-            if (entryIsAmbient && !newIsAmbient) continue;
+            const entryIsAmbient = ambientCategories.has(entry.category);
+            // Ambient categories coexist — don't fade ambient sounds unless a non-ambient takes over
+            if (entryIsAmbient) continue;
+            // Non-ambient sounds get faded when category changes
             this._fadeOutStorySfx(entry);
         }
     }
@@ -1497,10 +1501,14 @@ class SoundGoblin {
 
         // Ambient cue words loop continuously until a scene change fades them
         const isAmbient = SoundGoblin._ambientCueWords.has(word);
+        // Skip ambient sounds entirely if ambience is disabled
+        if (isAmbient && !this.ambienceEnabled) return;
         const baseVol = isAmbient ? 0.45 : 0.7;
         // Scale non-ambient cues by voice intensity so a loud "BOO!" = louder sound
         const vol = isAmbient ? baseVol : Math.min(1.0, baseVol * Math.max(0.5, this.voiceIntensity));
-        const maxDur = isAmbient ? null : this._storySfxMaxDuration(category) * 1000;
+        // Apply user's ambient duration multiplier to non-looping SFX timers
+        const baseDur = this._storySfxMaxDuration(category) * 1000;
+        const maxDur = isAmbient ? null : baseDur * this.ambientDurationMultiplier;
 
         // In demo mode, use pre-resolved URLs + buffer cache for instant playback
         if (this.demoRunning && this.demoCueCache && this.demoCueCache[word]) {
@@ -2270,7 +2278,7 @@ class SoundGoblin {
             });
         }
 
-        // Mute category toggles
+        // Mute category toggles (legacy pill buttons)
         document.querySelectorAll('.mute-cat-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const cat = btn.dataset.cat;
@@ -2283,6 +2291,9 @@ class SoundGoblin {
                 }
             });
         });
+
+        // Audio Controls — toggles and sliders on the Auto Detect screen
+        this._setupAudioControls();
 
         // Story Context Modal Buttons
         const startWithContextBtn = document.getElementById('startWithContext');
@@ -4804,6 +4815,8 @@ class SoundGoblin {
                 }
             },
             onend: () => {
+                // Looping sounds should NOT be cleaned up on each loop iteration
+                if (howl.loop()) return;
                 this.activeSounds.delete(id);
                 this.updateSoundsList();
                 howl.unload();
@@ -4897,6 +4910,7 @@ class SoundGoblin {
     // ===== AMBIENT BED LAYERING =====
     // Persistent low-volume ambient track that runs under music for depth
     maybeUpdateAmbientBed() {
+        if (!this.ambienceEnabled) return;
         const now = Date.now();
         if (now - this.lastAmbientChange < 45000) return; // Don't change too fast
         
@@ -4993,6 +5007,7 @@ class SoundGoblin {
     // ===== PROCEDURAL AMBIENT SEQUENCES =====
     // Layer multiple ambient elements driven by mood trajectory
     startProceduralAmbient() {
+        if (!this.ambienceEnabled) return;
         if (this.proceduralTimer) return; // Already running
         this.updateProceduralLayers();
         // Re-evaluate layers periodically
@@ -6230,6 +6245,85 @@ class SoundGoblin {
     }
 
     // ===== ACTIVITY FEED =====
+    _setupAudioControls() {
+        // SFX toggle
+        const sfxToggle = document.getElementById('sfxToggle');
+        if (sfxToggle) {
+            sfxToggle.checked = this.sfxEnabled;
+            sfxToggle.addEventListener('change', () => {
+                this.sfxEnabled = sfxToggle.checked;
+                localStorage.setItem('SoundGoblin_sfx_enabled', JSON.stringify(this.sfxEnabled));
+                if (!this.sfxEnabled) {
+                    // Stop all active SFX
+                    this.activeSounds.forEach((snd, id) => {
+                        if (snd.type === 'sfx') {
+                            try { if (snd._howl) { snd._howl.stop(); snd._howl.unload(); } } catch(_){}
+                            try { if (snd.source) snd.source.stop(); } catch(_){}
+                            this.activeSounds.delete(id);
+                        }
+                    });
+                    this.updateSoundsList();
+                }
+            });
+        }
+
+        // Music toggle
+        const musicToggle = document.getElementById('musicToggle');
+        if (musicToggle) {
+            musicToggle.checked = this.musicEnabled;
+            musicToggle.addEventListener('change', () => {
+                this.musicEnabled = musicToggle.checked;
+                localStorage.setItem('SoundGoblin_music_enabled', JSON.stringify(this.musicEnabled));
+                if (!this.musicEnabled && this.currentMusic && this.currentMusic._howl) {
+                    this.currentMusic._howl.fade(this.currentMusic._howl.volume(), 0, 500);
+                    setTimeout(() => {
+                        try { this.currentMusic._howl.stop(); this.currentMusic._howl.unload(); } catch(_){}
+                        this.currentMusic = null;
+                        this.updateSoundsList();
+                    }, 550);
+                }
+            });
+        }
+
+        // Ambience toggle
+        const ambienceToggle = document.getElementById('ambienceToggle');
+        if (ambienceToggle) {
+            ambienceToggle.checked = this.ambienceEnabled;
+            ambienceToggle.addEventListener('change', () => {
+                this.ambienceEnabled = ambienceToggle.checked;
+                localStorage.setItem('SoundGoblin_ambience_enabled', JSON.stringify(this.ambienceEnabled));
+                if (!this.ambienceEnabled) {
+                    // Stop ambient bed
+                    if (this.ambientBed && this.ambientBed._howl) {
+                        try { this.ambientBed._howl.stop(); this.ambientBed._howl.unload(); } catch(_){}
+                        this.ambientBed = null;
+                    }
+                    // Stop procedural ambient layers
+                    this.stopProceduralAmbient();
+                    // Stop looping SFX (ambient cue sounds)
+                    if (this._activeStorySfx) {
+                        for (const [id, entry] of this._activeStorySfx) {
+                            this._fadeOutStorySfx(entry, 500);
+                        }
+                    }
+                }
+            });
+        }
+
+        // Ambient duration slider
+        const ambientDurSlider = document.getElementById('ambientDurationSlider');
+        const ambientDurValue = document.getElementById('ambientDurationValue');
+        if (ambientDurSlider) {
+            ambientDurSlider.value = String(Math.round(this.ambientDurationMultiplier * 100));
+            if (ambientDurValue) ambientDurValue.textContent = this.ambientDurationMultiplier.toFixed(1) + 'x';
+            ambientDurSlider.addEventListener('input', (e) => {
+                this.ambientDurationMultiplier = parseInt(e.target.value) / 100;
+                localStorage.setItem('SoundGoblin_ambient_duration', String(this.ambientDurationMultiplier));
+                if (ambientDurValue) ambientDurValue.textContent = this.ambientDurationMultiplier.toFixed(1) + 'x';
+            });
+        }
+    }
+
     setupActivityFeed() {
         const toggle = document.getElementById('activityFeedToggle');
         const log = document.getElementById('activityLog');
