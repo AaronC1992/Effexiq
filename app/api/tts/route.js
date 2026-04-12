@@ -6,7 +6,7 @@
  */
 
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
-const DEFAULT_VOICE_ID = process.env.ELEVENLABS_VOICE_ID || 'onwK4e9ZLuTAKqWW03F9'; // Daniel
+const DEFAULT_VOICE_ID = process.env.ELEVENLABS_VOICE_ID || 'PPzYpIqttlTYA83688JI';
 
 export async function POST(request) {
     if (!ELEVENLABS_API_KEY) {

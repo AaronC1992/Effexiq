@@ -572,7 +572,7 @@ class Effexiq {
             if (i >= this.storyNorm.length) break;
             
             if (this.eqLoose(this.storyNorm[i], spoken[spokenIdx])) {
-                this.maybeTriggerStorySfx(spoken[spokenIdx]);
+                this.maybeTriggerStorySfx(spoken[spokenIdx], i);
                 i++; progressed++; spokenIdx++;
             } else {
                 // Check if this spoken word matches positions ahead in the story
@@ -585,7 +585,7 @@ class Effexiq {
                         // Jump forward — fire cue sounds for skipped words
                         for (let s = i; s <= ahead; s++) {
                             const w = this.storyNorm[s];
-                            if (w) this.maybeTriggerStorySfx(w);
+                            if (w) this.maybeTriggerStorySfx(w, s);
                         }
                         i = ahead + 1; progressed += skip + 1; spokenIdx++;
                         found = true;
@@ -613,7 +613,7 @@ class Effexiq {
                 debugLog(`Story recovery: jumped from ${this.storyIndex} to ${recovered}`);
                 for (let s = this.storyIndex; s < recovered; s++) {
                     const w = this.storyNorm[s];
-                    if (w) this.maybeTriggerStorySfx(w);
+                    if (w) this.maybeTriggerStorySfx(w, s);
                 }
                 i = recovered;
                 this._stuckCount = 0;
@@ -793,7 +793,7 @@ class Effexiq {
                         const targetIdx = wordTimings[lastWordIdx].storyIdx;
                         for (let j = this.storyIndex; j <= targetIdx; j++) {
                             const w = this.storyNorm[j];
-                            if (w) this.maybeTriggerStorySfx(w);
+                            if (w) this.maybeTriggerStorySfx(w, j);
                         }
                         this.storyIndex = targetIdx + 1;
                         this.updateStoryHighlight();
@@ -805,7 +805,7 @@ class Effexiq {
                     if (!this._autoReading) return;
                     for (let j = this.storyIndex; j < this.storyTokens.length; j++) {
                         const w = this.storyNorm[j];
-                        if (w) this.maybeTriggerStorySfx(w);
+                        if (w) this.maybeTriggerStorySfx(w, j);
                     }
                     this.storyIndex = this.storyTokens.length;
                     this.updateStoryHighlight();
@@ -907,7 +907,7 @@ class Effexiq {
                     const targetIdx = wordIndices[timerPos];
                     for (let j = this.storyIndex; j <= targetIdx; j++) {
                         const w = this.storyNorm[j];
-                        if (w) this.maybeTriggerStorySfx(w);
+                        if (w) this.maybeTriggerStorySfx(w, j);
                     }
                     this.storyIndex = targetIdx + 1;
                     this.updateStoryHighlight();
@@ -935,7 +935,7 @@ class Effexiq {
                         const targetIdx = wordIndices[wordCount];
                         for (let j = this.storyIndex; j <= targetIdx; j++) {
                             const w = this.storyNorm[j];
-                            if (w) this.maybeTriggerStorySfx(w);
+                            if (w) this.maybeTriggerStorySfx(w, j);
                         }
                         this.storyIndex = targetIdx + 1;
                         this.updateStoryHighlight();
@@ -950,7 +950,7 @@ class Effexiq {
                 if (!this._autoReading) return;
                 for (let j = this.storyIndex; j < this.storyTokens.length; j++) {
                     const w = this.storyNorm[j];
-                    if (w) this.maybeTriggerStorySfx(w);
+                    if (w) this.maybeTriggerStorySfx(w, j);
                 }
                 this.storyIndex = this.storyTokens.length;
                 this.updateStoryHighlight();
@@ -990,7 +990,7 @@ class Effexiq {
             const targetIdx = wordIndices[pos];
             for (let j = this.storyIndex; j <= targetIdx; j++) {
                 const w = this.storyNorm[j];
-                if (w) this.maybeTriggerStorySfx(w);
+                if (w) this.maybeTriggerStorySfx(w, j);
             }
             this.storyIndex = targetIdx + 1;
             this.updateStoryHighlight();
@@ -1070,15 +1070,15 @@ class Effexiq {
             'armor': 'armor clank footsteps',
             'armored': 'armor clank footsteps',
             // Fire & Light — each maps to its specific sound
-            'fire': 'campfire ambient gentle',
-            'crackled': 'campfire ambient gentle',
-            'flames': 'wildfire inferno',
-            'flame': 'candle flame flicker',
+            'fire': 'fire crackling professional',
+            'crackled': 'fire crackling professional',
+            'flames': 'fire crackling professional',
+            'flame': 'fire crackling professional',
             'embers': 'embers dying glow',
-            'campfire': 'campfire ambient gentle',
-            'fireplace': 'campfire ambient gentle',
-            'hearth': 'campfire ambient gentle',
-            'bonfire': 'bonfire large roaring',
+            'campfire': 'fire crackling professional',
+            'fireplace': 'fire crackling professional',
+            'hearth': 'fire crackling professional',
+            'bonfire': 'fire crackling professional',
             'wildfire': 'wildfire inferno',
             'inferno': 'wildfire inferno',
             'kindled': 'match strike ignite',
@@ -1770,10 +1770,11 @@ class Effexiq {
     /**
      * Look at ±N words around the current story position to find context.
      */
-    _getStoryContextWords(radius = 5) {
+    _getStoryContextWords(radius = 5, center) {
         if (!this.storyNorm || this.storyIndex == null) return new Set();
-        const start = Math.max(0, this.storyIndex - radius);
-        const end = Math.min(this.storyNorm.length, this.storyIndex + radius + 1);
+        const pos = center != null ? center : this.storyIndex;
+        const start = Math.max(0, pos - radius);
+        const end = Math.min(this.storyNorm.length, pos + radius + 1);
         const ctx = new Set();
         for (let i = start; i < end; i++) {
             const w = this.storyNorm[i];
@@ -1782,7 +1783,7 @@ class Effexiq {
         return ctx;
     }
 
-    maybeTriggerStorySfx(word) {
+    maybeTriggerStorySfx(word, wordIdx) {
         if (!this.sfxEnabled) return;
         // Per-cue-word cooldown: each keyword only triggers once (reset on new story)
         if (!this._storyCueFired) this._storyCueFired = new Set();
@@ -1797,7 +1798,7 @@ class Effexiq {
         const overrides = Effexiq._contextOverrides[word];
         let queryOverride = null;
         if (overrides) {
-            const nearby = this._getStoryContextWords(5);
+            const nearby = this._getStoryContextWords(8, wordIdx);
             for (const rule of overrides) {
                 for (const ctxWord of rule.context) {
                     if (nearby.has(ctxWord)) {
@@ -7634,10 +7635,13 @@ class Effexiq {
                 let query = null;
                 if (Effexiq._contextOverrides && Effexiq._contextOverrides[normalized]) {
                     for (const rule of Effexiq._contextOverrides[normalized]) {
-                        if (rule.near.some(n => contextWords.has(n))) {
-                            query = rule.query;
-                            break;
+                        for (const ctxWord of rule.context) {
+                            if (contextWords.has(ctxWord)) {
+                                query = rule.query;
+                                break;
+                            }
                         }
+                        if (query) break;
                     }
                 }
                 if (!query) query = cueMap[normalized] || null;

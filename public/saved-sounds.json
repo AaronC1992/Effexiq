@@ -8494,6 +8494,25 @@
         "pirate",
         "weapon"
       ]
+    },
+    {
+      "type": "sfx",
+      "name": "fire crackling professional",
+      "file": "Saved sounds/FOLYMisc-Professional_high-qu-Elevenlabs.mp3",
+      "keywords": [
+        "fire",
+        "flame",
+        "flames",
+        "burning",
+        "crackling",
+        "campfire",
+        "bonfire",
+        "blaze",
+        "inferno",
+        "hearth",
+        "fireplace",
+        "roaring fire"
+      ]
     }
   ]
 }
