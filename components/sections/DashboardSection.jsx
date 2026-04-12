@@ -5,7 +5,7 @@ export default function DashboardSection() {
   return (
     <div id="dashboardPanel" className="app-section">
       <div className="dashboard-hero">
-        <h1 className="dashboard-title">Immersify</h1>
+        <h1 className="dashboard-title">Effexiq</h1>
         <p className="dashboard-sub">
           AI-powered sound design for storytellers, dungeon masters, and creators.
         </p>
@@ -50,7 +50,7 @@ export default function DashboardSection() {
           </div>
           <h3 className="use-case-title">Storytelling</h3>
           <p className="use-case-desc">
-            Write or load a story and read it aloud. Immersify follows your words and layers
+            Write or load a story and read it aloud. Effexiq follows your words and layers
             music, ambience, and sound effects in real time.
           </p>
           <span className="use-case-cta">Open Story Editor →</span>
@@ -65,7 +65,7 @@ export default function DashboardSection() {
           </div>
           <h3 className="use-case-title">Content Creator</h3>
           <p className="use-case-desc">
-            Let Immersify listen to your stream, podcast, or recording and automatically play
+            Let Effexiq listen to your stream, podcast, or recording and automatically play
             contextual sounds that match your live content.
           </p>
           <span className="use-case-cta">Start Listening →</span>
@@ -103,7 +103,7 @@ export default function DashboardSection() {
               </svg>
             </div>
             <h3>AI Analyzes Context</h3>
-            <p>Immersify detects mood, setting, and action in real time.</p>
+            <p>Effexiq detects mood, setting, and action in real time.</p>
           </div>
           <div className="hub-hiw-arrow">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

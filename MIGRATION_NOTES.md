@@ -1,11 +1,11 @@
-# Immersify — Next.js Migration Notes
+# Effexiq — Next.js Migration Notes
 
 ## What Was Moved
 
 | Original file/folder | New location | Change |
 |---|---|---|
 | `index.html` | `components/AppShell.jsx` + `components/sections/` + `components/modals/` | Converted HTML to JSX, split into React components |
-| `game.js` | `engine/Immersify.js` | Updated import paths; exports class instead of auto-initializing |
+| `game.js` | `engine/Effexiq.js` | Updated import paths; exports class instead of auto-initializing |
 | `api.js` | `lib/api.js` | Fixed relative URL `saved-sounds.json` → `/saved-sounds.json` |
 | `config.js` | `lib/config.js` | No changes needed |
 | `integration.js` | `lib/integration.js` | No changes needed (paths were already relative) |
@@ -24,11 +24,11 @@
 
 ### Architecture
 
-**Engine initialization**: `game.js` previously auto-initialized via `DOMContentLoaded`. In Next.js, the `Immersify` class is exported and instantiated inside a `useEffect` in `AppShell.jsx` after the React component has mounted. This preserves the same timing (DOM is ready before the engine runs).
+**Engine initialization**: `game.js` previously auto-initialized via `DOMContentLoaded`. In Next.js, the `Effexiq` class is exported and instantiated inside a `useEffect` in `AppShell.jsx` after the React component has mounted. This preserves the same timing (DOM is ready before the engine runs).
 
 **Dynamic import with `ssr: false`**: `AppShell` is loaded via `next/dynamic` with `ssr: false` on the dashboard page. This prevents the audio engine (which uses `window.AudioContext`, `SpeechRecognition`, `localStorage`, `Howler`) from executing on the server during SSR.
 
-**Howler.js**: Was loaded from CDN (`<script src="howler.min.js">`). Now installed as an npm package (`howler@2.2.4`) and imported at the top of `engine/Immersify.js` via `import { Howl } from 'howler'`.
+**Howler.js**: Was loaded from CDN (`<script src="howler.min.js">`). Now installed as an npm package (`howler@2.2.4`) and imported at the top of `engine/Effexiq.js` via `import { Howl } from 'howler'`.
 
 **CSS**: All styles moved to `app/globals.css` and automatically applied globally by the root layout. No CSS Modules were introduced — the existing class-based system works fine as-is.
 
@@ -37,11 +37,11 @@
 **Module resolution**: All JS modules now use relative paths correctly:
 - `lib/modules/*.js` import `from '../config.js'` → resolves to `lib/config.js` ✓
 - `lib/integration.js` imports `from './config.js'` → resolves to `lib/config.js` ✓
-- `engine/Immersify.js` imports updated from `./config.js` → `../lib/config.js` ✓
+- `engine/Effexiq.js` imports updated from `./config.js` → `../lib/config.js` ✓
 
 ### React component decisions
 
-The UI was split into React components for code organization, but **the Immersify engine still manages all UI state via direct DOM manipulation**. React components render the HTML scaffold; the engine wires up all event listeners and mutations via `getElementById` / `classList` / `innerHTML`. This is intentional — the engine is 7,000+ lines of tightly coupled DOM code that cannot be safely "React-ified" in a single migration without a full rewrite.
+The UI was split into React components for code organization, but **the Effexiq engine still manages all UI state via direct DOM manipulation**. React components render the HTML scaffold; the engine wires up all event listeners and mutations via `getElementById` / `classList` / `innerHTML`. This is intentional — the engine is 7,000+ lines of tightly coupled DOM code that cannot be safely "React-ified" in a single migration without a full rewrite.
 
 All sections are **always rendered** in the DOM (hidden via the CSS `hidden` class), matching the original HTML behavior. The engine shows/hides sections by toggling that class.
 
@@ -111,7 +111,7 @@ All sections are **always rendered** in the DOM (hidden via the CSS `hidden` cla
 ## Running Locally
 
 ```bash
-cd Immersify-next
+cd Effexiq-next
 cp .env.example .env.local   # or create manually
 npm run dev
 # → http://localhost:3000/dashboard

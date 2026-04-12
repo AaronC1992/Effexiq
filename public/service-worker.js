@@ -1,5 +1,5 @@
-// Immersify Service Worker
-const CACHE_NAME = 'Immersify-v14'; // Bumped for market-readiness pass
+// Effexiq Service Worker
+const CACHE_NAME = 'Effexiq-v14'; // Bumped for market-readiness pass
 
 // Note: Sound files are served via /r2-audio/* proxy (Cloudflare R2) and NOT cached here
 // because they are:

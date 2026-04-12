@@ -11,7 +11,7 @@ export default function SoundLibrarySection() {
         <div className="section-body">
           <p className="section-intro">
             Browse, preview, and manage all available sounds. Disable any sound you don&apos;t want
-            Immersify to use.
+            Effexiq to use.
           </p>
 
           {/* Search & Filters */}
@@ -42,7 +42,7 @@ export default function SoundLibrarySection() {
           <div className="sound-lib-custom">
             <h3>Custom Sounds</h3>
             <p className="info-text">
-              Record your own sounds and assign keyword tags so Immersify can trigger them.
+              Record your own sounds and assign keyword tags so Effexiq can trigger them.
             </p>
             <button id="recordSoundBtn" className="btn-primary">Record Sound</button>
             <div id="customSoundsList" className="sound-lib-list" />

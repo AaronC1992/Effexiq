@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://immersify.vercel.app/sitemap.xml
+Sitemap: https://effexiq.vercel.app/sitemap.xml

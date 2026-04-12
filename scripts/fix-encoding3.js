@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-const filePath = 'c:/Users/jenna/Desktop/Portfolio projects/Immersify-next/engine/Immersify.js';
+const filePath = 'c:/Users/jenna/Desktop/Portfolio projects/Effexiq-next/engine/Effexiq.js';
 let buf = fs.readFileSync(filePath);
 
 const fixes = [

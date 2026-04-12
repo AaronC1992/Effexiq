@@ -9,10 +9,10 @@ export default function AutoDetectSection() {
       </div>
       <div className="section-body">
         <p className="section-intro">
-          Immersify will listen and automatically play contextual sounds and music.
+          Effexiq will listen and automatically play contextual sounds and music.
         </p>
 
-        {/* Scene Presets Bar — populated by Immersify engine */}
+        {/* Scene Presets Bar — populated by Effexiq engine */}
         <div className="scene-presets-bar" id="scenePresetsBar" />
 
         <div className="context-input-area">

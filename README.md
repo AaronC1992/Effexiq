@@ -1,6 +1,6 @@
 <div align="center">
 
-# Immersify
+# Effexiq
 
 ### Intelligent Audio Companion for Tabletop RPGs
 
@@ -8,7 +8,7 @@ AI-powered ambient sound designer that listens to your game in real time and aut
 
 <br>
 
-[![Play Now](https://img.shields.io/badge/Play%20Now-Immersify-8a2be2?style=for-the-badge&logoColor=white)](https://immersify.vercel.app)
+[![Play Now](https://img.shields.io/badge/Play%20Now-Effexiq-8a2be2?style=for-the-badge&logoColor=white)](https://effexiq.vercel.app)
 
 <br>
 
@@ -22,7 +22,7 @@ Tabletop RPG game masters spend hours curating playlists and manually triggering
 
 ## The Solution
 
-Immersify listens to what's happening at the table and **automatically** plays the right sounds at the right time — no manual input needed.
+Effexiq listens to what's happening at the table and **automatically** plays the right sounds at the right time — no manual input needed.
 
 - A player says *"I kick down the tavern door"* — tavern ambiance fades in
 - The DM describes a thunderstorm — rain and thunder start rolling
@@ -32,7 +32,7 @@ The GM stays in the story. The players stay immersed. The audio just works.
 
 ## How It Works
 
-Immersify uses **speech recognition** to capture live conversation, sends it through an **AI analysis layer** (GPT-4o-mini), and maps the output to a curated library of **450+ sound effects and ambient tracks** — all in real time.
+Effexiq uses **speech recognition** to capture live conversation, sends it through an **AI analysis layer** (GPT-4o-mini), and maps the output to a curated library of **450+ sound effects and ambient tracks** — all in real time.
 
 ```
 Voice Input → Speech Recognition → AI Context Analysis → Sound Matching → Playback
@@ -55,7 +55,7 @@ The tabletop RPG market has grown into a **$2B+ industry** (2025), fueled by act
 
 **No product on the market offers real-time, voice-reactive audio.**
 
-Current alternatives require manual playlist management (Syrinscape, Tabletop Audio) or pre-configured triggers. Immersify is the first to close the loop between spoken narrative and dynamic audio — zero-touch.
+Current alternatives require manual playlist management (Syrinscape, Tabletop Audio) or pre-configured triggers. Effexiq is the first to close the loop between spoken narrative and dynamic audio — zero-touch.
 
 ### Target Users
 
@@ -122,10 +122,10 @@ Current alternatives require manual playlist management (Syrinscape, Tabletop Au
 
 ## Get in Touch
 
-Interested in Immersify? Reach out:
+Interested in Effexiq? Reach out:
 
-- **Live Demo:** [immersify.vercel.app](https://immersify.vercel.app)
-- **GitHub:** [AaronC1992/Immersify](https://github.com/AaronC1992/Immersify)
+- **Live Demo:** [effexiq.vercel.app](https://effexiq.vercel.app)
+- **GitHub:** [AaronC1992/Effexiq](https://github.com/AaronC1992/Effexiq)
 
 ---
 

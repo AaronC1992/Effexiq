@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-const filePath = 'engine/Immersify.js';
+const filePath = 'engine/Effexiq.js';
 const buf = fs.readFileSync(filePath);
 
 // The file has double-encoded UTF-8: original UTF-8 bytes were interpreted as

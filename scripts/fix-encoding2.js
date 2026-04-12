@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-const filePath = 'engine/Immersify.js';
+const filePath = 'engine/Effexiq.js';
 const buf = fs.readFileSync(filePath);
 
 // Strategy: find double-encoded UTF-8 sequences at byte level.

@@ -1,6 +1,6 @@
 {
-  "name": "Immersify - Intelligent Audio Companion",
-  "short_name": "Immersify",
+  "name": "Effexiq - Intelligent Audio Companion",
+  "short_name": "Effexiq",
   "description": "AI-powered ambient sound designer with performance enhancements, memory management, error handling, and accessibility features",
   "start_url": "./",
   "display": "standalone",

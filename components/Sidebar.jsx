@@ -2,7 +2,7 @@
 
 /**
  * Sidebar — platform navigation.
- * All button clicks (section switching) are handled by the Immersify
+ * All button clicks (section switching) are handled by the Effexiq
  * engine's setupEventListeners() which queries the DOM by data-section
  * attributes. React only renders the markup; the engine wires event listeners.
  */
@@ -10,7 +10,7 @@ export default function Sidebar() {
   return (
     <aside id="platformSidebar" aria-label="Platform navigation">
       <div className="sidebar-brand">
-        <span className="sidebar-logo-text">Immersify</span>
+        <span className="sidebar-logo-text">Effexiq</span>
         <span className="sidebar-tagline">AI Sound Design</span>
       </div>
 
@@ -84,7 +84,7 @@ export default function Sidebar() {
           <button id="tutorialBtn" className="sidebar-action-btn">How to Use</button>
           <button id="feedbackBtn" className="sidebar-action-btn">Feedback</button>
         </div>
-        <p className="version">v3.0.0 | Immersify &copy; 2026</p>
+        <p className="version">v3.0.0 | Effexiq &copy; 2026</p>
       </div>
     </aside>
   );

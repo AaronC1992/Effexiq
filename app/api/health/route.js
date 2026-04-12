@@ -24,7 +24,7 @@ export async function GET() {
 
   return NextResponse.json({
     status: 'ok',
-    service: 'Immersify',
+    service: 'Effexiq',
     timestamp: new Date().toISOString(),
     checks,
   });

@@ -9,7 +9,7 @@ export default function StoryEditorSection() {
       </div>
       <div className="section-body">
         <p className="section-intro" id="createSectionIntro">
-          Write your stories and play them with Immersify&apos;s real-time sound engine.
+          Write your stories and play them with Effexiq&apos;s real-time sound engine.
         </p>
 
         <div className="wyo-controls">

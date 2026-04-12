@@ -15,7 +15,7 @@ function getOpenAI() {
   return (_openai ??= new OpenAI({ apiKey: process.env.OPENAI_API_KEY }));
 }
 
-const SYSTEM_PROMPT = `You are Immersify, an AI sound director for tabletop RPG sessions.
+const SYSTEM_PROMPT = `You are Effexiq, an AI sound director for tabletop RPG sessions.
 Given a transcript of what's happening in the story, respond with a JSON object describing
 the ideal sound to play. Include: action (play/stop/fade), type (music/sfx), name, mood,
 intensity (0-1), and tags (array of keywords). Be concise and atmospheric.`;
