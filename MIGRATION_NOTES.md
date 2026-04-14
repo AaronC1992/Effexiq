@@ -66,12 +66,7 @@ All sections are **always rendered** in the DOM (hidden via the CSS `hidden` cla
 - Currently `POST /api/analyze` proxies to the external Render backend.
 - **Next step**: Move the OpenAI call into the Next.js route handler directly. The API key stays server-side only and is never sent to the browser. Remove the Render dependency.
 
-### 5. WebSocket / Deepgram (TODO)
-- The old Express server had a WebSocket endpoint for Deepgram real-time transcription (not yet used by the frontend).
-- Next.js serverless functions don't support persistent WebSockets natively.
-- **Next step**: Use [Next.js custom server](https://nextjs.org/docs/pages/building-your-application/configuring/custom-server) or deploy the Deepgram relay as a separate microservice (the existing `server/index.js` works for this).
-
-### 6. Service Worker (TODO)
+### 5. Service Worker (DONE)
 - `public/service-worker.js` is present but the registration script from `index.html` was not automatically carried over (it was a raw `<script>` tag).
 - **Next step**: Add service worker registration in a `useEffect` in `app/layout.jsx` or use a library like `next-pwa`.
 

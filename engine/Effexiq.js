@@ -80,24 +80,11 @@ function setAccessToken(token) {
 }
 
 // ===== HELPER FUNCTIONS =====
-// Legacy OpenAI key (no longer used for AI analysis — kept only for Freesound/Pixabay compatibility)
 function getOpenAIKey() {
     return null; // OpenAI key now managed on the backend — users subscribe instead
 }
 
 function setOpenAIKey(key) {} // no-op
-
-function getFreesoundKey() {
-    return storage.get('freesound_api_key') || null;
-}
-
-function setFreesoundKey(key) {
-    if (key) {
-        storage.set('freesound_api_key', key);
-    } else {
-        storage.remove('freesound_api_key');
-    }
-}
 
 function getPixabayKey() {
     return storage.get('pixabay_api_key') || null;
@@ -132,14 +119,12 @@ class Effexiq {
         
         // Access token for AI backend (subscription-based)
         this.accessToken = getAccessToken();
-        this.freesoundApiKey = getFreesoundKey();
         this.pixabayApiKey = getPixabayKey();
         
         // Refresh token on visibility change (in case user subscribed in another tab)
         this._visibilityHandler = () => {
             if (!document.hidden) {
                 this.accessToken = getAccessToken();
-                this.freesoundApiKey = getFreesoundKey();
             }
         };
         document.addEventListener('visibilitychange', this._visibilityHandler);
@@ -2708,14 +2693,6 @@ class Effexiq {
         }
     }
     
-    showFreesoundSetup() {
-        document.getElementById('freesoundModal')?.classList.remove('hidden');
-    }
-    
-    hideFreesoundSetup() {
-        document.getElementById('freesoundModal')?.classList.add('hidden');
-    }
-
     showTutorial() {
         document.getElementById('tutorialModal').classList.remove('hidden');
     }
@@ -2860,35 +2837,17 @@ class Effexiq {
     }
     
     saveAudioKeys() {
-        const freesoundInput = document.getElementById('freesoundKeyInput');
         const pixabayInput = document.getElementById('pixabayKeyInput');
-        const freesoundKey = freesoundInput?.value.trim() ?? '';
         const pixabayKey = pixabayInput?.value.trim() ?? '';
-        
-        let saved = false;
-        
-        if (freesoundKey.length > 10) {
-            this.freesoundApiKey = freesoundKey;
-            setFreesoundKey(freesoundKey); // Use centralized setter
-            saved = true;
-        }
         
         if (pixabayKey.length > 10) {
             this.pixabayApiKey = pixabayKey;
             setPixabayKey(pixabayKey);
-            saved = true;
-        }
-        
-        if (saved) {
-            this.hideFreesoundSetup();
             this.updateApiStatusIndicators();
-            const sources = [];
-            if (pixabayKey) sources.push('Pixabay');
-            if (freesoundKey) sources.push('Freesound');
-            this.updateStatus(`Audio sources enabled: ${sources.join(' + ')}`);
-            alert(`Audio Keys Saved!\n\nEnabled: ${sources.join(', ')}\n\nYou will now hear high-quality sounds when Effexiq analyzes your speech.`);
+            this.updateStatus('Audio source enabled: Pixabay');
+            alert('Pixabay API Key Saved!\n\nYou will now hear high-quality sounds when Effexiq analyzes your speech.');
         } else {
-            alert('Please enter at least one valid API key (10+ characters).');
+            alert('Please enter a valid Pixabay API key (10+ characters).');
         }
     }
     
@@ -3103,6 +3062,9 @@ class Effexiq {
             });
         }
 
+        // ===== OBS WebSocket Integration =====
+        this._setupObsBridge();
+
         // Control Buttons
         const testMicBtnEl = document.getElementById('testMicBtn');
         if (testMicBtnEl) testMicBtnEl.addEventListener('click', () => this.testMicrophone());
@@ -3226,13 +3188,8 @@ class Effexiq {
             });
         }
         
-        // Freesound Setup (modal removed in v2.2.0 — guard all)
-        const setupFreesoundBtn = document.getElementById('setupFreesound');
-        if (setupFreesoundBtn) setupFreesoundBtn.addEventListener('click', () => this.showFreesoundSetup());
         const saveAudioKeysBtn = document.getElementById('saveAudioKeys');
         if (saveAudioKeysBtn) saveAudioKeysBtn.addEventListener('click', () => this.saveAudioKeys());
-        const cancelFreesoundBtn = document.getElementById('cancelFreesound');
-        if (cancelFreesoundBtn) cancelFreesoundBtn.addEventListener('click', () => this.hideFreesoundSetup());
 
         // App Refresh Button
         const refreshAppBtn = document.getElementById('refreshAppBtn');
@@ -4327,7 +4284,7 @@ class Effexiq {
     }
 
     // Add a custom phrase trigger. patterns: string[] of substrings to match;
-    // query: freesound search term; volume: 0-1 (default 0.8).
+    // query: sound search term; volume: 0-1 (default 0.8).
     addCustomPhrase(patterns, query, volume = 0.8) {
         if (!Array.isArray(patterns) || patterns.length === 0 || !query) return;
         const entry = { patterns: patterns.map(p => String(p).toLowerCase()), query: String(query), volume: Number(volume) };
@@ -4697,6 +4654,10 @@ class Effexiq {
             if (this.moodHistory.length > 20) this.moodHistory.shift();
             // Dynamic cooldowns: adjust based on mood intensity
             this.adaptCooldownsToMood();
+            // OBS scene switching based on mood
+            if (this.obsBridge) {
+                this.obsBridge.switchByMood(this.currentMood.primary);
+            }
             // Scene memory: detect chapter transitions
             this.detectSceneTransition(decisions);
             // Scene state machine: update state + potentially force fast music change
@@ -4875,7 +4836,7 @@ class Effexiq {
         this.scheduleNextStinger();
     }
     
-    // Legacy updateMusic for fallback (Freesound/Saved Sounds)
+    // Legacy updateMusic for fallback (Saved Sounds / Pixabay)
     async updateMusic(musicData) {
         if (!this.musicEnabled) {
             this.updateStatus('Music disabled (toggle off)');
@@ -5155,7 +5116,7 @@ class Effexiq {
         }
     }
     
-    // Legacy playSoundEffect for fallback (Freesound/Saved Sounds)
+    // Legacy playSoundEffect for fallback (Saved Sounds / Pixabay)
     async playSoundEffect(sfxData) {
         if (!this.sfxEnabled) {
             this.updateStatus('SFX disabled (toggle off)');
@@ -5440,29 +5401,67 @@ class Effexiq {
     
     // ===== PIXABAY INTEGRATION =====
     async searchPixabay(query, type) {
-        // Note: Pixabay's free API doesn't include a dedicated audio endpoint
-        // We'll use it for future expansion or premium tier
-        // For now, this serves as a placeholder that gracefully falls back to Freesound
-        
         if (!this.pixabayApiKey) return null;
         
         try {
-            // Pixabay audio API is not available in free tier
-            // This would be the endpoint if/when audio becomes available:
-            // https://pixabay.com/api/sounds/
+            const searchQuery = encodeURIComponent(query);
+            const category = type === 'music' ? 'music' : '';
+            const minDuration = type === 'music' ? 30 : 0;
+            const maxDuration = type === 'music' ? 300 : 15;
+            const params = new URLSearchParams({
+                key: this.pixabayApiKey,
+                q: searchQuery,
+                ...(category && { category }),
+                min_duration: minDuration,
+                max_duration: maxDuration,
+                per_page: 5,
+                safesearch: 'true'
+            });
             
-            debugLog('Pixabay audio API not available in free tier; using Freesound');
+            const response = await fetch(`https://pixabay.com/api/audio/?${params}`);
+            if (!response.ok) {
+                if (response.status === 401) {
+                    debugLog('Invalid Pixabay API key');
+                    return null;
+                }
+                throw new Error(`Pixabay API error: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            if (data.hits && data.hits.length > 0) {
+                // Pick a result that hasn't played recently
+                for (const hit of data.hits) {
+                    const url = hit.audio;
+                    if (!url) continue;
+                    if (type === 'music' && this.recentlyPlayed.has(url)) continue;
+                    debugLog(`✓ Found via Pixabay: "${hit.title}" (${hit.duration}s)`);
+                    this.soundCache.set(`${type}:${query}`, url);
+                    this.recentlyPlayed.add(url);
+                    if (this.recentlyPlayed.size > 20) {
+                        const first = this.recentlyPlayed.values().next().value;
+                        this.recentlyPlayed.delete(first);
+                    }
+                    return url;
+                }
+                // Fallback to first result
+                const hit = data.hits[0];
+                if (hit.audio) {
+                    this.soundCache.set(`${type}:${query}`, hit.audio);
+                    return hit.audio;
+                }
+            }
+            
+            debugLog(`No Pixabay results for: ${query}`);
             return null;
-            
         } catch (error) {
             console.error('Pixabay search error:', error);
             return null;
         }
     }
 
-    // ===== DUAL-SOURCE AUDIO SEARCH =====
+    // ===== AUDIO SEARCH (Local + Pixabay) =====
     async searchAudio(query, type) {
-        // Try local Saved sounds first (primary source for local prototype)
+        // Try local Saved sounds first (primary source)
         if (this.savedSounds?.files?.length > 0) {
             const local = this.searchLocalSaved(query, type);
             if (local) {
@@ -5470,30 +5469,19 @@ class Effexiq {
                 return local;
             }
         }
-        // Try Pixabay first if key is set (faster when available)
-        // Note: Currently falls back immediately as free tier has no audio
+        // Try Pixabay if key is set
         let url = null;
         
         if (this.pixabayApiKey) {
             url = await this.searchPixabay(query, type);
             if (url) {
-                debugLog(`✓ Found via Pixabay: ${query}`);
                 return url;
             }
         }
         
-        // Freesound is primary source (comprehensive library)
-        if (this.freesoundApiKey) {
-            url = await this.searchFreesound(query, type);
-            if (url) {
-                debugLog(`✓ Found via Freesound: ${query}`);
-                return url;
-            }
-        }
-        
-        if (!this.pixabayApiKey && !this.freesoundApiKey && !this._noApiKeysWarned) {
+        if (!this.pixabayApiKey && !this._noApiKeysWarned) {
             this._noApiKeysWarned = true;
-            debugLog('No external audio API keys — using local sound library only.');
+            debugLog('No Pixabay API key — using local sound library only.');
         }
         
         return url;
@@ -5520,201 +5508,6 @@ class Effexiq {
         } catch(_) { return null; }
     }
 
-    // ===== FREESOUND.ORG INTEGRATION =====
-    async searchFreesound(query, type) {
-        // Check if Freesound API key is set
-        if (!this.freesoundApiKey) {
-            debugLog(`Freesound not configured. Would search for: ${query} (${type})`);
-            this.updateStatus('Click "Setup Freesound API" to enable real sounds');
-            return null;
-        }
-        
-        // Simplify queries to improve CC0 results
-        let searchQuery = query;
-        let fallbackQueries = []; // Progressive fallbacks for music
-        if (type === 'music') {
-            const keywords = query.toLowerCase();
-            // Check for Christmas-related terms (including "jingle bells" from AI)
-            if (keywords.includes('christmas') || keywords.includes('holiday') || keywords.includes('festive') || 
-                keywords.includes('xmas') || keywords.includes('jingle') || keywords.includes('carol') || 
-                keywords.includes('sleigh')) {
-                searchQuery = 'christmas music';
-                fallbackQueries = ['jingle bells', 'holiday music', 'festive music', 'winter music'];
-            }
-            else if (keywords.includes('halloween') || keywords.includes('spooky')) {
-                searchQuery = 'spooky halloween';
-                fallbackQueries = ['halloween music', 'spooky music'];
-            }
-            else if (keywords.includes('epic') || keywords.includes('orchestral')) {
-                searchQuery = 'epic orchestral';
-                fallbackQueries = ['orchestral', 'epic music'];
-            }
-            else if (keywords.includes('calm') || keywords.includes('peaceful')) {
-                searchQuery = 'calm ambient';
-                fallbackQueries = ['peaceful music', 'ambient music'];
-            }
-            else if (keywords.includes('tense') || keywords.includes('suspense')) {
-                searchQuery = 'dark ambient';
-                fallbackQueries = ['suspense music', 'ambient music'];
-            }
-            else if (keywords.includes('horror') || keywords.includes('eerie')) {
-                searchQuery = 'horror ambience';
-                fallbackQueries = ['dark ambient', 'ambient music'];
-            }
-            else if (keywords.includes('forest') || keywords.includes('nature')) {
-                searchQuery = 'nature ambient';
-                fallbackQueries = ['ambient music'];
-            }
-            else if (keywords.includes('sing') || keywords.includes('vocal') || keywords.includes('melody')) {
-                searchQuery = 'instrumental backing';
-                fallbackQueries = ['instrumental', 'ambient music'];
-            }
-            else if (keywords.includes('ambient')) {
-                searchQuery = 'ambient music';
-                fallbackQueries = [];
-            }
-            else {
-                searchQuery = 'ambient music';
-                fallbackQueries = [];
-            }
-            debugLog(`Simplified music query: "${query}" → "${searchQuery}"${fallbackQueries.length ? ` (fallbacks: ${fallbackQueries.join(', ')})` : ''}`);
-        } else if (type === 'sfx') {
-            // Simplify common SFX queries that often fail
-            const keywords = query.toLowerCase();
-            if (keywords.includes('footsteps') && keywords.includes('leaves')) searchQuery = 'footsteps grass';
-            else if (keywords.includes('dragon') && keywords.includes('roar')) searchQuery = 'monster roar';
-            else if (keywords.includes('birds') && keywords.includes('chirp')) searchQuery = 'birds chirping';
-            else if (keywords.includes('storm') && keywords.includes('brewing')) searchQuery = 'thunder storm';
-            else searchQuery = query; // keep original for SFX
-            
-            if (searchQuery !== query) {
-                debugLog(`Simplified SFX query: "${query}" → "${searchQuery}"`);
-            }
-        }
-        
-            // Check cache first for faster response
-        const cacheKey = `${type}:${searchQuery}`;
-            if (this.soundCache.has(cacheKey)) {
-            debugLog(`Found in cache: ${searchQuery}`);
-            return this.soundCache.get(cacheKey);
-        }
-        
-        try {
-            this.updateStatus(`Searching Freesound for: ${searchQuery}...`);
-            
-            // Build search parameters with CC0 license filter
-            const baseFilter = type === 'music' ? 'duration:[30 TO *] tag:music' : 'duration:[0.5 TO 10]';
-            const params = new URLSearchParams({
-                query: searchQuery,
-                filter: `${baseFilter} license:\"Creative Commons 0\"`,
-                fields: 'id,name,previews,duration,license',
-                sort: 'rating_desc',
-                page_size: type === 'music' ? 10 : 3
-            });
-            
-            const response = await fetch(`https://freesound.org/apiv2/search/text/?${params}`, {
-                headers: {
-                    'Authorization': `Token ${this.freesoundApiKey}`
-                }
-            });
-            
-            if (!response.ok) {
-                if (response.status === 401) {
-                    this.updateStatus('❌ Invalid Freesound API key');
-                    alert('Invalid Freesound API Key!\n\nPlease:\n1. Check your key at freesound.org/apiv2/apply\n2. Click "Setup Freesound API"\n3. Enter the correct key');
-                    return null;
-                }
-                throw new Error(`Freesound API error: ${response.status}`);
-            }
-            
-            const data = await response.json();
-            
-            if (data.results && data.results.length > 0) {
-                // Try to select a preview that hasn't played recently (for variety)
-                let chosen = null;
-                for (const r of data.results) {
-                    const url = r.previews['preview-hq-mp3'] || r.previews['preview-lq-mp3'];
-                    if (!url) continue;
-                    if (type === 'music' && this.recentlyPlayed.has(url)) {
-                        continue; // try to avoid repeats for music
-                    }
-                    chosen = { name: r.name, duration: r.duration, url };
-                    break;
-                }
-                // Fallback to the first if all are recently played or filtered out
-                if (!chosen) {
-                    const r = data.results[0];
-                    const url = r.previews['preview-hq-mp3'] || r.previews['preview-lq-mp3'];
-                    chosen = { name: r.name, duration: r.duration, url };
-                }
-
-                debugLog(`Found sound: "${chosen.name}" (${chosen.duration}s)`);
-
-                    // Cache all sounds for instant playback on repeat
-                    this.soundCache.set(cacheKey, chosen.url);
-
-                // Track recently played to reduce back-to-back repeats
-                if (chosen.url) {
-                    this.recentlyPlayed.add(chosen.url);
-                    // Keep recent list to a reasonable size
-                    if (this.recentlyPlayed.size > 20) {
-                        const first = this.recentlyPlayed.values().next().value;
-                        this.recentlyPlayed.delete(first);
-                    }
-                }
-
-                return chosen.url;
-            } else {
-                debugLog(`No CC0 sounds found for: ${searchQuery}`);
-                
-                // For music, try fallback with broader license (CC-BY) and progressive fallback queries
-                if (type === 'music') {
-                    const queriesToTry = [searchQuery, ...fallbackQueries];
-                    
-                    for (const tryQuery of queriesToTry) {
-                        debugLog(`Retrying music search with CC-BY for: "${tryQuery}"...`);
-                        const fallbackParams = new URLSearchParams({
-                            query: tryQuery,
-                            filter: `duration:[30 TO *] tag:music`,
-                            fields: 'id,name,previews,duration,license',
-                            sort: 'rating_desc',
-                            page_size: 10
-                        });
-                        
-                        const fallbackResponse = await fetch(`https://freesound.org/apiv2/search/text/?${fallbackParams}`, {
-                            headers: {
-                                'Authorization': `Token ${this.freesoundApiKey}`
-                            }
-                        });
-                        
-                        if (fallbackResponse.ok) {
-                            const fallbackData = await fallbackResponse.json();
-                            if (fallbackData.results && fallbackData.results.length > 0) {
-                                const r = fallbackData.results[0];
-                                const url = r.previews['preview-hq-mp3'] || r.previews['preview-lq-mp3'];
-                                if (url) {
-                                 debugLog(`✓ Found music (${r.license}): "${r.name}" (${r.duration}s)`);
-                                    this.soundCache.set(cacheKey, url);
-                                    this.recentlyPlayed.add(url);
-                                    return url;
-                                }
-                            }
-                        }
-                    }
-                    
-                    console.log(`No music found after all fallbacks`);
-                }
-                
-                return null;
-            }
-            
-        } catch (error) {
-            console.error('Freesound search error:', error);
-            this.updateStatus('Freesound search failed, retrying...');
-            return null;
-        }
-    }
-    
     // ===== AUDIO PLAYBACK =====
     
     // Duck music volume when SFX plays
@@ -7040,7 +6833,7 @@ class Effexiq {
 
     // ===== PREDICTIVE PREFETCH =====
     predictivePrefetch(text) {
-        if (!this.freesoundApiKey || !this.sfxEnabled || !this.predictionEnabled) return;
+        if (!this.sfxEnabled || !this.predictionEnabled) return;
         const t = text.toLowerCase();
         // simple debounce
         if (this._predictiveBusy) return; this._predictiveBusy = true; setTimeout(()=>{this._predictiveBusy=false;}, 400);
@@ -7275,7 +7068,6 @@ class Effexiq {
 
     updateApiStatusIndicators() {
         const openaiStatus = document.getElementById('openaiStatus');
-        const freesoundStatus = document.getElementById('freesoundStatus');
         const pixabayStatus = document.getElementById('pixabayStatus');
         
         if (openaiStatus) {
@@ -7291,21 +7083,6 @@ class Effexiq {
             } else {
                 openaiStatus.className = 'api-status inactive';
                 openaiStatus.setAttribute('aria-label', 'Subscribe to enable AI features');
-            }
-        }
-        
-        if (freesoundStatus) {
-            const backendFreesound = this.backendHealth?.freesound === true;
-            const catalogAvailable = Array.isArray(this.soundCatalog) && this.soundCatalog.length > 0;
-            if (this.freesoundApiKey && this.freesoundApiKey.length > 10) {
-                freesoundStatus.className = 'api-status active';
-                freesoundStatus.setAttribute('aria-label', 'Freesound API key is configured (local)');
-            } else if (backendFreesound || (this.backendAvailable && catalogAvailable)) {
-                freesoundStatus.className = 'api-status active';
-                freesoundStatus.setAttribute('aria-label', 'Audio sources available via backend');
-            } else {
-                freesoundStatus.className = 'api-status inactive';
-                freesoundStatus.setAttribute('aria-label', 'Freesound API key is missing');
             }
         }
         
@@ -8519,14 +8296,23 @@ class Effexiq {
             if (modal) modal.classList.add('hidden');
         });
 
-        // Search sounds in add modal
+        // Search sounds in add modal (text input + category filter)
         const searchInput = document.getElementById('cbSoundSearch');
+        const categoryFilter = document.getElementById('cbSoundCategoryFilter');
+        const triggerSearch = () => {
+            const q = searchInput?.value.trim() || '';
+            const cat = categoryFilter?.value || '';
+            this.cbSearchSounds(q, cat);
+        };
         if (searchInput) {
             let debounce;
             searchInput.addEventListener('input', () => {
                 clearTimeout(debounce);
-                debounce = setTimeout(() => this.cbSearchSounds(searchInput.value.trim()), 250);
+                debounce = setTimeout(triggerSearch, 250);
             });
+        }
+        if (categoryFilter) {
+            categoryFilter.addEventListener('change', triggerSearch);
         }
 
         // Load modal cancel
@@ -8690,6 +8476,8 @@ class Effexiq {
         if (results) results.innerHTML = '';
         const group = document.getElementById('cbSoundGroup');
         if (group) group.value = '';
+        const catFilter = document.getElementById('cbSoundCategoryFilter');
+        if (catFilter) catFilter.value = '';
         modal.classList.remove('hidden');
 
         // Show recent sounds by default
@@ -8714,18 +8502,20 @@ class Effexiq {
         }
     }
 
-    cbSearchSounds(query) {
+    cbSearchSounds(query, categoryFilter = '') {
         const results = document.getElementById('cbSoundResults');
-        if (!results || !query) { if (results) results.innerHTML = ''; return; }
+        if (!results || (!query && !categoryFilter)) { if (results) results.innerHTML = ''; return; }
 
-        // Search saved sounds
+        // Search saved sounds with optional type filter
         const matches = [];
-        const q = query.toLowerCase();
+        const q = (query || '').toLowerCase();
         if (this.savedSounds && this.savedSounds.files) {
             for (const s of this.savedSounds.files) {
+                // Apply category filter
+                if (categoryFilter && (s.type || 'sfx') !== categoryFilter) continue;
                 const name = (s.name || '').toLowerCase();
                 const kw = (s.keywords || []).join(' ').toLowerCase();
-                if (name.includes(q) || kw.includes(q)) {
+                if (!q || name.includes(q) || kw.includes(q)) {
                     matches.push({ name: s.name, file: s.file, type: s.type || 'sfx' });
                 }
                 if (matches.length >= 30) break;
@@ -9469,6 +9259,90 @@ class Effexiq {
             btn.disabled = false;
         }
     }
+
+    // ===== OBS WEBSOCKET BRIDGE =====
+    _setupObsBridge() {
+        import('../lib/modules/obs-bridge.js').then(({ obsBridge }) => {
+            this.obsBridge = obsBridge;
+            obsBridge.loadSettings();
+
+            // Populate UI with saved settings
+            const hostInput = document.getElementById('obsHost');
+            const portInput = document.getElementById('obsPort');
+            const passInput = document.getElementById('obsPassword');
+            if (hostInput && obsBridge.host) hostInput.value = obsBridge.host;
+            if (portInput && obsBridge.port) portInput.value = obsBridge.port;
+
+            const statusEl = document.getElementById('obsConnectionStatus');
+
+            document.getElementById('obsConnectBtn')?.addEventListener('click', async () => {
+                const host = hostInput?.value?.trim() || 'localhost';
+                const port = parseInt(portInput?.value) || 4455;
+                const password = passInput?.value || '';
+                if (statusEl) statusEl.textContent = 'Connecting...';
+                try {
+                    await obsBridge.connect({ host, port, password });
+                    obsBridge.saveSettings();
+                    if (statusEl) { statusEl.textContent = 'Connected'; statusEl.style.color = '#4caf50'; }
+                } catch (e) {
+                    if (statusEl) { statusEl.textContent = `Failed: ${e.message}`; statusEl.style.color = '#ff6b6b'; }
+                }
+            });
+
+            document.getElementById('obsDisconnectBtn')?.addEventListener('click', () => {
+                obsBridge.disconnect();
+                if (statusEl) { statusEl.textContent = 'Disconnected'; statusEl.style.color = ''; }
+            });
+
+            // Scene mapping
+            document.getElementById('obsAddMapping')?.addEventListener('click', () => {
+                const mood = document.getElementById('obsMapMood')?.value?.trim().toLowerCase();
+                const scene = document.getElementById('obsMapScene')?.value?.trim();
+                if (!mood || !scene) return;
+                obsBridge._sceneMap[mood] = scene;
+                obsBridge.saveSettings();
+                this._renderObsSceneMap();
+                const moodInput = document.getElementById('obsMapMood');
+                const sceneInput = document.getElementById('obsMapScene');
+                if (moodInput) moodInput.value = '';
+                if (sceneInput) sceneInput.value = '';
+            });
+
+            // OBS settings toggle
+            document.getElementById('obsSettingsToggle')?.addEventListener('click', () => {
+                const content = document.getElementById('obsSettingsContent');
+                if (content) content.classList.toggle('hidden');
+            });
+
+            this._renderObsSceneMap();
+        }).catch(() => {
+            debugLog('OBS bridge module not available');
+        });
+    }
+
+    _renderObsSceneMap() {
+        const list = document.getElementById('obsSceneMapList');
+        if (!list || !this.obsBridge) return;
+        const map = this.obsBridge._sceneMap || {};
+        if (Object.keys(map).length === 0) {
+            list.innerHTML = '<div class="info-text" style="font-size:0.8rem">No mappings configured</div>';
+            return;
+        }
+        list.innerHTML = Object.entries(map).map(([mood, scene]) =>
+            `<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                <span style="flex:1">${escapeHtml(mood)} → ${escapeHtml(scene)}</span>
+                <button class="btn-secondary" style="padding:2px 8px;font-size:0.75rem" data-obs-remove="${escapeHtml(mood)}">✕</button>
+            </div>`
+        ).join('');
+        list.querySelectorAll('[data-obs-remove]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const mood = btn.dataset.obsRemove;
+                delete this.obsBridge._sceneMap[mood];
+                this.obsBridge.saveSettings();
+                this._renderObsSceneMap();
+            });
+        });
+    }
 }
 
 // ===== COLLAPSIBLE MENU FUNCTIONALITY =====
@@ -9511,6 +9385,16 @@ function initializeMenuToggles() {
         scenePresetsToggle.addEventListener('click', () => {
             scenePresetsToggle.classList.toggle('active');
             scenePresetsContent.classList.toggle('hidden');
+        });
+    }
+
+    // OBS Integration subsection toggle
+    const obsSettingsToggle = document.getElementById('obsSettingsToggle');
+    const obsSettingsContent = document.getElementById('obsSettingsContent');
+    if (obsSettingsToggle && obsSettingsContent) {
+        obsSettingsToggle.addEventListener('click', () => {
+            obsSettingsToggle.classList.toggle('active');
+            obsSettingsContent.classList.toggle('hidden');
         });
     }
 }

@@ -230,6 +230,77 @@ export default function SettingsSection() {
             </div>
           </div>
         </section>
+
+        {/* OBS WebSocket Integration */}
+        <section className="menu-section">
+          <button className="menu-toggle" id="obsSettingsToggle">
+            OBS Integration
+            <span className="toggle-indicator">&#9660;</span>
+          </button>
+          <div className="menu-content hidden" id="obsSettingsContent">
+            <p className="info-text">
+              Connect to OBS Studio via WebSocket to auto-switch scenes based on mood changes.
+              Requires OBS with the obs-websocket plugin (v5) enabled.
+            </p>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 8 }}>
+              <input
+                id="obsHost"
+                type="text"
+                placeholder="Host (localhost)"
+                defaultValue="localhost"
+                style={{ flex: 2, minWidth: 100 }}
+              />
+              <input
+                id="obsPort"
+                type="number"
+                placeholder="Port"
+                defaultValue="4455"
+                style={{ flex: '0 0 auto', width: 80 }}
+              />
+            </div>
+            <input
+              id="obsPassword"
+              type="password"
+              placeholder="Password (optional)"
+              autoComplete="off"
+              style={{ width: '100%', marginTop: 8 }}
+            />
+            <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
+              <button id="obsConnectBtn" className="btn-primary" style={{ flex: 1 }}>
+                Connect
+              </button>
+              <button id="obsDisconnectBtn" className="btn-secondary" style={{ flex: 1 }}>
+                Disconnect
+              </button>
+            </div>
+            <div id="obsConnectionStatus" className="info-text" style={{ marginTop: 8 }}>
+              Not connected
+            </div>
+            <h3 style={{ marginTop: 16 }}>Scene Mapping</h3>
+            <p className="info-text">
+              Map moods to OBS scene names. When the AI detects a mood change, OBS will switch
+              automatically.
+            </p>
+            <div id="obsSceneMapList" style={{ marginTop: 8 }} />
+            <div style={{ display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap' }}>
+              <input
+                id="obsMapMood"
+                type="text"
+                placeholder="Mood (e.g. combat)"
+                style={{ flex: 1, minWidth: 100 }}
+              />
+              <input
+                id="obsMapScene"
+                type="text"
+                placeholder="OBS Scene name"
+                style={{ flex: 1, minWidth: 100 }}
+              />
+              <button id="obsAddMapping" className="btn-secondary" style={{ flex: '0 0 auto' }}>
+                Add
+              </button>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );

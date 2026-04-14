@@ -54,7 +54,14 @@ export default function ControlBoardSection() {
               <option value="npc">NPC / Dialogue</option>
               <option value="custom">Custom</option>
             </select>
-            <input type="text" id="cbSoundSearch" placeholder="Search sounds..." className="cb-search-input" />
+            <div style={{ display: 'flex', gap: 8 }}>
+              <input type="text" id="cbSoundSearch" placeholder="Search sounds..." className="cb-search-input" style={{ flex: 1 }} />
+              <select id="cbSoundCategoryFilter" className="mode-dropdown" style={{ flex: '0 0 auto', minWidth: 100 }}>
+                <option value="">All Types</option>
+                <option value="music">Music</option>
+                <option value="sfx">SFX</option>
+              </select>
+            </div>
             <div id="cbSoundResults" className="cb-sound-results" />
             <input type="hidden" id="cbSoundFile" />
           </div>

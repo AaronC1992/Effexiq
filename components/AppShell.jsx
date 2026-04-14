@@ -21,6 +21,8 @@
  */
 
 import { useEffect } from 'react';
+import ErrorBoundary from './ErrorBoundary';
+import { EngineProvider } from '../lib/engine-bridge';
 import Sidebar from './Sidebar';
 import DashboardSection from './sections/DashboardSection';
 import AutoDetectSection from './sections/AutoDetectSection';
@@ -38,6 +40,14 @@ import {
 } from './modals/Modals';
 
 export default function AppShell() {
+  useEffect(() => {
+    // Register service worker for offline caching
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js').catch((err) => {
+        console.warn('[SW] Registration failed:', err);
+      });
+    }
+  }, []);
   useEffect(() => {
     let engineInstance = null;
     let initialized = false;
@@ -84,6 +94,15 @@ export default function AppShell() {
         initializeMenuToggles();
       } catch (e) {
         console.error('[AppShell] Effexiq engine failed to start:', e);
+        // Show user-visible error if the engine fails to initialize
+        const app = document.getElementById('appContainer');
+        if (app) {
+          const banner = document.createElement('div');
+          banner.className = 'no-key-banner';
+          banner.style.cssText = 'background:rgba(255,60,60,0.12);border-color:#ff4444;margin:12px;border-radius:8px;padding:12px 16px;';
+          banner.innerHTML = '<strong>Engine failed to start.</strong> Try reloading the page. If the problem persists, clear your browser cache.';
+          app.prepend(banner);
+        }
       }
 
       // 5. Safety net: if the app container ended up hidden for any reason, force it visible
@@ -108,7 +127,8 @@ export default function AppShell() {
   }, []);
 
   return (
-    <>
+    <ErrorBoundary>
+      <EngineProvider>
       {/* Skip link for accessibility */}
       <a className="skip-link" href="#appContainer">
         Skip to main content
@@ -183,6 +203,7 @@ export default function AppShell() {
       <StoryContextModal />
       <StoryOverlay />
       <DemoSelectorOverlay />
-    </>
+      </EngineProvider>
+    </ErrorBoundary>
   );
 }
