@@ -1,14 +1,184 @@
-import { redirect } from 'next/navigation';
+import Link from 'next/link';
 
-/**
- * Root page — redirects immediately to the main dashboard.
- * This keeps the URL clean while giving us room to add a
- * proper marketing/landing page here in the future.
- *
- * TODO: Replace the redirect with a proper landing page once
- * auth + Stripe are wired up (unauthenticated users should
- * see the marketing page; authenticated users go to /dashboard).
- */
 export default function Home() {
-  redirect('/dashboard');
+  return (
+    <div className="landing">
+      {/* Hero */}
+      <header className="landing-hero">
+        <nav className="landing-nav">
+          <span className="landing-brand">Effexiq</span>
+          <Link href="/dashboard" className="landing-nav-cta">
+            Open App
+          </Link>
+        </nav>
+        <div className="landing-hero-content">
+          <h1 className="landing-h1">
+            AI-Powered Sound Design<br />for Storytellers
+          </h1>
+          <p className="landing-tagline">
+            Effexiq listens to your voice and layers music, ambience, and sound
+            effects in real time — no mixing board required.
+          </p>
+          <div className="landing-hero-actions">
+            <Link href="/dashboard" className="landing-btn-primary">
+              Launch Effexiq
+            </Link>
+            <a href="#features" className="landing-btn-secondary">
+              See How It Works
+            </a>
+          </div>
+        </div>
+      </header>
+
+      {/* Features */}
+      <section id="features" className="landing-features">
+        <h2 className="landing-section-title">Everything You Need</h2>
+        <div className="landing-feature-grid">
+          <div className="landing-feature-card">
+            <div className="landing-feature-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                <line x1="12" y1="19" x2="12" y2="23" />
+                <line x1="8" y1="23" x2="16" y2="23" />
+              </svg>
+            </div>
+            <h3>Voice-Driven</h3>
+            <p>
+              Speak naturally and Effexiq detects mood, setting, and action from
+              your words in real time.
+            </p>
+          </div>
+
+          <div className="landing-feature-card">
+            <div className="landing-feature-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 16v-4" />
+                <path d="M12 8h.01" />
+              </svg>
+            </div>
+            <h3>AI Analysis</h3>
+            <p>
+              GPT-powered scene understanding picks the perfect sounds for
+              every moment of your story.
+            </p>
+          </div>
+
+          <div className="landing-feature-card">
+            <div className="landing-feature-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M9 18V5l12-2v13" />
+                <circle cx="6" cy="18" r="3" />
+                <circle cx="18" cy="16" r="3" />
+              </svg>
+            </div>
+            <h3>Rich Sound Library</h3>
+            <p>
+              Hundreds of curated music tracks, SFX, and ambient loops covering
+              fantasy, horror, sci-fi, and more.
+            </p>
+          </div>
+
+          <div className="landing-feature-card">
+            <div className="landing-feature-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                <path d="M2 17l10 5 10-5" />
+                <path d="M2 12l10 5 10-5" />
+              </svg>
+            </div>
+            <h3>9 Themed Modes</h3>
+            <p>
+              D&amp;D, horror, fairytale, bedtime, creator, and more — each
+              with tailored AI rules and sound palettes.
+            </p>
+          </div>
+
+          <div className="landing-feature-card">
+            <div className="landing-feature-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <rect x="2" y="3" width="20" height="14" rx="2" />
+                <line x1="8" y1="21" x2="16" y2="21" />
+                <line x1="12" y1="17" x2="12" y2="21" />
+              </svg>
+            </div>
+            <h3>OBS Integration</h3>
+            <p>
+              A dedicated browser source overlay lets streamers add live
+              reactive audio to any broadcast.
+            </p>
+          </div>
+
+          <div className="landing-feature-card">
+            <div className="landing-feature-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+            </div>
+            <h3>Session Recording</h3>
+            <p>
+              Record your entire audio session — all layers mixed — and export
+              it as a single file or individual stems.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="landing-how">
+        <h2 className="landing-section-title">How It Works</h2>
+        <div className="landing-steps">
+          <div className="landing-step">
+            <span className="landing-step-num">1</span>
+            <h3>Pick a Mode</h3>
+            <p>Choose D&amp;D, horror, fairytale, or let Auto mode figure it out.</p>
+          </div>
+          <div className="landing-step">
+            <span className="landing-step-num">2</span>
+            <h3>Start Talking</h3>
+            <p>Read your story aloud or type it in. Effexiq listens through your mic.</p>
+          </div>
+          <div className="landing-step">
+            <span className="landing-step-num">3</span>
+            <h3>Hear the Magic</h3>
+            <p>Music, ambience, and effects play automatically, perfectly synced to your narrative.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Use Cases */}
+      <section className="landing-usecases">
+        <h2 className="landing-section-title">Built For</h2>
+        <div className="landing-usecase-grid">
+          <div className="landing-usecase">
+            <h3>Dungeon Masters</h3>
+            <p>Build a custom soundboard or let AI score your campaign in real time.</p>
+          </div>
+          <div className="landing-usecase">
+            <h3>Storytellers &amp; Authors</h3>
+            <p>Write and narrate your stories with a cinematic audio backdrop.</p>
+          </div>
+          <div className="landing-usecase">
+            <h3>Streamers &amp; Podcasters</h3>
+            <p>Add reactive soundscapes to your live content with zero setup.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="landing-cta">
+        <h2>Ready to bring your stories to life?</h2>
+        <Link href="/dashboard" className="landing-btn-primary">
+          Launch Effexiq — Free
+        </Link>
+      </section>
+
+      <footer className="landing-footer">
+        <span>&copy; {new Date().getFullYear()} Effexiq</span>
+      </footer>
+    </div>
+  );
 }

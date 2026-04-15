@@ -12,6 +12,32 @@ export default function AutoDetectSection() {
           Effexiq will listen and automatically play contextual sounds and music.
         </p>
 
+        {/* Mode Selector */}
+        <div className="mode-selector">
+          <h3>Mode</h3>
+          <div className="mode-buttons">
+            {[
+              { mode: 'auto', label: 'Auto' },
+              { mode: 'dnd', label: 'D&D' },
+              { mode: 'horror', label: 'Horror' },
+              { mode: 'bedtime', label: 'Bedtime' },
+              { mode: 'fairytale', label: 'Fairytale' },
+              { mode: 'christmas', label: 'Christmas' },
+              { mode: 'halloween', label: 'Halloween' },
+              { mode: 'creator', label: 'Creator' },
+              { mode: 'sing', label: 'Sing' },
+            ].map(({ mode, label }) => (
+              <button
+                key={mode}
+                className={`mode-btn${mode === 'auto' ? ' active' : ''}`}
+                data-mode={mode}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Scene Presets Bar — populated by Effexiq engine */}
         <div className="scene-presets-bar" id="scenePresetsBar" />
 

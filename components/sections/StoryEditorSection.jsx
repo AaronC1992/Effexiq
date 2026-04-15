@@ -54,6 +54,9 @@ export default function StoryEditorSection() {
 
             <div className="wyo-actions">
               <button id="scPlayBtn" className="btn-start">Play Story</button>
+              <button id="scReadAloudBtn" className="btn-read-aloud" style={{ marginTop: 8 }}>
+                Read Aloud (AI Voice)
+              </button>
               <button id="scSoundscapeBtn" className="btn-secondary" style={{ marginTop: 8 }}>
                 Generate Soundscape
               </button>

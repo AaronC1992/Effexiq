@@ -11,14 +11,14 @@ export const metadata = {
     title: 'Effexiq - Intelligent Audio Companion',
     description:
       'AI-powered ambient sound designer that listens to conversations and automatically plays contextually-appropriate music and sound effects',
-    images: [{ url: 'https://effexiq.vercel.app/icon.svg' }],
+    images: [{ url: 'https://effexiq.vercel.app/og-image.png', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Effexiq - Intelligent Audio Companion',
     description:
       'AI-powered ambient sound designer that listens to conversations and automatically plays contextually-appropriate music and sound effects',
-    images: ['https://effexiq.vercel.app/icon.svg'],
+    images: ['https://effexiq.vercel.app/og-image.png'],
   },
 };
 
