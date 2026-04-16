@@ -5,7 +5,7 @@
  */
 
 import { NextResponse } from 'next/server';
-import { generateToken } from '../../../lib/api-auth.js';
+import { generateToken } from '../../../../lib/api-auth.js';
 
 export async function GET() {
   try {
