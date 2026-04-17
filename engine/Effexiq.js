@@ -5504,12 +5504,14 @@ class Effexiq {
         
         // Handle Music (mood-adaptive: prefer mood-matching tracks)
         if (this.musicEnabled && decisions.music && decisions.music.id) {
-            if (!this.soundCatalog.find(s => s.id === decisions.music.id)) {
-                console.warn(`[Effexiq] AI returned unknown music ID: ${decisions.music.id} — skipping`);
-            } else {
-                this.bumpStat('transitions');
-                await this.updateMusicById(decisions.music);
-            }
+            // NOTE: do NOT pre-gate on an exact soundCatalog.id match here.
+            // updateMusicById has its own fallbacks (filename-only suffix match
+            // and semanticSearchCatalog) that resolve descriptive AI queries
+            // like "sing ballad acoustic guitar" to real catalog entries.
+            // The old pre-check was short-circuiting those fallbacks and
+            // caused sing mode to never play any backing music.
+            this.bumpStat('transitions');
+            await this.updateMusicById(decisions.music);
         } else if (this.musicEnabled && this.moodHistory.length >= 3) {
             // Mood-adaptive: if mood has shifted significantly but AI didn't suggest music, pick one
             this.maybeAdaptMusicToMood();
