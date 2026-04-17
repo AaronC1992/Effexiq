@@ -67,6 +67,16 @@ export default function AutoDetectSection() {
           <p className="info-text" style={{ fontSize: '0.78rem', marginTop: 0 }}>
             Plays a crowd applause cue after ~6s of silence following a sustained song.
           </p>
+          <div className="toggle-row" style={{ marginTop: 8 }}>
+            <label htmlFor="singStageFeelToggle">Live stage feel</label>
+            <label className="switch">
+              <input type="checkbox" id="singStageFeelToggle" />
+              <span className="slider" />
+            </label>
+          </div>
+          <p className="info-text" style={{ fontSize: '0.78rem', marginTop: 0 }}>
+            Occasional quiet crowd cheers/whistles mid-song, like a live gig. Off = silent audience.
+          </p>
         </section>
 
         <div className="context-input-area">

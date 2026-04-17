@@ -1,5 +1,5 @@
 // Effexiq Service Worker
-const CACHE_NAME = 'Effexiq-v18'; // Bumped: sing-mode karaoke backing library (18 tracks)
+const CACHE_NAME = 'Effexiq-v19'; // Bumped: sing-mode live stage feel toggle
 
 // Note: Sound files are served via /r2-audio/* proxy (Cloudflare R2) and NOT cached here
 // because they are:

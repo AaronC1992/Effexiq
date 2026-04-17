@@ -390,6 +390,10 @@ class Effexiq {
         // Singer-focused: backing music only, no SFX, BPM detection, applause on song end.
         this.singState = 'idle';              // 'idle' | 'singing' | 'between_songs'
         this.singApplauseEnabled = JSON.parse(localStorage.getItem('Effexiq_sing_applause') ?? 'true');
+        // Live stage feel: occasional low-volume crowd cheers/whistles during sustained singing.
+        // Off by default so quiet rehearsal is the baseline; users opt in when they want hype.
+        this.singStageFeelEnabled = JSON.parse(localStorage.getItem('Effexiq_sing_stage_feel') ?? 'false');
+        this._singLastStageCueTs = 0;
         this.detectedBPM = null;              // rolling estimate while singing
         this._singOnsetTimes = [];            // timestamps of recent vocal-energy onsets (for BPM)
         this._singAboveThreshold = false;     // currently above vocal-onset threshold?
@@ -3192,6 +3196,19 @@ class Effexiq {
                 localStorage.setItem('Effexiq_sing_applause', JSON.stringify(this.singApplauseEnabled));
             });
         }
+
+        // Sing Mode live stage feel toggle (occasional crowd cheers/whistles mid-song)
+        const singStageFeelToggle = document.getElementById('singStageFeelToggle');
+        if (singStageFeelToggle) {
+            singStageFeelToggle.checked = !!this.singStageFeelEnabled;
+            singStageFeelToggle.addEventListener('change', (e) => {
+                this.singStageFeelEnabled = e.target.checked;
+                localStorage.setItem('Effexiq_sing_stage_feel', JSON.stringify(this.singStageFeelEnabled));
+                // Reset cue timer so toggling on doesn't immediately fire.
+                this._singLastStageCueTs = Date.now();
+                this.updateStatus(`Live stage feel ${this.singStageFeelEnabled ? 'enabled' : 'disabled'}`);
+            });
+        }
         
         // Trigger keyword cooldown slider
         const cooldownSlider = document.getElementById('keywordCooldown');
@@ -4205,6 +4222,16 @@ class Effexiq {
                 this.logActivity?.('Sing: vocals detected — backing music engaged', 'ai');
             }
             this._singSilenceSince = 0;
+            // --- Live stage feel: periodic low-volume crowd cheer/whistle ---
+            // Only while sustained singing, and at most every 30-50s so it feels
+            // organic (like a real audience reacting to moments, not constantly).
+            if (this.singStageFeelEnabled && this._singSungSince && (now - this._singSungSince) > 15000) {
+                const sinceLast = now - (this._singLastStageCueTs || 0);
+                if (sinceLast > 32000 && Math.random() < 0.015) { // ~every 30-60s on average
+                    this._singLastStageCueTs = now;
+                    this._playSingStageCue();
+                }
+            }
         } else {
             if (this.singState === 'singing') {
                 if (!this._singSilenceSince) this._singSilenceSince = now;
@@ -4284,15 +4311,48 @@ class Effexiq {
         }
     }
 
+    /**
+     * Live stage feel cue — a short, quiet crowd reaction (whistle, cheer, murmur)
+     * played mid-song while the singer is still going. Pulled from the sing-mode
+     * crowd SFX set, at low volume so it doesn't overpower vocals or backing.
+     * Bypasses the sing-mode SFX gate by calling playAudio directly.
+     */
+    _playSingStageCue() {
+        if (!this.soundCatalog?.length) return;
+        // Prefer mid-song-friendly whistles / small cheers over full applause,
+        // so the song doesn't feel like it ended.
+        const midCueRe = /whistle|cheer|woo|shout|yeah/;
+        const applauseRe = /applause|clap/;
+        const candidates = this.soundCatalog.filter(s => {
+            const id = (s.id || s.name || '').toLowerCase();
+            return s.type === 'sfx' && (midCueRe.test(id) || applauseRe.test(id));
+        });
+        if (!candidates.length) return;
+        // Weight: mid-cues strongly preferred; applause only as a rare fallback.
+        const mids = candidates.filter(s => midCueRe.test((s.id || s.name || '').toLowerCase()));
+        const pool = mids.length ? mids : candidates;
+        const pick = pool[Math.floor(Math.random() * pool.length)];
+        try {
+            this.playAudio(encodeURI(pick.src), {
+                type: 'sfx',
+                name: pick.id,
+                volume: 0.35 * this.sfxLevel, // quiet — sits under the vocals
+                loop: false,
+                id: pick.id
+            });
+            this.logActivity?.(`Sing stage feel: ${pick.name || pick.id}`, 'ai');
+        } catch (_) {}
+    }
+
     _resetSingState() {
         this.singState = 'idle';
         this.detectedBPM = null;
         this._singOnsetTimes = [];
-        this._singAboveThreshold = false;
-        this._singLastOnsetTs = 0;
+        this._singAboveThreshold = false;        this._singLastOnsetTs = 0;
         this._singSungSince = 0;
         this._singSilenceSince = 0;
         this._singEnergyAvg = 0;
+        this._singLastStageCueTs = 0;
         const el = document.getElementById('singBpmReadout');
         if (el) el.textContent = '— BPM';
     }
