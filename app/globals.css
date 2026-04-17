@@ -4041,3 +4041,69 @@ kbd {
     cursor: not-allowed;
     transform: none;
 }
+
+
+/* ================================================================
+   Extras: captions feed, colorblind visualizer, debug perf panel
+   ================================================================ */
+#captionsPanel {
+    max-width: 640px;
+    margin: 8px 0;
+    padding: 8px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    background: rgba(10, 12, 18, 0.55);
+}
+#captionsPanel h4 {
+    font-size: 0.85rem;
+    margin: 0 0 6px 0;
+    opacity: 0.75;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+#captionsFeed {
+    max-height: 180px;
+    overflow-y: auto;
+    font-size: 0.92rem;
+    line-height: 1.35;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.caption-line {
+    padding: 3px 4px;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+    word-break: break-word;
+}
+.caption-line .caption-ts {
+    opacity: 0.45;
+    margin-right: 6px;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Colorblind-safe visualizer variant (deuteranopia-friendly grayscale + shape). */
+body.cb-visualizer #visualizerCanvas {
+    filter: grayscale(100%) contrast(1.15);
+}
+body.cb-visualizer .visualizer-bar,
+body.cb-visualizer .visualizer-bar-alt {
+    background: linear-gradient(180deg, #f0f0f0 0%, #707070 100%) !important;
+}
+
+/* Live perf panel (enabled via ?debug=1) */
+#perfPanel {
+    position: fixed;
+    right: 12px;
+    bottom: 12px;
+    background: rgba(0, 0, 0, 0.75);
+    color: #cfd7ff;
+    font: 11px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+    padding: 8px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    z-index: 99999;
+    pointer-events: none;
+    white-space: pre;
+}
+#perfPanel strong {
+    color: #aec4ff;
+    font-weight: 600;
+}

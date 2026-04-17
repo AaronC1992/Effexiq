@@ -1,5 +1,6 @@
 import './globals.css';
 import GlobalAudioKill from '../components/GlobalAudioKill';
+import DebugPerfPanel from '../components/DebugPerfPanel';
 
 export const metadata = {
   title: 'Effexiq - Intelligent Audio Companion',
@@ -40,6 +41,8 @@ export default function RootLayout({ children }) {
       <body>
         {/* Global zombie-audio killer — runs on every route, including landing. */}
         <GlobalAudioKill />
+        {/* Debug perf panel — only activates with ?debug=1 in the URL. */}
+        <DebugPerfPanel />
         {children}
         {/* Toast notification container — rendered at body level so toasts layer over modals */}
         <div id="toastContainer" className="toast-container" aria-live="polite" />

@@ -270,9 +270,23 @@ export async function POST(request) {
     return res;
   } catch (err) {
     console.error('[/api/analyze]', err);
-    if (err.status === 429) {
-      return NextResponse.json({ error: 'Rate limited by OpenAI' }, { status: 429 });
-    }
-    return NextResponse.json({ error: 'Analysis failed' }, { status: 500 });
+    // Graceful degrade: instead of a hard 500, return a minimal
+    // "keep current" JSON so the client-side rule-based fallback
+    // has a clean decision to merge with (no hallucinated SFX).
+    const fallback = {
+      scene: null,
+      mood: { primary: 'neutral', intensity: 0.4 },
+      confidence: 0.2,
+      worldState: {},
+      music: { id: null, action: 'play_or_continue', volume: 0.5 },
+      sfx: [],
+      _fallback: true,
+      _reason: err?.status === 429 ? 'openai_rate_limit' : 'openai_error',
+    };
+    const status = err?.status === 429 ? 429 : 200; // 200 lets client merge with ruleBased
+    const res = NextResponse.json(fallback, { status });
+    res.headers.set('X-RateLimit-Remaining', String(remaining));
+    res.headers.set('X-Fallback', fallback._reason);
+    return res;
   }
 }

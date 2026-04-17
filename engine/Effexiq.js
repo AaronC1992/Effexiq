@@ -12,6 +12,15 @@ import { initAccessibility, announceToScreenReader } from '../lib/modules/access
 import { buildTriggerMap, ruleBasedDecision, tfidfMatch } from '../lib/modules/trigger-system.js';
 import { computeNormalizationGain as computeNormGain, calculateVolume as calcVolume, getSfxBucket as sfxBucket, getDuckParams as duckParamsCalc, shuffleArray as shuffle } from '../lib/modules/sound-engine.js';
 import { MODE_CONTEXTS, MODE_RULES, MODE_STINGERS, MODE_PRELOAD_SETS, GENERIC_PRELOAD_SET } from '../lib/modules/ai-director.js';
+import { applyGainToVolume as applyLoudnessGain, primeReplayGain } from '../lib/modules/loudness.js';
+import {
+    installKeyboardShortcuts, uninstallKeyboardShortcuts,
+    logEvent as logClientEvent, downloadEventLogCSV,
+    exportPreset, downloadPreset, importPreset,
+    appendCaption, vibrateStinger, applyColorblindPreference,
+    applyPreloadNetworkBudget, scheduleBedtimeFadeOut, cancelBedtimeFadeOut,
+    obsSceneToMode,
+} from '../lib/modules/effexiq-extras.js';
 
 // Expose CONFIG globally for modules that read window.CONFIG (e.g., api.js debugLog)
 try { window.CONFIG = CONFIG; } catch (_) {}
@@ -424,7 +433,7 @@ class Effexiq {
 
         // --- Persistent world state; updated from AI responses and sent back as context.
         this._worldState = { location: null, weather: null, timeOfDay: null };
-
+        this._reverbPreset = 'room';
         // --- Creator / live-streamer mode: shorter cooldowns, slightly lower confidence gate.
         this.creatorMode = JSON.parse(localStorage.getItem('Effexiq_creator_mode') ?? 'false');
 
@@ -510,6 +519,11 @@ class Effexiq {
         this._startPauseResumeWatcher();
         // Restore previous session's ambient scene bed (soft fade-in)
         setTimeout(() => this._restorePreviousSessionAmbient().catch(e => debugLog('Session ambient restore skipped:', e.message)), 4000);
+
+        // Keyboard shortcuts (Space/M/S/1–9)
+        try { installKeyboardShortcuts(this); } catch (e) { debugLog('shortcuts install failed:', e.message); }
+        // Apply saved colorblind-visualizer preference
+        try { applyColorblindPreference(); } catch {}
     }
     
     getBackendUrl() {
@@ -1864,6 +1878,16 @@ class Effexiq {
             const v = aiWorldState[k];
             if (v && typeof v === 'string' && v !== 'null') this._worldState[k] = v;
         }
+        // Map location → reverb preset (cheap atmosphere win).
+        const loc = (this._worldState.location || '').toLowerCase();
+        let preset = 'room';
+        if (/(cave|cavern|dungeon|mine|tunnel|crypt|tomb|sewer)/.test(loc)) preset = 'cave';
+        else if (/(cathedral|chapel|church|temple|hall|throne)/.test(loc)) preset = 'cathedral';
+        else if (/(forest|field|outdoor|mountain|meadow|desert|plain|ocean|beach|battle|street|rain|storm)/.test(loc)) preset = 'outdoor';
+        else if (/(tavern|cottage|house|room|bedroom|library|study|cabin|kitchen)/.test(loc)) preset = 'room';
+        if (preset !== this._reverbPreset) {
+            try { this.setReverbPreset(preset); } catch {}
+        }
     }
 
     // Fade out a tracked story SFX entry over fadeMs
@@ -2681,8 +2705,11 @@ class Effexiq {
             'door_knock', /* 'owl_hoot' removed (404) */ 'crickets', 'monster_roar',
             'magic_whoosh', 'heartbeat'
         ];
+
+        // Honour a smaller preload budget on slow / save-data connections.
+        const budgetedIds = applyPreloadNetworkBudget(topSoundIds);
         
-        topSoundIds.forEach(id => {
+        budgetedIds.forEach(id => {
             const sound = this.soundCatalog.find(s => s.id === id);
             if (sound) {
                 const link = document.createElement('link');
@@ -3326,6 +3353,25 @@ class Effexiq {
                 // fires fresh rather than immediately after the grace window)
                 this.lastAnalysisTime = Date.now();
                 this.stopAllAudio();
+            });
+        }
+
+        // Undo last music change
+        const undoMusicBtn = document.getElementById('undoMusicBtn');
+        if (undoMusicBtn) {
+            undoMusicBtn.addEventListener('click', () => {
+                const ok = this.undoLastMusic();
+                if (!ok) this.updateStatus?.('Nothing to undo.');
+            });
+        }
+
+        // Bedtime auto fade-out timer
+        const bedtimeSelect = document.getElementById('bedtimeTimerSelect');
+        if (bedtimeSelect) {
+            bedtimeSelect.addEventListener('change', (e) => {
+                const mins = Number(e.target.value) || 0;
+                if (mins > 0) this.setBedtimeTimer(mins);
+                else this.clearBedtimeTimer();
             });
         }
 
@@ -4077,23 +4123,47 @@ class Effexiq {
         this.sfxCompressor.attack.value = 0.01;
         this.sfxCompressor.release.value = 0.2;
         this.sfxBusGain = this.audioContext.createGain();
+
+        // Brickwall limiter on the master bus — prevents clipping when
+        // music + bed + multiple SFX spike at once.
+        this.masterLimiter = this.audioContext.createDynamicsCompressor();
+        this.masterLimiter.threshold.value = -1;    // dBFS
+        this.masterLimiter.knee.value = 0;          // hard-knee (brickwall)
+        this.masterLimiter.ratio.value = 20;        // ≥10 acts as a limiter
+        this.masterLimiter.attack.value = 0.001;
+        this.masterLimiter.release.value = 0.1;
+
+        // Reverb send bus: a simple synthetic impulse response so SFX can
+        // be routed with a small wet mix (cave/cathedral/outdoor feel).
+        this.reverbConvolver = this.audioContext.createConvolver();
+        this.reverbConvolver.buffer = this._buildReverbIR(1.8, 2.5); // default: medium room
+        this.reverbSendGain = this.audioContext.createGain();
+        this.reverbSendGain.gain.value = 0; // default dry (wet added per-SFX)
+        this.reverbReturnGain = this.audioContext.createGain();
+        this.reverbReturnGain.gain.value = 0.6;
+        this.reverbSendGain.connect(this.reverbConvolver);
+        this.reverbConvolver.connect(this.reverbReturnGain);
         
         // Create analyser for visualizer
         this.analyser = this.audioContext.createAnalyser();
         this.analyser.fftSize = 256;
         
         // Audio graph:
-        // music -> musicGain -> master -> analyser -> destination
-        // sfx (per-source) -> panner -> gain -> sfxCompressor -> sfxBusGain -> master
+        // music -> musicGain -> master -> limiter -> analyser -> destination
+        // sfx (per-source) -> panner -> gain -> [reverbSend branch] -> sfxCompressor -> sfxBusGain -> master
         this.musicGainNode.connect(this.masterGainNode);
         this.sfxCompressor.connect(this.sfxBusGain);
         this.sfxBusGain.connect(this.masterGainNode);
-        this.masterGainNode.connect(this.analyser);
+        // Reverb return lands on the master bus (post sfxBus so it adds tail).
+        this.reverbReturnGain.connect(this.masterGainNode);
+        this.masterGainNode.connect(this.masterLimiter);
+        this.masterLimiter.connect(this.analyser);
         this.analyser.connect(this.audioContext.destination);
 
         // Session recording destination — captures all audio output
         this.recordingDest = this.audioContext.createMediaStreamDestination();
-        this.masterGainNode.connect(this.recordingDest);
+        // Tap the limiter so recordings match what the user actually heard.
+        this.masterLimiter.connect(this.recordingDest);
         this._sessionRecorder = null;
         this._sessionChunks = [];
 
@@ -4105,6 +4175,66 @@ class Effexiq {
 
         // Global audio unlock for mobile: resume AudioContext on first user gesture
         this._setupMobileAudioUnlock();
+    }
+
+    /** Tiny deterministic string hash → unsigned 32-bit int. */
+    _hashStr(s) {
+        let h = 2166136261;
+        for (let i = 0; i < s.length; i++) {
+            h ^= s.charCodeAt(i);
+            h = Math.imul(h, 16777619);
+        }
+        return h >>> 0;
+    }
+
+    /**
+     * Build a cheap synthetic impulse response for the reverb send bus.
+     * duration = seconds of tail, decay = exponential decay rate.
+     * Good defaults per scene type:
+     *   room:      (1.2, 3.0)
+     *   cave:      (3.0, 1.8)
+     *   cathedral: (5.0, 1.2)
+     *   outdoor:   (0.6, 4.0)  — mostly dry slapback
+     */
+    _buildReverbIR(duration = 1.8, decay = 2.5) {
+        try {
+            const ctx = this.audioContext;
+            const rate = ctx.sampleRate;
+            const length = Math.max(1, Math.floor(rate * duration));
+            const ir = ctx.createBuffer(2, length, rate);
+            for (let ch = 0; ch < 2; ch++) {
+                const data = ir.getChannelData(ch);
+                for (let i = 0; i < length; i++) {
+                    // white-noise * exponential decay
+                    data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, decay);
+                }
+            }
+            return ir;
+        } catch (e) {
+            console.warn('[reverb] IR build failed:', e);
+            return null;
+        }
+    }
+
+    /** Swap the reverb IR for a given scene preset. */
+    setReverbPreset(preset = 'room') {
+        if (!this.reverbConvolver) return;
+        const presets = {
+            dry:       { d: 0.2, k: 5.0, send: 0 },
+            room:      { d: 1.2, k: 3.0, send: 0.08 },
+            cave:      { d: 3.0, k: 1.8, send: 0.14 },
+            cathedral: { d: 5.0, k: 1.2, send: 0.18 },
+            outdoor:   { d: 0.6, k: 4.0, send: 0.04 },
+        };
+        const p = presets[preset] || presets.room;
+        const ir = this._buildReverbIR(p.d, p.k);
+        if (ir) this.reverbConvolver.buffer = ir;
+        if (this.reverbSendGain) {
+            const t = this.audioContext.currentTime;
+            this.reverbSendGain.gain.cancelScheduledValues(t);
+            this.reverbSendGain.gain.linearRampToValueAtTime(p.send, t + 0.4);
+        }
+        this._reverbPreset = preset;
     }
 
     _setupMobileAudioUnlock() {
@@ -4502,6 +4632,9 @@ class Effexiq {
                 this._transcriptTimes.push(Date.now());
             }
 
+            // Mirror to captions feed (no-op if #captionsFeed isn't in the DOM).
+            try { appendCaption(trimmed); } catch {}
+
             this.currentInterim = '';
             this.updateTranscriptDisplay();
             // Advance story highlighting on finalized phrases
@@ -4835,10 +4968,29 @@ class Effexiq {
                 if (!Number.isFinite(volume)) volume = 0.7;
                 const effective = Math.max(0, Math.min(1, volume * this.sfxLevel));
                 gainNode.gain.value = effective;
-                
-                // Connect: source → gain → sfxBusGain → master chain
-                source.connect(gainNode);
-                gainNode.connect(this.sfxBusGain);
+
+                // Stereo placement: hash-based pan so repeated SFX don't
+                // stack dead-center. Range ±0.3 keeps things natural.
+                let panner = null;
+                if (typeof this.audioContext.createStereoPanner === 'function') {
+                    panner = this.audioContext.createStereoPanner();
+                    const h = this._hashStr(String(url));
+                    panner.pan.value = (((h % 21) - 10) / 10) * 0.3; // ±0.3
+                }
+
+                // Connect: source → [panner?] → gain → sfxCompressor → sfxBusGain → master chain
+                // Also branch a quiet send into the reverb bus for scene flavour.
+                if (panner) {
+                    source.connect(panner);
+                    panner.connect(gainNode);
+                } else {
+                    source.connect(gainNode);
+                }
+                gainNode.connect(this.sfxCompressor);
+                if (this.reverbSendGain) {
+                    // small parallel send — the send bus's own gain controls wetness.
+                    try { gainNode.connect(this.reverbSendGain); } catch {}
+                }
                 
                 // Track as active sound
                 const id = 'instant_' + Date.now();
@@ -4852,8 +5004,9 @@ class Effexiq {
                 // Clean up on end (only fires for non-looping sources)
                 source.onended = () => {
                     this.activeSounds.delete(id);
-                    source.disconnect();
-                    gainNode.disconnect();
+                    try { source.disconnect(); } catch {}
+                    try { gainNode.disconnect(); } catch {}
+                    if (panner) { try { panner.disconnect(); } catch {} }
                 };
                 
                 // Start playback
@@ -6211,9 +6364,13 @@ class Effexiq {
         const spatialPitch = options.spatial === 'far' ? pitchVariation * 0.93 : pitchVariation;
         
         const sfxSrcs = this.buildSrcCandidates(url);
+        // Loudness normalization: if we've analysed this asset before,
+        // apply the cached replay gain. First-time plays are untouched
+        // (gain=1.0) and prime the cache for next time.
+        const normalizedVol = applyLoudnessGain(spatialEffective, options.id || options.name);
         const howl = new Howl({
             src: sfxSrcs,
-            volume: spatialEffective,
+            volume: normalizedVol,
             loop: !!options.loop,
             rate: spatialPitch,
             stereo: az,
@@ -6230,6 +6387,8 @@ class Effexiq {
                         this.addToBufferCache(url, sound._node.bufferSource.buffer);
                     }
                 }
+                // Prime the loudness cache for future plays of this id.
+                try { primeReplayGain(options.id || options.name, url, this.audioContext); } catch {}
             },
             onloaderror: (id, err) => {
                 // Only log errors in debug mode to avoid console spam
@@ -6325,6 +6484,18 @@ class Effexiq {
 
         newHowl.play();
         newHowl.fade(0, targetVol, crossfadeMs);
+
+        // Snapshot previous music for undo-last-music.
+        if (this.currentMusic && this.currentMusic.name && this.currentMusic.name !== options.name) {
+            this._previousMusic = {
+                name: this.currentMusic.name,
+                id: this.currentMusic.id,
+                query: this.currentMusic.query,
+                type: this.currentMusic.type,
+                volume: this.currentMusic.volume,
+                swappedAt: Date.now(),
+            };
+        }
 
         // Store reference with metadata
         this.currentMusic = { _howl: newHowl, name: options.name, type: options.type, volume: targetVol, id: options.id || '', query: options.name };
@@ -7592,7 +7763,11 @@ class Effexiq {
             const stingerSet = this.getModeStingers();
             const choice = stingerSet[Math.floor(Math.random()*stingerSet.length)];
             const url = await this.searchAudio(choice, 'sfx');
-            if (url) { await this.playAudio(url, { type:'sfx', name: choice, volume: this.calculateVolume(0.5), loop:false }); }
+            if (url) {
+                await this.playAudio(url, { type:'sfx', name: choice, volume: this.calculateVolume(0.5), loop:false });
+                // Creator-mode mobile haptic so phone-as-screen users get a kick.
+                try { this._maybeVibrateStinger(); } catch {}
+            }
             this.scheduleNextStinger();
         }, interval);
     }
@@ -9950,6 +10125,69 @@ class Effexiq {
         }
     }
 
+    // ===== PUBLIC: extras API (wired to effexiq-extras.js) =====
+
+    /** Revert the most recent music swap (no-op if none remembered). */
+    undoLastMusic() {
+        const prev = this._previousMusic;
+        if (!prev || !prev.name) return false;
+        // Clear change cooldown so the pick lands immediately.
+        this.lastMusicChange = 0;
+        this._previousMusic = null;
+        try {
+            // Use whatever the caller's normal path is for queue-by-name.
+            if (typeof this.queueMusicByName === 'function') {
+                this.queueMusicByName(prev.name);
+            } else if (typeof this.searchAndPlayMusic === 'function') {
+                this.searchAndPlayMusic(prev.query || prev.name);
+            } else if (typeof this.playMusicByQuery === 'function') {
+                this.playMusicByQuery(prev.query || prev.name);
+            }
+            logClientEvent('music:undo', null, { to: prev.name });
+            return true;
+        } catch (e) {
+            console.warn('[undoLastMusic]', e);
+            return false;
+        }
+    }
+
+    setBedtimeTimer(minutes) {
+        scheduleBedtimeFadeOut(this, Number(minutes) || 0);
+    }
+
+    clearBedtimeTimer() { cancelBedtimeFadeOut(); }
+
+    exportPreset() { return exportPreset(this); }
+    downloadPreset(filename) { return downloadPreset(this, filename); }
+    importPreset(json) { return importPreset(this, json); }
+
+    downloadEventLog(filename) { return downloadEventLogCSV(filename); }
+
+    handleObsSceneChange(sceneName) {
+        const mode = obsSceneToMode(sceneName);
+        if (!mode) return false;
+        try {
+            if (typeof this.setMode === 'function') this.setMode(mode);
+            else this.currentMode = mode;
+            logClientEvent('obs:sceneChange', null, { sceneName, mode });
+            return true;
+        } catch (e) {
+            console.warn('[obs scene change]', e);
+            return false;
+        }
+    }
+
+    /** Fire a safe stinger haptic in creator mode when a mobile device is the visible surface. */
+    _maybeVibrateStinger() {
+        if (!this.creatorMode) return;
+        try {
+            const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent || '');
+            if (!isMobile) return;
+            vibrateStinger([40, 30, 60]);
+        } catch {}
+    }
+
+
     // ===== CLEANUP =====
     destroy() {
         try {
@@ -9970,6 +10208,10 @@ class Effexiq {
             // Cancel animation frames
             if (this.visualizerAnimationId) cancelAnimationFrame(this.visualizerAnimationId);
             if (this._micSampleRAF) cancelAnimationFrame(this._micSampleRAF);
+
+            // Uninstall keyboard shortcuts + cancel any pending bedtime fade
+            try { uninstallKeyboardShortcuts(); } catch {}
+            try { cancelBedtimeFadeOut(); } catch {}
 
             // Stop all Howler sounds
             if (typeof Howler !== 'undefined') {

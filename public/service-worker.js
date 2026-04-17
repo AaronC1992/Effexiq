@@ -1,5 +1,5 @@
 // Effexiq Service Worker
-const CACHE_NAME = 'Effexiq-v21'; // Bumped: global audio-kill + SW skipWaiting/claim
+const CACHE_NAME = 'Effexiq-v22'; // Bumped: audio-mix hardening + UX batch
 
 // Note: Sound files are served via /r2-audio/* proxy (Cloudflare R2) and NOT cached here
 // because they are:

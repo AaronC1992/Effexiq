@@ -130,6 +130,29 @@ export default function AutoDetectSection() {
           <button id="startBtn" className="btn-start">Start Listening</button>
           <button id="stopBtn" className="btn-stop hidden">Stop Listening</button>
           <button id="stopAudioBtn" className="btn-stop-audio">Stop Audio</button>
+          <button id="undoMusicBtn" className="btn-secondary" title="Revert the most recent music change">Undo Music</button>
+        </section>
+
+        {/* Bedtime auto fade-out */}
+        <section className="bedtime-timer-panel" style={{ margin: '12px 0' }}>
+          <label htmlFor="bedtimeTimerSelect" style={{ marginRight: 8 }}>Bedtime fade-out:</label>
+          <select id="bedtimeTimerSelect" defaultValue="0">
+            <option value="0">Off</option>
+            <option value="5">5 min</option>
+            <option value="15">15 min</option>
+            <option value="30">30 min</option>
+            <option value="60">60 min</option>
+            <option value="90">90 min</option>
+          </select>
+          <span className="info-text" style={{ marginLeft: 8 }}>
+            Master fades over the final 60s, then stops all audio.
+          </span>
+        </section>
+
+        {/* Captions feed — mirrored from the microphone transcript */}
+        <section id="captionsPanel">
+          <h4>Captions</h4>
+          <div id="captionsFeed" />
         </section>
 
         {/* Session Recording (Audio Export) */}
