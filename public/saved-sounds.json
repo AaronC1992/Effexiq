@@ -12010,6 +12010,2001 @@
       ],
       "loop": true,
       "bpm": 150
+    },
+    {
+      "type": "music",
+      "name": "sing ballad piano moonlight",
+      "file": "Saved sounds/sing-ballad-piano-moonlight.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "slow",
+        "piano",
+        "moonlight",
+        "night",
+        "bpm-66",
+        "tempo-slow",
+        "emotional",
+        "melancholy",
+        "minor"
+      ],
+      "loop": true,
+      "bpm": 66
+    },
+    {
+      "type": "music",
+      "name": "sing ballad piano rubato",
+      "file": "Saved sounds/sing-ballad-piano-rubato.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "piano",
+        "rubato",
+        "classical",
+        "bpm-64",
+        "tempo-slow",
+        "expressive",
+        "major"
+      ],
+      "loop": true,
+      "bpm": 64
+    },
+    {
+      "type": "music",
+      "name": "sing ballad piano emotional build",
+      "file": "Saved sounds/sing-ballad-piano-emotional-build.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "piano",
+        "strings",
+        "build",
+        "bpm-74",
+        "tempo-slow",
+        "emotional",
+        "power-ballad"
+      ],
+      "loop": true,
+      "bpm": 74
+    },
+    {
+      "type": "music",
+      "name": "sing ballad piano gospel minor",
+      "file": "Saved sounds/sing-ballad-piano-gospel-minor.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "piano",
+        "gospel",
+        "soulful",
+        "bpm-70",
+        "tempo-slow",
+        "minor",
+        "spiritual"
+      ],
+      "loop": true,
+      "bpm": 70
+    },
+    {
+      "type": "music",
+      "name": "sing ballad acoustic fingerstyle",
+      "file": "Saved sounds/sing-ballad-acoustic-fingerstyle.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "acoustic",
+        "guitar",
+        "fingerstyle",
+        "nylon",
+        "classical",
+        "bpm-68",
+        "tempo-slow",
+        "intimate"
+      ],
+      "loop": true,
+      "bpm": 68
+    },
+    {
+      "type": "music",
+      "name": "sing ballad acoustic 12 string",
+      "file": "Saved sounds/sing-ballad-acoustic-12-string.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "acoustic",
+        "guitar",
+        "12-string",
+        "folk",
+        "bpm-74",
+        "tempo-slow",
+        "warm",
+        "nostalgic"
+      ],
+      "loop": true,
+      "bpm": 74
+    },
+    {
+      "type": "music",
+      "name": "sing ballad acoustic latin nylon",
+      "file": "Saved sounds/sing-ballad-acoustic-latin-nylon.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "acoustic",
+        "guitar",
+        "nylon",
+        "latin",
+        "bolero",
+        "spanish",
+        "bpm-72",
+        "tempo-slow",
+        "romantic"
+      ],
+      "loop": true,
+      "bpm": 72
+    },
+    {
+      "type": "music",
+      "name": "sing ballad acoustic country slow",
+      "file": "Saved sounds/sing-ballad-acoustic-country-slow.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "acoustic",
+        "guitar",
+        "country",
+        "pedal-steel",
+        "bpm-72",
+        "tempo-slow",
+        "heartland"
+      ],
+      "loop": true,
+      "bpm": 72
+    },
+    {
+      "type": "music",
+      "name": "sing ballad strings orchestral lush",
+      "file": "Saved sounds/sing-ballad-strings-orchestral-lush.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "strings",
+        "orchestral",
+        "horns",
+        "cinematic",
+        "bpm-66",
+        "tempo-slow",
+        "lush",
+        "epic"
+      ],
+      "loop": true,
+      "bpm": 66
+    },
+    {
+      "type": "music",
+      "name": "sing ballad strings melancholy cello",
+      "file": "Saved sounds/sing-ballad-strings-melancholy-cello.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "strings",
+        "cello",
+        "melancholy",
+        "sad",
+        "bpm-62",
+        "tempo-slow",
+        "minor",
+        "film"
+      ],
+      "loop": true,
+      "bpm": 62
+    },
+    {
+      "type": "music",
+      "name": "sing ballad harp gentle",
+      "file": "Saved sounds/sing-ballad-harp-gentle.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "harp",
+        "ethereal",
+        "dreamy",
+        "gentle",
+        "bpm-70",
+        "tempo-slow",
+        "peaceful"
+      ],
+      "loop": true,
+      "bpm": 70
+    },
+    {
+      "type": "music",
+      "name": "sing ballad choir pad ambient",
+      "file": "Saved sounds/sing-ballad-choir-pad-ambient.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "choir",
+        "ambient",
+        "pad",
+        "spiritual",
+        "bpm-60",
+        "tempo-slow",
+        "ethereal"
+      ],
+      "loop": true,
+      "bpm": 60
+    },
+    {
+      "type": "music",
+      "name": "sing ballad electric guitar clean",
+      "file": "Saved sounds/sing-ballad-electric-guitar-clean.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "electric",
+        "guitar",
+        "clean",
+        "soft-rock",
+        "bpm-74",
+        "tempo-slow",
+        "80s"
+      ],
+      "loop": true,
+      "bpm": 74
+    },
+    {
+      "type": "music",
+      "name": "sing ballad rhodes dreamy",
+      "file": "Saved sounds/sing-ballad-rhodes-dreamy.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "rhodes",
+        "electric-piano",
+        "smooth",
+        "dreamy",
+        "bpm-68",
+        "tempo-slow",
+        "lounge"
+      ],
+      "loop": true,
+      "bpm": 68
+    },
+    {
+      "type": "music",
+      "name": "sing ballad organ church",
+      "file": "Saved sounds/sing-ballad-organ-church.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "organ",
+        "hammond",
+        "church",
+        "gospel",
+        "bpm-72",
+        "tempo-slow",
+        "spiritual"
+      ],
+      "loop": true,
+      "bpm": 72
+    },
+    {
+      "type": "music",
+      "name": "sing ballad synth pad ethereal",
+      "file": "Saved sounds/sing-ballad-synth-pad-ethereal.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "synth",
+        "pad",
+        "ambient",
+        "ethereal",
+        "bpm-64",
+        "tempo-slow",
+        "dreamy"
+      ],
+      "loop": true,
+      "bpm": 64
+    },
+    {
+      "type": "music",
+      "name": "sing ballad ukulele sweet",
+      "file": "Saved sounds/sing-ballad-ukulele-sweet.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "ukulele",
+        "sweet",
+        "charming",
+        "bpm-76",
+        "tempo-slow",
+        "tropical",
+        "happy"
+      ],
+      "loop": true,
+      "bpm": 76
+    },
+    {
+      "type": "music",
+      "name": "sing ballad lofi chill",
+      "file": "Saved sounds/sing-ballad-lofi-chill.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "lofi",
+        "chill",
+        "hip-hop",
+        "rhodes",
+        "bpm-72",
+        "tempo-slow",
+        "relaxing"
+      ],
+      "loop": true,
+      "bpm": 72
+    },
+    {
+      "type": "music",
+      "name": "sing ballad country pedal steel",
+      "file": "Saved sounds/sing-ballad-country-pedal-steel.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "country",
+        "pedal-steel",
+        "classic",
+        "bpm-70",
+        "tempo-slow",
+        "americana"
+      ],
+      "loop": true,
+      "bpm": 70
+    },
+    {
+      "type": "music",
+      "name": "sing ballad blues slow guitar",
+      "file": "Saved sounds/sing-ballad-blues-slow-guitar.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "blues",
+        "guitar",
+        "organ",
+        "12-8",
+        "bpm-68",
+        "tempo-slow",
+        "minor",
+        "smoky"
+      ],
+      "loop": true,
+      "bpm": 68
+    },
+    {
+      "type": "music",
+      "name": "sing ballad jazz trio slow",
+      "file": "Saved sounds/sing-ballad-jazz-trio-slow.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "jazz",
+        "piano",
+        "upright-bass",
+        "trio",
+        "torch",
+        "bpm-64",
+        "tempo-slow",
+        "smoky"
+      ],
+      "loop": true,
+      "bpm": 64
+    },
+    {
+      "type": "music",
+      "name": "sing ballad torch song smoky",
+      "file": "Saved sounds/sing-ballad-torch-song-smoky.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "torch-song",
+        "jazz",
+        "trumpet",
+        "smoky",
+        "bpm-62",
+        "tempo-slow",
+        "nightclub"
+      ],
+      "loop": true,
+      "bpm": 62
+    },
+    {
+      "type": "music",
+      "name": "sing ballad rnb slow jam",
+      "file": "Saved sounds/sing-ballad-rnb-slow-jam.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "rnb",
+        "slow-jam",
+        "rhodes",
+        "90s",
+        "bpm-70",
+        "tempo-slow",
+        "smooth",
+        "romantic"
+      ],
+      "loop": true,
+      "bpm": 70
+    },
+    {
+      "type": "music",
+      "name": "sing ballad celtic harp",
+      "file": "Saved sounds/sing-ballad-celtic-harp.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "celtic",
+        "harp",
+        "irish",
+        "pennywhistle",
+        "bpm-68",
+        "tempo-slow",
+        "mystical"
+      ],
+      "loop": true,
+      "bpm": 68
+    },
+    {
+      "type": "music",
+      "name": "sing ballad power rock slow",
+      "file": "Saved sounds/sing-ballad-power-rock-slow.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ballad",
+        "power-ballad",
+        "rock",
+        "arena",
+        "bpm-76",
+        "tempo-slow",
+        "80s",
+        "epic"
+      ],
+      "loop": true,
+      "bpm": 76
+    },
+    {
+      "type": "music",
+      "name": "sing mid pop acoustic radio",
+      "file": "Saved sounds/sing-mid-pop-acoustic-radio.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "pop",
+        "acoustic",
+        "radio",
+        "bpm-96",
+        "tempo-mid",
+        "modern",
+        "happy"
+      ],
+      "loop": true,
+      "bpm": 96
+    },
+    {
+      "type": "music",
+      "name": "sing mid pop synth dreamy",
+      "file": "Saved sounds/sing-mid-pop-synth-dreamy.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "pop",
+        "dream-pop",
+        "synth",
+        "indie",
+        "bpm-88",
+        "tempo-mid",
+        "dreamy"
+      ],
+      "loop": true,
+      "bpm": 88
+    },
+    {
+      "type": "music",
+      "name": "sing mid rock classic riff",
+      "file": "Saved sounds/sing-mid-rock-classic-riff.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "rock",
+        "classic-rock",
+        "70s",
+        "bpm-104",
+        "tempo-mid",
+        "driving"
+      ],
+      "loop": true,
+      "bpm": 104
+    },
+    {
+      "type": "music",
+      "name": "sing mid rock soft alt",
+      "file": "Saved sounds/sing-mid-rock-soft-alt.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "rock",
+        "alt-rock",
+        "soft",
+        "90s",
+        "bpm-92",
+        "tempo-mid",
+        "minor"
+      ],
+      "loop": true,
+      "bpm": 92
+    },
+    {
+      "type": "music",
+      "name": "sing mid country modern",
+      "file": "Saved sounds/sing-mid-country-modern.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "country",
+        "modern-country",
+        "banjo",
+        "bpm-102",
+        "tempo-mid",
+        "upbeat"
+      ],
+      "loop": true,
+      "bpm": 102
+    },
+    {
+      "type": "music",
+      "name": "sing mid country outlaw",
+      "file": "Saved sounds/sing-mid-country-outlaw.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "country",
+        "outlaw",
+        "western",
+        "twang",
+        "bpm-98",
+        "tempo-mid"
+      ],
+      "loop": true,
+      "bpm": 98
+    },
+    {
+      "type": "music",
+      "name": "sing mid folk campfire",
+      "file": "Saved sounds/sing-mid-folk-campfire.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "folk",
+        "campfire",
+        "harmonica",
+        "singalong",
+        "bpm-96",
+        "tempo-mid",
+        "warm"
+      ],
+      "loop": true,
+      "bpm": 96
+    },
+    {
+      "type": "music",
+      "name": "sing mid folk indie",
+      "file": "Saved sounds/sing-mid-folk-indie.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "folk",
+        "indie-folk",
+        "stomp-clap",
+        "bpm-100",
+        "tempo-mid",
+        "happy"
+      ],
+      "loop": true,
+      "bpm": 100
+    },
+    {
+      "type": "music",
+      "name": "sing mid soul motown",
+      "file": "Saved sounds/sing-mid-soul-motown.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "soul",
+        "motown",
+        "60s",
+        "horns",
+        "bpm-106",
+        "tempo-mid",
+        "upbeat"
+      ],
+      "loop": true,
+      "bpm": 106
+    },
+    {
+      "type": "music",
+      "name": "sing mid rnb smooth 90s",
+      "file": "Saved sounds/sing-mid-rnb-smooth-90s.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "rnb",
+        "90s",
+        "new-jack-swing",
+        "rhodes",
+        "bpm-90",
+        "tempo-mid",
+        "smooth"
+      ],
+      "loop": true,
+      "bpm": 90
+    },
+    {
+      "type": "music",
+      "name": "sing mid rnb neo soul",
+      "file": "Saved sounds/sing-mid-rnb-neo-soul.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "rnb",
+        "neo-soul",
+        "rhodes",
+        "bpm-86",
+        "tempo-mid",
+        "smooth",
+        "jazzy"
+      ],
+      "loop": true,
+      "bpm": 86
+    },
+    {
+      "type": "music",
+      "name": "sing mid jazz swing lounge",
+      "file": "Saved sounds/sing-mid-jazz-swing-lounge.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "jazz",
+        "swing",
+        "lounge",
+        "cocktail",
+        "bpm-108",
+        "tempo-mid",
+        "smooth"
+      ],
+      "loop": true,
+      "bpm": 108
+    },
+    {
+      "type": "music",
+      "name": "sing mid jazz bossa nova",
+      "file": "Saved sounds/sing-mid-jazz-bossa-nova.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "jazz",
+        "bossa-nova",
+        "latin",
+        "brazilian",
+        "nylon",
+        "bpm-96",
+        "tempo-mid"
+      ],
+      "loop": true,
+      "bpm": 96
+    },
+    {
+      "type": "music",
+      "name": "sing mid latin pop",
+      "file": "Saved sounds/sing-mid-latin-pop.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "latin",
+        "latin-pop",
+        "congas",
+        "nylon",
+        "bpm-100",
+        "tempo-mid"
+      ],
+      "loop": true,
+      "bpm": 100
+    },
+    {
+      "type": "music",
+      "name": "sing mid latin bolero",
+      "file": "Saved sounds/sing-mid-latin-bolero.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "latin",
+        "bolero",
+        "romantic",
+        "strings",
+        "bpm-88",
+        "tempo-mid"
+      ],
+      "loop": true,
+      "bpm": 88
+    },
+    {
+      "type": "music",
+      "name": "sing mid reggae roots",
+      "file": "Saved sounds/sing-mid-reggae-roots.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "reggae",
+        "roots",
+        "one-drop",
+        "bpm-82",
+        "tempo-mid",
+        "island"
+      ],
+      "loop": true,
+      "bpm": 82
+    },
+    {
+      "type": "music",
+      "name": "sing mid ska horns",
+      "file": "Saved sounds/sing-mid-ska-horns.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ska",
+        "horns",
+        "2-tone",
+        "bpm-108",
+        "tempo-mid",
+        "bouncy"
+      ],
+      "loop": true,
+      "bpm": 108
+    },
+    {
+      "type": "music",
+      "name": "sing mid hip hop boom bap",
+      "file": "Saved sounds/sing-mid-hip-hop-boom-bap.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "hip-hop",
+        "boom-bap",
+        "90s",
+        "jazzy",
+        "bpm-92",
+        "tempo-mid"
+      ],
+      "loop": true,
+      "bpm": 92
+    },
+    {
+      "type": "music",
+      "name": "sing mid hip hop trap",
+      "file": "Saved sounds/sing-mid-hip-hop-trap.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "hip-hop",
+        "trap",
+        "808",
+        "bpm-140",
+        "tempo-mid",
+        "dark",
+        "melodic"
+      ],
+      "loop": true,
+      "bpm": 140
+    },
+    {
+      "type": "music",
+      "name": "sing mid blues walking",
+      "file": "Saved sounds/sing-mid-blues-walking.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "blues",
+        "shuffle",
+        "12-bar",
+        "walking-bass",
+        "bpm-100",
+        "tempo-mid"
+      ],
+      "loop": true,
+      "bpm": 100
+    },
+    {
+      "type": "music",
+      "name": "sing mid blues shuffle",
+      "file": "Saved sounds/sing-mid-blues-shuffle.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "blues",
+        "shuffle",
+        "chicago",
+        "organ",
+        "bpm-108",
+        "tempo-mid"
+      ],
+      "loop": true,
+      "bpm": 108
+    },
+    {
+      "type": "music",
+      "name": "sing mid funk slow",
+      "file": "Saved sounds/sing-mid-funk-slow.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "funk",
+        "70s",
+        "slap-bass",
+        "wah",
+        "clavinet",
+        "bpm-94",
+        "tempo-mid"
+      ],
+      "loop": true,
+      "bpm": 94
+    },
+    {
+      "type": "music",
+      "name": "sing mid gospel traditional",
+      "file": "Saved sounds/sing-mid-gospel-traditional.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "gospel",
+        "traditional",
+        "organ",
+        "church",
+        "bpm-96",
+        "tempo-mid",
+        "spiritual"
+      ],
+      "loop": true,
+      "bpm": 96
+    },
+    {
+      "type": "music",
+      "name": "sing mid gospel contemporary",
+      "file": "Saved sounds/sing-mid-gospel-contemporary.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "gospel",
+        "contemporary",
+        "ccm",
+        "worship",
+        "bpm-92",
+        "tempo-mid",
+        "uplifting"
+      ],
+      "loop": true,
+      "bpm": 92
+    },
+    {
+      "type": "music",
+      "name": "sing mid celtic ballad",
+      "file": "Saved sounds/sing-mid-celtic-ballad.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "celtic",
+        "irish",
+        "tin-whistle",
+        "fiddle",
+        "bodhran",
+        "bpm-92",
+        "tempo-mid"
+      ],
+      "loop": true,
+      "bpm": 92
+    },
+    {
+      "type": "music",
+      "name": "sing mid worship acoustic",
+      "file": "Saved sounds/sing-mid-worship-acoustic.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "worship",
+        "ccm",
+        "acoustic",
+        "bpm-88",
+        "tempo-mid",
+        "spiritual",
+        "hopeful"
+      ],
+      "loop": true,
+      "bpm": 88
+    },
+    {
+      "type": "music",
+      "name": "sing mid synthwave retro",
+      "file": "Saved sounds/sing-mid-synthwave-retro.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "synthwave",
+        "retrowave",
+        "80s",
+        "analog-synth",
+        "bpm-100",
+        "tempo-mid",
+        "retro"
+      ],
+      "loop": true,
+      "bpm": 100
+    },
+    {
+      "type": "music",
+      "name": "sing mid dream pop",
+      "file": "Saved sounds/sing-mid-dream-pop.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "dream-pop",
+        "shoegaze",
+        "reverb",
+        "ethereal",
+        "bpm-90",
+        "tempo-mid"
+      ],
+      "loop": true,
+      "bpm": 90
+    },
+    {
+      "type": "music",
+      "name": "sing mid indie rock",
+      "file": "Saved sounds/sing-mid-indie-rock.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "indie-rock",
+        "jangle",
+        "college-rock",
+        "bpm-108",
+        "tempo-mid"
+      ],
+      "loop": true,
+      "bpm": 108
+    },
+    {
+      "type": "music",
+      "name": "sing mid americana",
+      "file": "Saved sounds/sing-mid-americana.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "americana",
+        "folk",
+        "mandolin",
+        "upright-bass",
+        "bpm-94",
+        "tempo-mid"
+      ],
+      "loop": true,
+      "bpm": 94
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat pop radio dance",
+      "file": "Saved sounds/sing-upbeat-pop-radio-dance.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "pop",
+        "dance",
+        "radio",
+        "bpm-116",
+        "tempo-upbeat",
+        "bright",
+        "happy"
+      ],
+      "loop": true,
+      "bpm": 116
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat pop rock teen",
+      "file": "Saved sounds/sing-upbeat-pop-rock-teen.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "pop-rock",
+        "teen",
+        "anthem",
+        "bpm-122",
+        "tempo-upbeat",
+        "happy"
+      ],
+      "loop": true,
+      "bpm": 122
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat rock classic driving",
+      "file": "Saved sounds/sing-upbeat-rock-classic-driving.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "rock",
+        "classic-rock",
+        "driving",
+        "80s",
+        "bpm-120",
+        "tempo-upbeat"
+      ],
+      "loop": true,
+      "bpm": 120
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat rock 80s arena",
+      "file": "Saved sounds/sing-upbeat-rock-80s-arena.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "rock",
+        "arena",
+        "80s",
+        "anthem",
+        "bpm-126",
+        "tempo-upbeat",
+        "epic"
+      ],
+      "loop": true,
+      "bpm": 126
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat disco dance floor",
+      "file": "Saved sounds/sing-upbeat-disco-dance-floor.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "disco",
+        "dance",
+        "70s",
+        "strings",
+        "bpm-122",
+        "tempo-upbeat"
+      ],
+      "loop": true,
+      "bpm": 122
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat funk groovy",
+      "file": "Saved sounds/sing-upbeat-funk-groovy.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "funk",
+        "groovy",
+        "70s",
+        "slap-bass",
+        "horns",
+        "bpm-114",
+        "tempo-upbeat"
+      ],
+      "loop": true,
+      "bpm": 114
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat motown soul fast",
+      "file": "Saved sounds/sing-upbeat-motown-soul-fast.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "soul",
+        "motown",
+        "horns",
+        "tambourine",
+        "bpm-118",
+        "tempo-upbeat"
+      ],
+      "loop": true,
+      "bpm": 118
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat country hoedown",
+      "file": "Saved sounds/sing-upbeat-country-hoedown.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "country",
+        "hoedown",
+        "fiddle",
+        "banjo",
+        "bpm-124",
+        "tempo-upbeat",
+        "line-dance"
+      ],
+      "loop": true,
+      "bpm": 124
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat country pop",
+      "file": "Saved sounds/sing-upbeat-country-pop.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "country",
+        "country-pop",
+        "crossover",
+        "banjo",
+        "bpm-118",
+        "tempo-upbeat"
+      ],
+      "loop": true,
+      "bpm": 118
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat folk stomp clap",
+      "file": "Saved sounds/sing-upbeat-folk-stomp-clap.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "folk",
+        "indie-folk",
+        "stomp-clap",
+        "mandolin",
+        "bpm-120",
+        "tempo-upbeat"
+      ],
+      "loop": true,
+      "bpm": 120
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat reggae skank",
+      "file": "Saved sounds/sing-upbeat-reggae-skank.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "reggae",
+        "skank",
+        "summer",
+        "bpm-114",
+        "tempo-upbeat",
+        "happy"
+      ],
+      "loop": true,
+      "bpm": 114
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat ska punk",
+      "file": "Saved sounds/sing-upbeat-ska-punk.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "ska",
+        "ska-punk",
+        "horns",
+        "bpm-126",
+        "tempo-upbeat",
+        "energetic"
+      ],
+      "loop": true,
+      "bpm": 126
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat latin salsa",
+      "file": "Saved sounds/sing-upbeat-latin-salsa.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "latin",
+        "salsa",
+        "horns",
+        "timbales",
+        "bpm-118",
+        "tempo-upbeat"
+      ],
+      "loop": true,
+      "bpm": 118
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat latin reggaeton",
+      "file": "Saved sounds/sing-upbeat-latin-reggaeton.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "latin",
+        "reggaeton",
+        "dembow",
+        "club",
+        "bpm-120",
+        "tempo-upbeat"
+      ],
+      "loop": true,
+      "bpm": 120
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat house deep",
+      "file": "Saved sounds/sing-upbeat-house-deep.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "house",
+        "deep-house",
+        "club",
+        "bpm-122",
+        "tempo-upbeat",
+        "groovy"
+      ],
+      "loop": true,
+      "bpm": 122
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat edm pop festival",
+      "file": "Saved sounds/sing-upbeat-edm-pop-festival.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "edm",
+        "edm-pop",
+        "festival",
+        "synth",
+        "bpm-126",
+        "tempo-upbeat",
+        "energetic"
+      ],
+      "loop": true,
+      "bpm": 126
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat synthpop 80s",
+      "file": "Saved sounds/sing-upbeat-synthpop-80s.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "synthpop",
+        "80s",
+        "new-wave",
+        "analog-synth",
+        "bpm-118",
+        "tempo-upbeat",
+        "retro"
+      ],
+      "loop": true,
+      "bpm": 118
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat rnb pop",
+      "file": "Saved sounds/sing-upbeat-rnb-pop.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "rnb",
+        "pop",
+        "modern",
+        "rhodes",
+        "bpm-114",
+        "tempo-upbeat",
+        "smooth"
+      ],
+      "loop": true,
+      "bpm": 114
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat hip hop club",
+      "file": "Saved sounds/sing-upbeat-hip-hop-club.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "hip-hop",
+        "club",
+        "808",
+        "synth",
+        "bpm-120",
+        "tempo-upbeat"
+      ],
+      "loop": true,
+      "bpm": 120
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat gospel hand clap",
+      "file": "Saved sounds/sing-upbeat-gospel-hand-clap.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "gospel",
+        "hand-clap",
+        "celebration",
+        "organ",
+        "bpm-112",
+        "tempo-upbeat",
+        "joyful"
+      ],
+      "loop": true,
+      "bpm": 112
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat swing big band",
+      "file": "Saved sounds/sing-upbeat-swing-big-band.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "jazz",
+        "swing",
+        "big-band",
+        "horns",
+        "ballroom",
+        "bpm-126",
+        "tempo-upbeat"
+      ],
+      "loop": true,
+      "bpm": 126
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat rockabilly",
+      "file": "Saved sounds/sing-upbeat-rockabilly.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "rockabilly",
+        "50s",
+        "slapback",
+        "upright-bass",
+        "bpm-124",
+        "tempo-upbeat",
+        "retro"
+      ],
+      "loop": true,
+      "bpm": 124
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat bluegrass",
+      "file": "Saved sounds/sing-upbeat-bluegrass.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "bluegrass",
+        "banjo",
+        "fiddle",
+        "mandolin",
+        "bpm-128",
+        "tempo-upbeat"
+      ],
+      "loop": true,
+      "bpm": 128
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat celtic jig",
+      "file": "Saved sounds/sing-upbeat-celtic-jig.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "celtic",
+        "irish",
+        "jig",
+        "fiddle",
+        "tin-whistle",
+        "bodhran",
+        "bpm-116",
+        "tempo-upbeat"
+      ],
+      "loop": true,
+      "bpm": 116
+    },
+    {
+      "type": "music",
+      "name": "sing upbeat bollywood dance",
+      "file": "Saved sounds/sing-upbeat-bollywood-dance.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "bollywood",
+        "indian",
+        "tabla",
+        "sitar",
+        "bpm-120",
+        "tempo-upbeat",
+        "world"
+      ],
+      "loop": true,
+      "bpm": 120
+    },
+    {
+      "type": "music",
+      "name": "sing fast punk rock",
+      "file": "Saved sounds/sing-fast-punk-rock.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "punk",
+        "punk-rock",
+        "fast",
+        "distorted",
+        "bpm-160",
+        "tempo-fast",
+        "energetic"
+      ],
+      "loop": true,
+      "bpm": 160
+    },
+    {
+      "type": "music",
+      "name": "sing fast pop punk",
+      "file": "Saved sounds/sing-fast-pop-punk.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "pop-punk",
+        "2000s",
+        "melodic",
+        "bpm-154",
+        "tempo-fast",
+        "energetic"
+      ],
+      "loop": true,
+      "bpm": 154
+    },
+    {
+      "type": "music",
+      "name": "sing fast emo pop",
+      "file": "Saved sounds/sing-fast-emo-pop.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "emo",
+        "pop-punk",
+        "2000s",
+        "minor",
+        "bpm-148",
+        "tempo-fast"
+      ],
+      "loop": true,
+      "bpm": 148
+    },
+    {
+      "type": "music",
+      "name": "sing fast metal power",
+      "file": "Saved sounds/sing-fast-metal-power.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "metal",
+        "power-metal",
+        "epic",
+        "double-kick",
+        "bpm-160",
+        "tempo-fast",
+        "minor"
+      ],
+      "loop": true,
+      "bpm": 160
+    },
+    {
+      "type": "music",
+      "name": "sing fast rock driving",
+      "file": "Saved sounds/sing-fast-rock-driving.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "rock",
+        "hard-rock",
+        "driving",
+        "bpm-140",
+        "tempo-fast",
+        "energetic"
+      ],
+      "loop": true,
+      "bpm": 140
+    },
+    {
+      "type": "music",
+      "name": "sing fast dnb drum bass",
+      "file": "Saved sounds/sing-fast-dnb-drum-bass.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "dnb",
+        "drum-and-bass",
+        "breakbeat",
+        "bpm-170",
+        "tempo-fast",
+        "electronic"
+      ],
+      "loop": true,
+      "bpm": 170
+    },
+    {
+      "type": "music",
+      "name": "sing fast dubstep bass",
+      "file": "Saved sounds/sing-fast-dubstep-bass.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "dubstep",
+        "bass",
+        "electronic",
+        "dark",
+        "bpm-140",
+        "tempo-fast"
+      ],
+      "loop": true,
+      "bpm": 140
+    },
+    {
+      "type": "music",
+      "name": "sing fast house club",
+      "file": "Saved sounds/sing-fast-house-club.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "house",
+        "club",
+        "peak-time",
+        "bpm-128",
+        "tempo-fast",
+        "electronic"
+      ],
+      "loop": true,
+      "bpm": 128
+    },
+    {
+      "type": "music",
+      "name": "sing fast trance euphoric",
+      "file": "Saved sounds/sing-fast-trance-euphoric.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "trance",
+        "euphoric",
+        "supersaw",
+        "edm",
+        "bpm-138",
+        "tempo-fast",
+        "uplifting"
+      ],
+      "loop": true,
+      "bpm": 138
+    },
+    {
+      "type": "music",
+      "name": "sing fast techno minimal",
+      "file": "Saved sounds/sing-fast-techno-minimal.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "techno",
+        "minimal",
+        "warehouse",
+        "hypnotic",
+        "bpm-132",
+        "tempo-fast",
+        "electronic"
+      ],
+      "loop": true,
+      "bpm": 132
+    },
+    {
+      "type": "music",
+      "name": "sing fast surf rock",
+      "file": "Saved sounds/sing-fast-surf-rock.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "surf-rock",
+        "60s",
+        "reverb",
+        "tremolo",
+        "bpm-148",
+        "tempo-fast"
+      ],
+      "loop": true,
+      "bpm": 148
+    },
+    {
+      "type": "music",
+      "name": "sing fast rockabilly bop",
+      "file": "Saved sounds/sing-fast-rockabilly-bop.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "rockabilly",
+        "50s",
+        "bop",
+        "slapback",
+        "bpm-156",
+        "tempo-fast"
+      ],
+      "loop": true,
+      "bpm": 156
+    },
+    {
+      "type": "music",
+      "name": "sing fast bluegrass breakdown",
+      "file": "Saved sounds/sing-fast-bluegrass-breakdown.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "bluegrass",
+        "breakdown",
+        "banjo",
+        "fiddle",
+        "bpm-160",
+        "tempo-fast"
+      ],
+      "loop": true,
+      "bpm": 160
+    },
+    {
+      "type": "music",
+      "name": "sing fast celtic reel",
+      "file": "Saved sounds/sing-fast-celtic-reel.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "celtic",
+        "irish",
+        "reel",
+        "fiddle",
+        "tin-whistle",
+        "bpm-140",
+        "tempo-fast"
+      ],
+      "loop": true,
+      "bpm": 140
+    },
+    {
+      "type": "music",
+      "name": "sing fast latin merengue",
+      "file": "Saved sounds/sing-fast-latin-merengue.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "latin",
+        "merengue",
+        "horns",
+        "tambora",
+        "bpm-150",
+        "tempo-fast"
+      ],
+      "loop": true,
+      "bpm": 150
+    },
+    {
+      "type": "music",
+      "name": "sing fast samba carnival",
+      "file": "Saved sounds/sing-fast-samba-carnival.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "latin",
+        "samba",
+        "brazilian",
+        "carnival",
+        "surdo",
+        "bpm-148",
+        "tempo-fast"
+      ],
+      "loop": true,
+      "bpm": 148
+    },
+    {
+      "type": "music",
+      "name": "sing fast kpop dance",
+      "file": "Saved sounds/sing-fast-kpop-dance.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "kpop",
+        "dance",
+        "edm-pop",
+        "bpm-128",
+        "tempo-fast",
+        "energetic"
+      ],
+      "loop": true,
+      "bpm": 128
+    },
+    {
+      "type": "music",
+      "name": "sing fast jpop anime",
+      "file": "Saved sounds/sing-fast-jpop-anime.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "jpop",
+        "anime",
+        "opening",
+        "bpm-150",
+        "tempo-fast",
+        "energetic"
+      ],
+      "loop": true,
+      "bpm": 150
+    },
+    {
+      "type": "music",
+      "name": "sing fast swing bebop",
+      "file": "Saved sounds/sing-fast-swing-bebop.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "jazz",
+        "bebop",
+        "swing",
+        "fast",
+        "bpm-200",
+        "tempo-fast",
+        "upright-bass"
+      ],
+      "loop": true,
+      "bpm": 200
+    },
+    {
+      "type": "music",
+      "name": "sing fast disco peak hour",
+      "file": "Saved sounds/sing-fast-disco-peak-hour.mp3",
+      "keywords": [
+        "sing",
+        "karaoke",
+        "instrumental",
+        "backing",
+        "disco",
+        "peak-hour",
+        "strings",
+        "70s",
+        "bpm-130",
+        "tempo-fast"
+      ],
+      "loop": true,
+      "bpm": 130
     }
   ]
 }
