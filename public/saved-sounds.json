@@ -12029,7 +12029,11 @@
         "tempo-slow",
         "emotional",
         "melancholy",
-        "minor"
+        "minor",
+        "reflective",
+        "relaxed",
+        "sad",
+        "sorrow"
       ],
       "loop": true,
       "bpm": 66
@@ -12050,7 +12054,8 @@
         "bpm-64",
         "tempo-slow",
         "expressive",
-        "major"
+        "major",
+        "relaxed"
       ],
       "loop": true,
       "bpm": 64
@@ -12071,7 +12076,8 @@
         "bpm-74",
         "tempo-slow",
         "emotional",
-        "power-ballad"
+        "power-ballad",
+        "relaxed"
       ],
       "loop": true,
       "bpm": 74
@@ -12092,7 +12098,8 @@
         "bpm-70",
         "tempo-slow",
         "minor",
-        "spiritual"
+        "spiritual",
+        "relaxed"
       ],
       "loop": true,
       "bpm": 70
@@ -12114,7 +12121,8 @@
         "classical",
         "bpm-68",
         "tempo-slow",
-        "intimate"
+        "intimate",
+        "relaxed"
       ],
       "loop": true,
       "bpm": 68
@@ -12136,7 +12144,10 @@
         "bpm-74",
         "tempo-slow",
         "warm",
-        "nostalgic"
+        "nostalgic",
+        "relaxed",
+        "string",
+        "traditional"
       ],
       "loop": true,
       "bpm": 74
@@ -12159,7 +12170,10 @@
         "spanish",
         "bpm-72",
         "tempo-slow",
-        "romantic"
+        "romantic",
+        "love",
+        "relaxed",
+        "tender"
       ],
       "loop": true,
       "bpm": 72
@@ -12180,7 +12194,9 @@
         "pedal-steel",
         "bpm-72",
         "tempo-slow",
-        "heartland"
+        "heartland",
+        "relaxed",
+        "slow"
       ],
       "loop": true,
       "bpm": 72
@@ -12202,7 +12218,10 @@
         "bpm-66",
         "tempo-slow",
         "lush",
-        "epic"
+        "epic",
+        "grand",
+        "heroic",
+        "relaxed"
       ],
       "loop": true,
       "bpm": 66
@@ -12224,7 +12243,10 @@
         "bpm-62",
         "tempo-slow",
         "minor",
-        "film"
+        "film",
+        "reflective",
+        "relaxed",
+        "sorrow"
       ],
       "loop": true,
       "bpm": 62
@@ -12245,7 +12267,11 @@
         "gentle",
         "bpm-70",
         "tempo-slow",
-        "peaceful"
+        "peaceful",
+        "calm",
+        "relaxed",
+        "serene",
+        "soft"
       ],
       "loop": true,
       "bpm": 70
@@ -12261,12 +12287,12 @@
         "backing",
         "ballad",
         "choir",
-        "ambient",
         "pad",
         "spiritual",
         "bpm-60",
         "tempo-slow",
-        "ethereal"
+        "ethereal",
+        "relaxed"
       ],
       "loop": true,
       "bpm": 60
@@ -12287,7 +12313,8 @@
         "soft-rock",
         "bpm-74",
         "tempo-slow",
-        "80s"
+        "80s",
+        "relaxed"
       ],
       "loop": true,
       "bpm": 74
@@ -12308,7 +12335,8 @@
         "dreamy",
         "bpm-68",
         "tempo-slow",
-        "lounge"
+        "lounge",
+        "relaxed"
       ],
       "loop": true,
       "bpm": 68
@@ -12329,7 +12357,8 @@
         "gospel",
         "bpm-72",
         "tempo-slow",
-        "spiritual"
+        "spiritual",
+        "relaxed"
       ],
       "loop": true,
       "bpm": 72
@@ -12346,12 +12375,14 @@
         "ballad",
         "synth",
         "pad",
-        "ambient",
         "ethereal",
         "bpm-64",
         "tempo-slow",
         "dreamy",
-        "scifi"
+        "scifi",
+        "futuristic",
+        "relaxed",
+        "sci-fi"
       ],
       "loop": true,
       "bpm": 64
@@ -12372,7 +12403,12 @@
         "bpm-76",
         "tempo-slow",
         "tropical",
-        "happy"
+        "happy",
+        "cheerful",
+        "joyful",
+        "jungle",
+        "rainforest",
+        "relaxed"
       ],
       "loop": true,
       "bpm": 76
@@ -12393,7 +12429,8 @@
         "rhodes",
         "bpm-72",
         "tempo-slow",
-        "relaxing"
+        "relaxing",
+        "relaxed"
       ],
       "loop": true,
       "bpm": 72
@@ -12413,7 +12450,10 @@
         "classic",
         "bpm-70",
         "tempo-slow",
-        "americana"
+        "americana",
+        "pedal",
+        "relaxed",
+        "steel"
       ],
       "loop": true,
       "bpm": 70
@@ -12435,7 +12475,9 @@
         "bpm-68",
         "tempo-slow",
         "minor",
-        "smoky"
+        "smoky",
+        "relaxed",
+        "slow"
       ],
       "loop": true,
       "bpm": 68
@@ -12457,7 +12499,9 @@
         "torch",
         "bpm-64",
         "tempo-slow",
-        "smoky"
+        "smoky",
+        "relaxed",
+        "slow"
       ],
       "loop": true,
       "bpm": 64
@@ -12478,7 +12522,10 @@
         "smoky",
         "bpm-62",
         "tempo-slow",
-        "nightclub"
+        "nightclub",
+        "relaxed",
+        "song",
+        "torch"
       ],
       "loop": true,
       "bpm": 62
@@ -12500,7 +12547,12 @@
         "bpm-70",
         "tempo-slow",
         "smooth",
-        "romantic"
+        "romantic",
+        "jam",
+        "love",
+        "relaxed",
+        "slow",
+        "tender"
       ],
       "loop": true,
       "bpm": 70
@@ -12521,7 +12573,9 @@
         "pennywhistle",
         "bpm-68",
         "tempo-slow",
-        "mystical"
+        "mystical",
+        "folk",
+        "relaxed"
       ],
       "loop": true,
       "bpm": 68
@@ -12542,7 +12596,13 @@
         "bpm-76",
         "tempo-slow",
         "80s",
-        "epic"
+        "epic",
+        "cinematic",
+        "grand",
+        "heroic",
+        "power",
+        "relaxed",
+        "slow"
       ],
       "loop": true,
       "bpm": 76
@@ -12562,7 +12622,10 @@
         "bpm-96",
         "tempo-mid",
         "modern",
-        "happy"
+        "happy",
+        "cheerful",
+        "joyful",
+        "mid"
       ],
       "loop": true,
       "bpm": 96
@@ -12583,7 +12646,10 @@
         "bpm-88",
         "tempo-mid",
         "dreamy",
-        "scifi"
+        "scifi",
+        "futuristic",
+        "mid",
+        "sci-fi"
       ],
       "loop": true,
       "bpm": 88
@@ -12602,7 +12668,10 @@
         "70s",
         "bpm-104",
         "tempo-mid",
-        "driving"
+        "driving",
+        "classic",
+        "mid",
+        "riff"
       ],
       "loop": true,
       "bpm": 104
@@ -12622,7 +12691,9 @@
         "90s",
         "bpm-92",
         "tempo-mid",
-        "minor"
+        "minor",
+        "alt",
+        "mid"
       ],
       "loop": true,
       "bpm": 92
@@ -12641,7 +12712,9 @@
         "banjo",
         "bpm-102",
         "tempo-mid",
-        "upbeat"
+        "upbeat",
+        "mid",
+        "modern"
       ],
       "loop": true,
       "bpm": 102
@@ -12660,7 +12733,11 @@
         "western",
         "twang",
         "bpm-98",
-        "tempo-mid"
+        "tempo-mid",
+        "cowboy",
+        "desert",
+        "frontier",
+        "mid"
       ],
       "loop": true,
       "bpm": 98
@@ -12680,7 +12757,10 @@
         "singalong",
         "bpm-96",
         "tempo-mid",
-        "warm"
+        "warm",
+        "acoustic",
+        "mid",
+        "traditional"
       ],
       "loop": true,
       "bpm": 96
@@ -12699,7 +12779,13 @@
         "stomp-clap",
         "bpm-100",
         "tempo-mid",
-        "happy"
+        "happy",
+        "acoustic",
+        "cheerful",
+        "indie",
+        "joyful",
+        "mid",
+        "traditional"
       ],
       "loop": true,
       "bpm": 100
@@ -12719,7 +12805,8 @@
         "horns",
         "bpm-106",
         "tempo-mid",
-        "upbeat"
+        "upbeat",
+        "mid"
       ],
       "loop": true,
       "bpm": 106
@@ -12739,7 +12826,8 @@
         "rhodes",
         "bpm-90",
         "tempo-mid",
-        "smooth"
+        "smooth",
+        "mid"
       ],
       "loop": true,
       "bpm": 90
@@ -12759,7 +12847,10 @@
         "bpm-86",
         "tempo-mid",
         "smooth",
-        "jazzy"
+        "jazzy",
+        "mid",
+        "neo",
+        "soul"
       ],
       "loop": true,
       "bpm": 86
@@ -12779,7 +12870,8 @@
         "cocktail",
         "bpm-108",
         "tempo-mid",
-        "smooth"
+        "smooth",
+        "mid"
       ],
       "loop": true,
       "bpm": 108
@@ -12799,7 +12891,10 @@
         "brazilian",
         "nylon",
         "bpm-96",
-        "tempo-mid"
+        "tempo-mid",
+        "bossa",
+        "mid",
+        "nova"
       ],
       "loop": true,
       "bpm": 96
@@ -12818,7 +12913,9 @@
         "congas",
         "nylon",
         "bpm-100",
-        "tempo-mid"
+        "tempo-mid",
+        "mid",
+        "pop"
       ],
       "loop": true,
       "bpm": 100
@@ -12837,7 +12934,10 @@
         "romantic",
         "strings",
         "bpm-88",
-        "tempo-mid"
+        "tempo-mid",
+        "love",
+        "mid",
+        "tender"
       ],
       "loop": true,
       "bpm": 88
@@ -12856,7 +12956,8 @@
         "one-drop",
         "bpm-82",
         "tempo-mid",
-        "island"
+        "island",
+        "mid"
       ],
       "loop": true,
       "bpm": 82
@@ -12875,7 +12976,8 @@
         "2-tone",
         "bpm-108",
         "tempo-mid",
-        "bouncy"
+        "bouncy",
+        "mid"
       ],
       "loop": true,
       "bpm": 108
@@ -12894,7 +12996,12 @@
         "90s",
         "jazzy",
         "bpm-92",
-        "tempo-mid"
+        "tempo-mid",
+        "bap",
+        "boom",
+        "hip",
+        "hop",
+        "mid"
       ],
       "loop": true,
       "bpm": 92
@@ -12910,11 +13017,16 @@
         "backing",
         "hip-hop",
         "trap",
-        "808",
         "bpm-140",
         "tempo-mid",
         "dark",
-        "melodic"
+        "melodic",
+        "evil",
+        "hip",
+        "hop",
+        "mid",
+        "ominous",
+        "sinister"
       ],
       "loop": true,
       "bpm": 140
@@ -12933,7 +13045,12 @@
         "12-bar",
         "walking-bass",
         "bpm-100",
-        "tempo-mid"
+        "tempo-mid",
+        "footsteps",
+        "mid",
+        "movement",
+        "walk",
+        "walking"
       ],
       "loop": true,
       "bpm": 100
@@ -12952,7 +13069,8 @@
         "chicago",
         "organ",
         "bpm-108",
-        "tempo-mid"
+        "tempo-mid",
+        "mid"
       ],
       "loop": true,
       "bpm": 108
@@ -12972,7 +13090,10 @@
         "wah",
         "clavinet",
         "bpm-94",
-        "tempo-mid"
+        "tempo-mid",
+        "mid",
+        "relaxed",
+        "slow"
       ],
       "loop": true,
       "bpm": 94
@@ -12992,7 +13113,8 @@
         "church",
         "bpm-96",
         "tempo-mid",
-        "spiritual"
+        "spiritual",
+        "mid"
       ],
       "loop": true,
       "bpm": 96
@@ -13012,7 +13134,8 @@
         "worship",
         "bpm-92",
         "tempo-mid",
-        "uplifting"
+        "uplifting",
+        "mid"
       ],
       "loop": true,
       "bpm": 92
@@ -13032,7 +13155,10 @@
         "fiddle",
         "bodhran",
         "bpm-92",
-        "tempo-mid"
+        "tempo-mid",
+        "ballad",
+        "folk",
+        "mid"
       ],
       "loop": true,
       "bpm": 92
@@ -13052,7 +13178,8 @@
         "bpm-88",
         "tempo-mid",
         "spiritual",
-        "hopeful"
+        "hopeful",
+        "mid"
       ],
       "loop": true,
       "bpm": 88
@@ -13073,7 +13200,10 @@
         "bpm-100",
         "tempo-mid",
         "retro",
-        "scifi"
+        "scifi",
+        "futuristic",
+        "mid",
+        "sci-fi"
       ],
       "loop": true,
       "bpm": 100
@@ -13092,7 +13222,10 @@
         "reverb",
         "ethereal",
         "bpm-90",
-        "tempo-mid"
+        "tempo-mid",
+        "dream",
+        "mid",
+        "pop"
       ],
       "loop": true,
       "bpm": 90
@@ -13110,7 +13243,10 @@
         "jangle",
         "college-rock",
         "bpm-108",
-        "tempo-mid"
+        "tempo-mid",
+        "indie",
+        "mid",
+        "rock"
       ],
       "loop": true,
       "bpm": 108
@@ -13129,7 +13265,10 @@
         "mandolin",
         "upright-bass",
         "bpm-94",
-        "tempo-mid"
+        "tempo-mid",
+        "acoustic",
+        "mid",
+        "traditional"
       ],
       "loop": true,
       "bpm": 94
@@ -13149,7 +13288,10 @@
         "bpm-116",
         "tempo-upbeat",
         "bright",
-        "happy"
+        "happy",
+        "cheerful",
+        "joyful",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 116
@@ -13168,7 +13310,12 @@
         "anthem",
         "bpm-122",
         "tempo-upbeat",
-        "happy"
+        "happy",
+        "cheerful",
+        "joyful",
+        "pop",
+        "rock",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 122
@@ -13187,7 +13334,9 @@
         "driving",
         "80s",
         "bpm-120",
-        "tempo-upbeat"
+        "tempo-upbeat",
+        "classic",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 120
@@ -13207,7 +13356,11 @@
         "anthem",
         "bpm-126",
         "tempo-upbeat",
-        "epic"
+        "epic",
+        "cinematic",
+        "grand",
+        "heroic",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 126
@@ -13226,7 +13379,9 @@
         "70s",
         "strings",
         "bpm-122",
-        "tempo-upbeat"
+        "tempo-upbeat",
+        "floor",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 122
@@ -13246,7 +13401,8 @@
         "slap-bass",
         "horns",
         "bpm-114",
-        "tempo-upbeat"
+        "tempo-upbeat",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 114
@@ -13265,7 +13421,11 @@
         "horns",
         "tambourine",
         "bpm-118",
-        "tempo-upbeat"
+        "tempo-upbeat",
+        "energetic",
+        "fast",
+        "quick",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 118
@@ -13285,7 +13445,8 @@
         "banjo",
         "bpm-124",
         "tempo-upbeat",
-        "line-dance"
+        "line-dance",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 124
@@ -13304,7 +13465,9 @@
         "crossover",
         "banjo",
         "bpm-118",
-        "tempo-upbeat"
+        "tempo-upbeat",
+        "pop",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 118
@@ -13323,7 +13486,12 @@
         "stomp-clap",
         "mandolin",
         "bpm-120",
-        "tempo-upbeat"
+        "tempo-upbeat",
+        "acoustic",
+        "clap",
+        "stomp",
+        "traditional",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 120
@@ -13342,7 +13510,10 @@
         "summer",
         "bpm-114",
         "tempo-upbeat",
-        "happy"
+        "happy",
+        "cheerful",
+        "joyful",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 114
@@ -13361,7 +13532,9 @@
         "horns",
         "bpm-126",
         "tempo-upbeat",
-        "energetic"
+        "energetic",
+        "punk",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 126
@@ -13380,7 +13553,8 @@
         "horns",
         "timbales",
         "bpm-118",
-        "tempo-upbeat"
+        "tempo-upbeat",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 118
@@ -13399,7 +13573,8 @@
         "dembow",
         "club",
         "bpm-120",
-        "tempo-upbeat"
+        "tempo-upbeat",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 120
@@ -13418,7 +13593,9 @@
         "club",
         "bpm-122",
         "tempo-upbeat",
-        "groovy"
+        "groovy",
+        "deep",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 122
@@ -13439,7 +13616,11 @@
         "bpm-126",
         "tempo-upbeat",
         "energetic",
-        "scifi"
+        "scifi",
+        "futuristic",
+        "pop",
+        "sci-fi",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 126
@@ -13461,7 +13642,10 @@
         "tempo-upbeat",
         "retro",
         "scifi",
-        "nature"
+        "nature",
+        "futuristic",
+        "sci-fi",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 118
@@ -13481,7 +13665,8 @@
         "rhodes",
         "bpm-114",
         "tempo-upbeat",
-        "smooth"
+        "smooth",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 114
@@ -13497,11 +13682,15 @@
         "backing",
         "hip-hop",
         "club",
-        "808",
         "synth",
         "bpm-120",
         "tempo-upbeat",
-        "scifi"
+        "scifi",
+        "futuristic",
+        "hip",
+        "hop",
+        "sci-fi",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 120
@@ -13521,7 +13710,11 @@
         "organ",
         "bpm-112",
         "tempo-upbeat",
-        "joyful"
+        "joyful",
+        "clap",
+        "hand",
+        "happy",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 112
@@ -13541,7 +13734,10 @@
         "horns",
         "ballroom",
         "bpm-126",
-        "tempo-upbeat"
+        "tempo-upbeat",
+        "band",
+        "big",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 126
@@ -13561,7 +13757,8 @@
         "upright-bass",
         "bpm-124",
         "tempo-upbeat",
-        "retro"
+        "retro",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 124
@@ -13580,7 +13777,8 @@
         "fiddle",
         "mandolin",
         "bpm-128",
-        "tempo-upbeat"
+        "tempo-upbeat",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 128
@@ -13601,7 +13799,9 @@
         "tin-whistle",
         "bodhran",
         "bpm-116",
-        "tempo-upbeat"
+        "tempo-upbeat",
+        "folk",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 116
@@ -13621,7 +13821,9 @@
         "sitar",
         "bpm-120",
         "tempo-upbeat",
-        "world"
+        "world",
+        "dance",
+        "upbeat"
       ],
       "loop": true,
       "bpm": 120
@@ -13641,7 +13843,9 @@
         "distorted",
         "bpm-160",
         "tempo-fast",
-        "energetic"
+        "energetic",
+        "quick",
+        "rock"
       ],
       "loop": true,
       "bpm": 160
@@ -13660,7 +13864,11 @@
         "melodic",
         "bpm-154",
         "tempo-fast",
-        "energetic"
+        "energetic",
+        "fast",
+        "pop",
+        "punk",
+        "quick"
       ],
       "loop": true,
       "bpm": 154
@@ -13679,7 +13887,11 @@
         "2000s",
         "minor",
         "bpm-148",
-        "tempo-fast"
+        "tempo-fast",
+        "energetic",
+        "fast",
+        "pop",
+        "quick"
       ],
       "loop": true,
       "bpm": 148
@@ -13700,7 +13912,15 @@
         "bpm-160",
         "tempo-fast",
         "minor",
-        "combat"
+        "combat",
+        "battle",
+        "cinematic",
+        "energetic",
+        "fast",
+        "fight",
+        "grand",
+        "heroic",
+        "power"
       ],
       "loop": true,
       "bpm": 160
@@ -13719,7 +13939,9 @@
         "driving",
         "bpm-140",
         "tempo-fast",
-        "energetic"
+        "energetic",
+        "fast",
+        "quick"
       ],
       "loop": true,
       "bpm": 140
@@ -13738,7 +13960,12 @@
         "breakbeat",
         "bpm-170",
         "tempo-fast",
-        "electronic"
+        "electronic",
+        "bass",
+        "drum",
+        "energetic",
+        "fast",
+        "quick"
       ],
       "loop": true,
       "bpm": 170
@@ -13757,7 +13984,13 @@
         "electronic",
         "dark",
         "bpm-140",
-        "tempo-fast"
+        "tempo-fast",
+        "energetic",
+        "evil",
+        "fast",
+        "ominous",
+        "quick",
+        "sinister"
       ],
       "loop": true,
       "bpm": 140
@@ -13776,7 +14009,10 @@
         "peak-time",
         "bpm-128",
         "tempo-fast",
-        "electronic"
+        "electronic",
+        "energetic",
+        "fast",
+        "quick"
       ],
       "loop": true,
       "bpm": 128
@@ -13796,7 +14032,10 @@
         "edm",
         "bpm-138",
         "tempo-fast",
-        "uplifting"
+        "uplifting",
+        "energetic",
+        "fast",
+        "quick"
       ],
       "loop": true,
       "bpm": 138
@@ -13816,7 +14055,10 @@
         "hypnotic",
         "bpm-132",
         "tempo-fast",
-        "electronic"
+        "electronic",
+        "energetic",
+        "fast",
+        "quick"
       ],
       "loop": true,
       "bpm": 132
@@ -13835,7 +14077,12 @@
         "reverb",
         "tremolo",
         "bpm-148",
-        "tempo-fast"
+        "tempo-fast",
+        "energetic",
+        "fast",
+        "quick",
+        "rock",
+        "surf"
       ],
       "loop": true,
       "bpm": 148
@@ -13854,7 +14101,10 @@
         "bop",
         "slapback",
         "bpm-156",
-        "tempo-fast"
+        "tempo-fast",
+        "energetic",
+        "fast",
+        "quick"
       ],
       "loop": true,
       "bpm": 156
@@ -13873,7 +14123,10 @@
         "banjo",
         "fiddle",
         "bpm-160",
-        "tempo-fast"
+        "tempo-fast",
+        "energetic",
+        "fast",
+        "quick"
       ],
       "loop": true,
       "bpm": 160
@@ -13893,7 +14146,11 @@
         "fiddle",
         "tin-whistle",
         "bpm-140",
-        "tempo-fast"
+        "tempo-fast",
+        "energetic",
+        "fast",
+        "folk",
+        "quick"
       ],
       "loop": true,
       "bpm": 140
@@ -13912,7 +14169,10 @@
         "horns",
         "tambora",
         "bpm-150",
-        "tempo-fast"
+        "tempo-fast",
+        "energetic",
+        "fast",
+        "quick"
       ],
       "loop": true,
       "bpm": 150
@@ -13932,7 +14192,10 @@
         "carnival",
         "surdo",
         "bpm-148",
-        "tempo-fast"
+        "tempo-fast",
+        "energetic",
+        "fast",
+        "quick"
       ],
       "loop": true,
       "bpm": 148
@@ -13951,7 +14214,9 @@
         "edm-pop",
         "bpm-128",
         "tempo-fast",
-        "energetic"
+        "energetic",
+        "fast",
+        "quick"
       ],
       "loop": true,
       "bpm": 128
@@ -13970,7 +14235,9 @@
         "opening",
         "bpm-150",
         "tempo-fast",
-        "energetic"
+        "energetic",
+        "fast",
+        "quick"
       ],
       "loop": true,
       "bpm": 150
@@ -13990,7 +14257,9 @@
         "fast",
         "bpm-200",
         "tempo-fast",
-        "upright-bass"
+        "upright-bass",
+        "energetic",
+        "quick"
       ],
       "loop": true,
       "bpm": 200
@@ -14009,7 +14278,12 @@
         "strings",
         "70s",
         "bpm-130",
-        "tempo-fast"
+        "tempo-fast",
+        "energetic",
+        "fast",
+        "hour",
+        "peak",
+        "quick"
       ],
       "loop": true,
       "bpm": 130
@@ -14031,7 +14305,8 @@
         "superhero",
         "action",
         "onomatopoeia",
-        "combat"
+        "combat",
+        "battle"
       ]
     },
     {
@@ -14049,7 +14324,8 @@
         "fight",
         "superhero",
         "onomatopoeia",
-        "combat"
+        "combat",
+        "battle"
       ]
     },
     {
@@ -14067,7 +14343,10 @@
         "heavy",
         "fight",
         "onomatopoeia",
-        "combat"
+        "combat",
+        "battle",
+        "intense",
+        "powerful"
       ]
     },
     {
@@ -14087,7 +14366,9 @@
         "finisher",
         "superhero",
         "onomatopoeia",
-        "combat"
+        "combat",
+        "battle",
+        "punch"
       ]
     },
     {
@@ -14104,7 +14385,10 @@
         "tap",
         "fight",
         "onomatopoeia",
-        "combat"
+        "combat",
+        "battle",
+        "hit",
+        "light"
       ]
     },
     {
@@ -14119,7 +14403,9 @@
         "soft-hit",
         "goofy",
         "muffled",
-        "onomatopoeia"
+        "onomatopoeia",
+        "hit",
+        "soft"
       ]
     },
     {
@@ -14136,7 +14422,8 @@
         "sharp",
         "sting",
         "hit",
-        "onomatopoeia"
+        "onomatopoeia",
+        "weapon"
       ]
     },
     {
@@ -14153,7 +14440,8 @@
         "strike",
         "fight",
         "onomatopoeia",
-        "combat"
+        "combat",
+        "battle"
       ]
     },
     {
@@ -14218,7 +14506,8 @@
         "blast",
         "finisher",
         "action",
-        "onomatopoeia"
+        "onomatopoeia",
+        "big"
       ]
     },
     {
@@ -14234,7 +14523,10 @@
         "bang",
         "shot",
         "western",
-        "onomatopoeia"
+        "onomatopoeia",
+        "cowboy",
+        "desert",
+        "frontier"
       ]
     },
     {
@@ -14268,7 +14560,9 @@
         "dodge",
         "fly-by",
         "transition",
-        "onomatopoeia"
+        "onomatopoeia",
+        "combat",
+        "evade"
       ]
     },
     {
@@ -14286,7 +14580,10 @@
         "fly-by",
         "pass-by",
         "superhero",
-        "onomatopoeia"
+        "onomatopoeia",
+        "energetic",
+        "pass",
+        "quick"
       ]
     },
     {
@@ -14303,7 +14600,15 @@
         "sword",
         "dodge",
         "onomatopoeia",
-        "fantasy"
+        "fantasy",
+        "blade",
+        "combat",
+        "evade",
+        "magical",
+        "medieval",
+        "melee",
+        "quick",
+        "weapon"
       ]
     },
     {
@@ -14319,7 +14624,11 @@
         "teleport",
         "fast",
         "vanish",
-        "onomatopoeia"
+        "onomatopoeia",
+        "energetic",
+        "magic",
+        "portal",
+        "quick"
       ]
     },
     {
@@ -14337,7 +14646,11 @@
         "energy",
         "magic",
         "superhero",
-        "onomatopoeia"
+        "onomatopoeia",
+        "arcane",
+        "spell",
+        "storm",
+        "thunder"
       ]
     },
     {
@@ -14356,7 +14669,12 @@
         "retro",
         "pew",
         "onomatopoeia",
-        "scifi"
+        "scifi",
+        "futuristic",
+        "gun",
+        "ray",
+        "science fiction",
+        "space"
       ]
     },
     {
@@ -14373,7 +14691,10 @@
         "sci-fi",
         "zap",
         "onomatopoeia",
-        "scifi"
+        "scifi",
+        "futuristic",
+        "science fiction",
+        "space"
       ]
     },
     {
@@ -14390,7 +14711,10 @@
         "flame",
         "burst",
         "magic",
-        "onomatopoeia"
+        "onomatopoeia",
+        "arcane",
+        "heat",
+        "spell"
       ]
     },
     {
@@ -14407,7 +14731,9 @@
         "magic",
         "fairy",
         "power-up",
-        "onomatopoeia"
+        "onomatopoeia",
+        "arcane",
+        "spell"
       ]
     },
     {
@@ -14423,7 +14749,9 @@
         "disappear",
         "vanish",
         "magic",
-        "onomatopoeia"
+        "onomatopoeia",
+        "arcane",
+        "spell"
       ]
     },
     {
@@ -14441,7 +14769,8 @@
         "shine",
         "twinkle",
         "idea",
-        "onomatopoeia"
+        "onomatopoeia",
+        "power"
       ]
     },
     {
@@ -14521,7 +14850,9 @@
         "drop",
         "heavy",
         "body-fall",
-        "onomatopoeia"
+        "onomatopoeia",
+        "intense",
+        "powerful"
       ]
     },
     {
@@ -14615,9 +14946,10 @@
         "cartoon",
         "slide-whistle",
         "fall",
-        "down",
         "goofy",
-        "onomatopoeia"
+        "onomatopoeia",
+        "slide",
+        "whistle"
       ]
     },
     {
@@ -14630,9 +14962,10 @@
         "cartoon",
         "slide-whistle",
         "rise",
-        "up",
         "goofy",
-        "onomatopoeia"
+        "onomatopoeia",
+        "slide",
+        "whistle"
       ]
     },
     {
@@ -14727,7 +15060,8 @@
         "comedy",
         "snare",
         "cymbal",
-        "onomatopoeia"
+        "onomatopoeia",
+        "short"
       ]
     },
     {
@@ -14743,7 +15077,11 @@
         "wah-wah",
         "comedy",
         "defeat",
-        "onomatopoeia"
+        "onomatopoeia",
+        "melancholy",
+        "sad",
+        "sorrow",
+        "trombone"
       ]
     }
   ]
