@@ -184,6 +184,10 @@ function buildUserMessage(transcript, mode, context) {
     }
     if (context.creatorMode) parts.push(`creatorMode: true (live streamer — slightly more responsive is ok)`);
     if (context.newSpeech) parts.push(`newSpeechSinceLastTurn: "${context.newSpeech}"`);
+    // Sing mode extras
+    if (context.singState) parts.push(`singState: ${context.singState}`);
+    if (typeof context.detectedBPM === 'number' && context.detectedBPM > 0) parts.push(`detectedBPM: ${context.detectedBPM}`);
+    if (typeof context.vocalEnergy === 'number') parts.push(`vocalEnergy: ${context.vocalEnergy} (0=silent, 0.15+=belting)`);
     if (context.storyTitle) parts.push(`Story: ${context.storyTitle}`);
     if (context.sessionContext) parts.push(`Session context: ${context.sessionContext}`);
   }

@@ -41,6 +41,34 @@ export default function AutoDetectSection() {
         {/* Scene Presets Bar — populated by Effexiq engine */}
         <div className="scene-presets-bar" id="scenePresetsBar" />
 
+        {/* Sing Mode Panel — shown by the engine when mode === 'sing' via .visualizer-section.mode-sing CSS hook */}
+        <section id="singModePanel" className="sing-mode-panel" style={{ display: 'none' }}>
+          <h3 style={{ margin: 0, marginBottom: 6 }}>Sing Mode</h3>
+          <p className="info-text" style={{ marginTop: 0 }}>
+            Start singing. Effexiq will pick backing music that matches your tempo and energy, and keep it going between verses. Headphones recommended so your mic doesn&apos;t catch the music.
+          </p>
+          <div className="sing-stats">
+            <div className="stat-item">
+              <span className="stat-value" id="singBpmReadout">— BPM</span>
+              <span className="stat-label">Detected Tempo</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-value" id="singStateReadout">idle</span>
+              <span className="stat-label">State</span>
+            </div>
+          </div>
+          <div className="toggle-row" style={{ marginTop: 8 }}>
+            <label htmlFor="singApplauseToggle">Applause on song end</label>
+            <label className="switch">
+              <input type="checkbox" id="singApplauseToggle" defaultChecked />
+              <span className="slider" />
+            </label>
+          </div>
+          <p className="info-text" style={{ fontSize: '0.78rem', marginTop: 0 }}>
+            Plays a crowd applause cue after ~6s of silence following a sustained song.
+          </p>
+        </section>
+
         <div className="context-input-area">
           <label htmlFor="dndContextInput">Story Context (Optional)</label>
           <textarea

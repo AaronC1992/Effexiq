@@ -1597,6 +1597,45 @@ header {
     font-size: 1.3em;
 }
 
+/* ===== SING MODE PANEL ===== */
+.sing-mode-panel {
+    background: linear-gradient(135deg, rgba(187, 134, 252, 0.08), rgba(3, 218, 198, 0.08));
+    border: 1px solid rgba(187, 134, 252, 0.35);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+}
+.sing-mode-panel h3 {
+    color: #bb86fc;
+    font-size: 1.1em;
+}
+.sing-mode-panel .sing-stats {
+    display: flex;
+    gap: 16px;
+    margin: 6px 0 4px;
+}
+.sing-mode-panel .stat-item {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 8px;
+    padding: 8px 10px;
+    text-align: center;
+}
+.sing-mode-panel .stat-value {
+    display: block;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #03dac6;
+}
+.sing-mode-panel .stat-label {
+    display: block;
+    font-size: 0.75em;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+}
+
 .mode-dropdown {
     width: 100%;
     padding: 15px 20px;

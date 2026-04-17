@@ -385,6 +385,20 @@ class Effexiq {
 
         // --- Creator / live-streamer mode: shorter cooldowns, slightly lower confidence gate.
         this.creatorMode = JSON.parse(localStorage.getItem('Effexiq_creator_mode') ?? 'false');
+
+        // ===== SING MODE STATE =====
+        // Singer-focused: backing music only, no SFX, BPM detection, applause on song end.
+        this.singState = 'idle';              // 'idle' | 'singing' | 'between_songs'
+        this.singApplauseEnabled = JSON.parse(localStorage.getItem('Effexiq_sing_applause') ?? 'true');
+        this.detectedBPM = null;              // rolling estimate while singing
+        this._singOnsetTimes = [];            // timestamps of recent vocal-energy onsets (for BPM)
+        this._singAboveThreshold = false;     // currently above vocal-onset threshold?
+        this._singLastOnsetTs = 0;
+        this._singSungSince = 0;              // ms timestamp singing began
+        this._singSilenceSince = 0;           // ms timestamp silence began
+        this._singSilenceEndThresholdMs = 6000;  // 6s of silence after sustained singing => song end
+        this._singMinSongMs = 15000;             // must sing for >=15s before we consider an end
+        this._singEnergyAvg = 0;              // smoothed vocal energy for AI context
         // Saved sounds (local quick-access library)
         this.savedSounds = { files: [] };
         // Instant trigger keywords for immediate sound effects
@@ -3168,6 +3182,16 @@ class Effexiq {
                 this.updateStatus(`Live Streamer Mode ${this.creatorMode ? 'enabled' : 'disabled'}`);
             });
         }
+
+        // Sing Mode applause toggle
+        const singApplauseToggle = document.getElementById('singApplauseToggle');
+        if (singApplauseToggle) {
+            singApplauseToggle.checked = !!this.singApplauseEnabled;
+            singApplauseToggle.addEventListener('change', (e) => {
+                this.singApplauseEnabled = e.target.checked;
+                localStorage.setItem('Effexiq_sing_applause', JSON.stringify(this.singApplauseEnabled));
+            });
+        }
         
         // Trigger keyword cooldown slider
         const cooldownSlider = document.getElementById('keywordCooldown');
@@ -3879,11 +3903,45 @@ class Effexiq {
     
     selectMode(mode) {
         if (!mode) return;
-        
+
+        const prevMode = this.currentMode;
         this.currentMode = mode;
         document.querySelectorAll('.mode-btn').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.mode === mode);
         });
+
+        // ===== SING MODE: auto-configure for singer workflow =====
+        // Entering sing: remember user's prior toggles, force singer-friendly defaults.
+        // Leaving sing: restore them.
+        if (mode === 'sing' && prevMode !== 'sing') {
+            this._preSingSettings = {
+                voiceDuckEnabled: this.voiceDuckEnabled,
+                musicChangeThreshold: this.musicChangeThreshold
+            };
+            // Singer needs the backing track UP, not ducked under their voice.
+            this.voiceDuckEnabled = false;
+            this._restoreVoiceDuck();
+            // Keep music steady for at least 45s between changes during a song.
+            this.musicChangeThreshold = Math.max(this.musicChangeThreshold, 45000);
+            // Reset sing analysis state for the new session.
+            this._resetSingState();
+            // UI toggle sync
+            const vd = document.getElementById('voiceDuckToggle');
+            if (vd) vd.checked = false;
+            // Show sing panel
+            const panel = document.getElementById('singModePanel');
+            if (panel) panel.style.display = '';
+            this.updateStatus('Sing Mode — start singing and backing music will follow you.');
+        } else if (prevMode === 'sing' && mode !== 'sing') {
+            if (this._preSingSettings) {
+                this.voiceDuckEnabled = !!this._preSingSettings.voiceDuckEnabled;
+                this.musicChangeThreshold = this._preSingSettings.musicChangeThreshold || 30000;
+                this._preSingSettings = null;
+            }
+            this._resetSingState();
+            const panel = document.getElementById('singModePanel');
+            if (panel) panel.style.display = 'none';
+        }
         
         // Update visualizer section mode class
         const vizSection = document.getElementById('visualizerSection');
@@ -4057,6 +4115,8 @@ class Effexiq {
                 this.voiceIntensity = 0.4 + raw * 1.1;
                 // Voice ducking: lower music/ambience when voice detected
                 this._processVoiceDuck(rms);
+                // Sing mode: onset/BPM detection + song-end detection
+                if (this.currentMode === 'sing') this._processSingFrame(rms);
                 this._micSampleRAF = requestAnimationFrame(sample);
             };
             this._micSampleFn = sample; // store for restart after stopListening
@@ -4107,6 +4167,134 @@ class Effexiq {
             this.ambientBed.fade(this.ambientBed.volume(), this._voiceDuckPrevAmbientVol, 400);
             this._voiceDuckPrevAmbientVol = null;
         }
+    }
+
+    // ===== SING MODE: BPM + SONG START/END DETECTION =====
+    // Called every mic frame while currentMode === 'sing'. Uses vocal-onset detection
+    // on RMS peaks to estimate BPM, and sustained-silence detection to detect song end.
+    _processSingFrame(rms) {
+        const ONSET_ON = 0.045;   // RMS above this counts as an onset edge (rising)
+        const ONSET_OFF = 0.022;  // hysteresis: must drop below this before next onset can fire
+        const now = Date.now();
+
+        // Smoothed vocal energy (used by AI context)
+        this._singEnergyAvg = this._singEnergyAvg * 0.95 + rms * 0.05;
+
+        // --- Onset detection with hysteresis ---
+        if (!this._singAboveThreshold && rms > ONSET_ON) {
+            this._singAboveThreshold = true;
+            // Ignore onsets closer than 180ms (>333 BPM); they're artifacts.
+            if (now - this._singLastOnsetTs > 180) {
+                this._singOnsetTimes.push(now);
+                this._singLastOnsetTs = now;
+                // Keep last 24 onsets for a stable BPM estimate.
+                if (this._singOnsetTimes.length > 24) this._singOnsetTimes.shift();
+                this._recomputeBPM();
+            }
+        } else if (this._singAboveThreshold && rms < ONSET_OFF) {
+            this._singAboveThreshold = false;
+        }
+
+        // --- Vocal activity state machine ---
+        const voiceActive = rms > ONSET_OFF;
+        const prevState = this.singState;
+        if (voiceActive) {
+            if (this.singState === 'idle' || this.singState === 'between_songs') {
+                this.singState = 'singing';
+                if (!this._singSungSince) this._singSungSince = now;
+                this.logActivity?.('Sing: vocals detected — backing music engaged', 'ai');
+            }
+            this._singSilenceSince = 0;
+        } else {
+            if (this.singState === 'singing') {
+                if (!this._singSilenceSince) this._singSilenceSince = now;
+                const sungFor = this._singSungSince ? (now - this._singSungSince) : 0;
+                const silentFor = now - this._singSilenceSince;
+                // Song end: long silence AFTER a sustained sung passage.
+                if (sungFor > this._singMinSongMs && silentFor > this._singSilenceEndThresholdMs) {
+                    this._onSingSongEnd();
+                }
+            }
+        }
+        if (prevState !== this.singState) {
+            const el = document.getElementById('singStateReadout');
+            if (el) el.textContent = this.singState;
+        }
+    }
+
+    _recomputeBPM() {
+        const t = this._singOnsetTimes;
+        if (!t || t.length < 4) return;
+        const intervals = [];
+        for (let i = 1; i < t.length; i++) intervals.push(t[i] - t[i - 1]);
+        // Use the median inter-onset interval for robustness against outliers.
+        const sorted = [...intervals].sort((a, b) => a - b);
+        const median = sorted[Math.floor(sorted.length / 2)];
+        if (!median || median <= 0) return;
+        let bpm = 60000 / median;
+        // Fold into a musical range (60-180). Many vocal lines have onsets at 1/2 or 2x the beat.
+        while (bpm < 60) bpm *= 2;
+        while (bpm > 180) bpm /= 2;
+        this.detectedBPM = Math.round(bpm);
+        // Update UI readout if present
+        const el = document.getElementById('singBpmReadout');
+        if (el) el.textContent = `${this.detectedBPM} BPM`;
+    }
+
+    _onSingSongEnd() {
+        const sungFor = this._singSungSince ? (Date.now() - this._singSungSince) : 0;
+        debugLog(`Sing: song end detected after ${Math.round(sungFor / 1000)}s`);
+        this.logActivity?.('Sing: song end — fading music, playing applause', 'ai');
+        this.singState = 'between_songs';
+        this._singSungSince = 0;
+        this._singSilenceSince = 0;
+        this._singOnsetTimes = [];
+        this.detectedBPM = null;
+
+        // Fade out current music smoothly (singer usually wants a breather between songs)
+        if (this.currentMusic && this.currentMusic._howl) {
+            try {
+                const cur = this.currentMusic._howl.volume();
+                this.currentMusic._howl.fade(cur, 0, 2500);
+                const toStop = this.currentMusic._howl;
+                setTimeout(() => { try { toStop.stop(); toStop.unload(); } catch (_) {} }, 2700);
+                this.currentMusic = null;
+                this.lastMusicChange = 0; // allow a fresh pick on next verse
+            } catch (_) {}
+        }
+
+        // Applause stinger (if user has it enabled)
+        if (this.singApplauseEnabled && this.soundCatalog?.length) {
+            const applause = this.soundCatalog.find(s => {
+                const id = (s.id || s.name || '').toLowerCase();
+                return s.type === 'sfx' && (/applause|clap|cheer/.test(id));
+            });
+            if (applause) {
+                // Bypass the sing-mode SFX gate by calling playAudio directly
+                try {
+                    this.playAudio(encodeURI(applause.src), {
+                        type: 'sfx',
+                        name: applause.id,
+                        volume: 0.85 * this.sfxLevel,
+                        loop: false,
+                        id: applause.id
+                    });
+                } catch (_) {}
+            }
+        }
+    }
+
+    _resetSingState() {
+        this.singState = 'idle';
+        this.detectedBPM = null;
+        this._singOnsetTimes = [];
+        this._singAboveThreshold = false;
+        this._singLastOnsetTs = 0;
+        this._singSungSince = 0;
+        this._singSilenceSince = 0;
+        this._singEnergyAvg = 0;
+        const el = document.getElementById('singBpmReadout');
+        if (el) el.textContent = '— BPM';
     }
 
     // ===== SPEECH RECOGNITION =====
@@ -4698,7 +4886,11 @@ class Effexiq {
             sceneStabilityMs: Date.now() - (this._sceneStartedAt || Date.now()),
             worldState: this._worldState,
             creatorMode: !!this.creatorMode,
-            newSpeech: newSpeech || null
+            newSpeech: newSpeech || null,
+            // Sing mode extras — only meaningful when mode === 'sing'
+            singState: this.currentMode === 'sing' ? this.singState : null,
+            detectedBPM: this.currentMode === 'sing' ? (this.detectedBPM || null) : null,
+            vocalEnergy: this.currentMode === 'sing' ? +(this._singEnergyAvg || 0).toFixed(4) : null
         };
         
         // Use centralized API service (from api.js)
@@ -5275,6 +5467,11 @@ class Effexiq {
     async playSoundEffectById(sfxData, spatialHint) {
         if (!this.sfxEnabled) {
             this.updateStatus('SFX disabled (toggle off)');
+            return;
+        }
+        // Sing mode: block ALL AI-driven SFX. The engine fires applause directly via playAudio.
+        if (this.currentMode === 'sing') {
+            debugLog('Sing mode: suppressing AI SFX', sfxData?.id);
             return;
         }
         // Limit simultaneous sounds

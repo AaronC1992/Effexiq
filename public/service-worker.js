@@ -1,5 +1,5 @@
 // Effexiq Service Worker
-const CACHE_NAME = 'Effexiq-v16'; // Bumped: reactive sound engine (dedup, consumed events, world state, creator mode)
+const CACHE_NAME = 'Effexiq-v17'; // Bumped: Sing Mode (BPM detection, song end, backing music)
 
 // Note: Sound files are served via /r2-audio/* proxy (Cloudflare R2) and NOT cached here
 // because they are:
