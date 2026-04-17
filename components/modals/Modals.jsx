@@ -70,7 +70,6 @@ export function SubscribeModal() {
         </button>
 
         <p className="info-text" style={{ marginTop: 14, fontSize: '0.8rem', textAlign: 'center' }}>
-          {/* TODO: create /terms and /privacy Next.js routes */}
           <a href="/terms" target="_blank">Terms of Service</a>
           &nbsp;&nbsp;&middot;&nbsp;&nbsp;
           <a href="/privacy" target="_blank">Privacy Policy</a>

@@ -103,6 +103,24 @@ function isSpeechRecognitionAvailable() {
     return ('webkitSpeechRecognition' in window) || ('SpeechRecognition' in window);
 }
 
+// Mobile / iOS detection — iOS Safari's Web Speech API is unreliable and calling
+// getUserMedia concurrently with recognition.start() can steal the mic, causing
+// speech recognition to silently never fire onresult.
+function isMobileDevice() {
+    if (typeof navigator === 'undefined') return false;
+    const ua = navigator.userAgent || '';
+    return /Android|iPhone|iPad|iPod|Mobile|Tablet/i.test(ua)
+        || (navigator.maxTouchPoints > 0 && window.matchMedia?.('(pointer: coarse)').matches);
+}
+
+function isIOSDevice() {
+    if (typeof navigator === 'undefined') return false;
+    const ua = navigator.userAgent || '';
+    // iPad on iOS 13+ reports as Mac, so also check touch points
+    return /iPhone|iPad|iPod/i.test(ua)
+        || (ua.includes('Mac') && navigator.maxTouchPoints > 1);
+}
+
 class Effexiq {
     constructor() {
         // Backend Configuration
@@ -3129,14 +3147,20 @@ class Effexiq {
                 const contextInput = document.getElementById('storyContextInput');
                 this.storyContext = contextInput ? contextInput.value.trim() : '';
                 this.hideStoryContextModal();
-                this.startListeningWithContext().catch(e => debugLog('Listen start failed:', e.message));
+                this.startListeningWithContext().catch(e => {
+                    console.error('Listen start failed:', e);
+                    this.updateStatus(`⚠️ ${e.message || 'Failed to start listening'}`, 'error');
+                });
             });
         }
         if (skipContextBtn) {
             skipContextBtn.addEventListener('click', () => {
                 this.storyContext = '';
                 this.hideStoryContextModal();
-                this.startListeningWithContext().catch(e => debugLog('Listen start failed:', e.message));
+                this.startListeningWithContext().catch(e => {
+                    console.error('Listen start failed:', e);
+                    this.updateStatus(`⚠️ ${e.message || 'Failed to start listening'}`, 'error');
+                });
             });
         }
         
@@ -3965,7 +3989,12 @@ class Effexiq {
     initializeSpeechRecognition() {
         // Feature detection with UI feedback
         if (!isSpeechRecognitionAvailable()) {
-            this.updateStatus('⚠️ Speech recognition not supported in this browser. Please use Chrome/Edge or connect to backend STT.', 'error');
+            // iOS Safari reports the API as unavailable; give platform-specific guidance.
+            if (isIOSDevice()) {
+                this.updateStatus('⚠️ iOS Safari does not support speech recognition. Use Chrome on Android, or a desktop browser.', 'error');
+            } else {
+                this.updateStatus('⚠️ Speech recognition not supported in this browser. Please use Chrome/Edge.', 'error');
+            }
             console.warn('Speech recognition not available');
             return;
         }
@@ -6544,11 +6573,18 @@ class Effexiq {
         }
 
         // Start mic intensity analyser now (deferred from init for mobile compatibility)
-        if (!this._micAnalyser) {
-            this._setupMicIntensityAnalyser().catch(() => {});
-        } else if (!this._micSampleRAF && this._micSampleFn) {
-            // RAF loop stopped on previous stopListening — restart it
-            this._micSampleRAF = requestAnimationFrame(this._micSampleFn);
+        // SKIP on mobile — getUserMedia here competes with recognition.start() for the
+        // mic, causing SpeechRecognition to silently never fire onresult on iOS/Android.
+        // Voice-intensity scaling is a nice-to-have, not critical.
+        if (!isMobileDevice()) {
+            if (!this._micAnalyser) {
+                this._setupMicIntensityAnalyser().catch(() => {});
+            } else if (!this._micSampleRAF && this._micSampleFn) {
+                // RAF loop stopped on previous stopListening — restart it
+                this._micSampleRAF = requestAnimationFrame(this._micSampleFn);
+            }
+        } else {
+            this.voiceIntensity = 0.7; // neutral fallback on mobile
         }
 
         // (Re)start pause-resume watcher for ambient restore & beat silence

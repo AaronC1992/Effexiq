@@ -2,8 +2,7 @@
  * POST /api/analyze
  * Analyzes a story transcript via OpenAI and returns a sound decision.
  * The API key lives server-side only — never exposed to the browser.
- *
- * TODO: Add auth middleware — validate Bearer token / Stripe subscription.
+ * Protected by HMAC token auth via requireAuth().
  */
 
 import { NextResponse } from 'next/server';

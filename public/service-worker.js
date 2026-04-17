@@ -1,5 +1,5 @@
 // Effexiq Service Worker
-const CACHE_NAME = 'Effexiq-v14'; // Bumped for market-readiness pass
+const CACHE_NAME = 'Effexiq-v15'; // Bumped: mobile mic fix + auth
 
 // Note: Sound files are served via /r2-audio/* proxy (Cloudflare R2) and NOT cached here
 // because they are:
