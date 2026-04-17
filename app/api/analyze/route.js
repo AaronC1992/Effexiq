@@ -12,6 +12,7 @@ import fs from 'fs';
 import path from 'path';
 import { MODE_CONTEXTS, MODE_RULES } from '../../../lib/modules/ai-director.js';
 import { requireAuth } from '../../../lib/api-auth.js';
+import { classifyLocal } from '../../../lib/modules/local-classifier.js';
 
 let _openai;
 function getOpenAI() {
@@ -273,15 +274,17 @@ export async function POST(request) {
     // Graceful degrade: instead of a hard 500, return a minimal
     // "keep current" JSON so the client-side rule-based fallback
     // has a clean decision to merge with (no hallucinated SFX).
+    const local = classifyLocal(transcript, { mode });
     const fallback = {
-      scene: null,
-      mood: { primary: 'neutral', intensity: 0.4 },
-      confidence: 0.2,
-      worldState: {},
+      scene: local.scene,
+      mood: local.mood,
+      confidence: Math.min(local.confidence, 0.35),
+      worldState: local.worldState,
       music: { id: null, action: 'play_or_continue', volume: 0.5 },
-      sfx: [],
+      sfx: local.sfx,
       _fallback: true,
       _reason: err?.status === 429 ? 'openai_rate_limit' : 'openai_error',
+      _source: 'local-classifier',
     };
     const status = err?.status === 429 ? 429 : 200; // 200 lets client merge with ruleBased
     const res = NextResponse.json(fallback, { status });

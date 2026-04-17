@@ -21,6 +21,11 @@ import {
     applyPreloadNetworkBudget, scheduleBedtimeFadeOut, cancelBedtimeFadeOut,
     obsSceneToMode,
 } from '../lib/modules/effexiq-extras.js';
+import { installSidechainDuck } from '../lib/modules/sidechain-duck.js';
+import { TensionCurve } from '../lib/modules/tension-curve.js';
+import { PriorityBudget } from '../lib/modules/priority-budget.js';
+import { applyHorrorRestraint } from '../lib/modules/scene-toggles.js';
+import { installErrorReporter } from '../lib/modules/error-reporter.js';
 
 // Expose CONFIG globally for modules that read window.CONFIG (e.g., api.js debugLog)
 try { window.CONFIG = CONFIG; } catch (_) {}
@@ -524,6 +529,9 @@ class Effexiq {
         try { installKeyboardShortcuts(this); } catch (e) { debugLog('shortcuts install failed:', e.message); }
         // Apply saved colorblind-visualizer preference
         try { applyColorblindPreference(); } catch {}
+        // Wire lightweight error reporter (fires to Sentry if DSN set,
+        // otherwise keeps a ring buffer for the Debug Perf Panel).
+        try { installErrorReporter(); } catch {}
     }
     
     getBackendUrl() {
@@ -4173,6 +4181,21 @@ class Effexiq {
         this.musicGainNode.connect(this.musicRecordDest);
         this.sfxBusGain.connect(this.sfxRecordDest);
 
+        // SFX->music sidechain duck: pulls music down when an SFX hits the
+        // bus so stingers cut through without a static music level drop.
+        try {
+            this._sidechainDuck = installSidechainDuck({
+                audioContext: this.audioContext,
+                sfxBus: this.sfxBusGain,
+                musicGain: this.musicGainNode,
+                options: { depth: 0.6, holdMs: 140, releaseMs: 320 },
+            });
+        } catch (e) { debugLog('[sidechain] install failed:', e?.message); }
+
+        // Tension curve + priority budget drive dynamic mix shaping.
+        this.tensionCurve = new TensionCurve();
+        this.priorityBudget = new PriorityBudget({ ambient: 3, sfx: 4, stinger: 2, music: 1 });
+
         // Global audio unlock for mobile: resume AudioContext on first user gesture
         this._setupMobileAudioUnlock();
     }
@@ -5068,6 +5091,14 @@ class Effexiq {
                         debugLog('Hybrid merge error:', hybridErr);
                     }
                 }
+                // Horror-restrained mode: user opt-in to softer horror cues.
+                try { response = applyHorrorRestraint(response) || response; } catch {}
+                // Feed the tension curve from the incoming mood/intensity
+                // so downstream mix decisions track the narrative arc.
+                try {
+                    if (response?.mood?.primary) this.tensionCurve.setMood(response.mood.primary, response.mood.intensity ?? 0.5);
+                    if (response?.sfx?.length) this.tensionCurve.bumpEvent(response.sfx.length);
+                } catch {}
                 await this.processSoundDecisions(response);
             }
         } catch (error) {
@@ -10212,6 +10243,7 @@ class Effexiq {
             // Uninstall keyboard shortcuts + cancel any pending bedtime fade
             try { uninstallKeyboardShortcuts(); } catch {}
             try { cancelBedtimeFadeOut(); } catch {}
+            try { this._sidechainDuck?.destroy?.(); } catch {}
 
             // Stop all Howler sounds
             if (typeof Howler !== 'undefined') {

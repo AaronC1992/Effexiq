@@ -8,6 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "seed": "node scripts/seed.js"
   },
   "dependencies": {
@@ -23,6 +25,7 @@
   "devDependencies": {
     "dotenv": "^17.4.0",
     "eslint": "^9",
-    "eslint-config-next": "^15.1.2"
+    "eslint-config-next": "^15.1.2",
+    "vitest": "^2.1.9"
   }
 }
