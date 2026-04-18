@@ -1,5 +1,5 @@
 // SuiteRhythm Service Worker
-const CACHE_NAME = 'SuiteRhythm-v23'; // Bumped: sidechain duck, tension curve, vitest suite, streaming analyze, error reporter, local classifier fallback
+const CACHE_NAME = 'SuiteRhythm-v24'; // Bumped: sidechain duck, tension curve, vitest suite, streaming analyze, error reporter, local classifier fallback
 
 // Note: Sound files are served via /r2-audio/* proxy (Cloudflare R2) and NOT cached here
 // because they are:
@@ -53,10 +53,11 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Use stale-while-revalidate for app shell files (HTML, JS, CSS)
+  // Use stale-while-revalidate for app shell files (HTML, JS, CSS) and navigation requests
   // This serves cached content immediately while fetching fresh content in background
   const isAppShell = url.origin === self.location.origin && 
-    (url.pathname.endsWith('.html') || url.pathname.endsWith('.js') || 
+    (event.request.mode === 'navigate' ||
+     url.pathname.endsWith('.html') || url.pathname.endsWith('.js') || 
      url.pathname.endsWith('.css') || url.pathname === '/' || url.pathname.endsWith('/'));
   
   if (isAppShell) {
@@ -106,6 +107,9 @@ self.addEventListener('fetch', (event) => {
         }
 
         return response;
+      }).catch(() => {
+        // Network failed and nothing in cache — return a basic offline response
+        return new Response('Offline', { status: 503, statusText: 'Service Unavailable' });
       });
     })
   );
