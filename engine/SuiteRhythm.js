@@ -3136,7 +3136,7 @@ class SuiteRhythm {
             document.getElementById('enterTokenForm')?.classList.toggle('hidden');
         });
         document.getElementById('manageSubscriptionBtn')?.addEventListener('click', () => {
-            document.getElementById('settingsSection') && this.navigateTo?.('settingsSection');
+            this.navigateToSection('settingsSection');
             document.getElementById('subscriptionMenuContent')?.classList.remove('hidden');
         });
         
