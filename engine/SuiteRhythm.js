@@ -10764,9 +10764,115 @@ function initializeMenuToggles() {
         if (main) main.scrollTop = 0;
     });
 
+    // ─── Carousel ────────────────────────────────────────────────
+    const carouselPrev = document.getElementById('carouselPrev');
+    const carouselNext = document.getElementById('carouselNext');
+
+    if (carouselPrev) carouselPrev.addEventListener('click', () => _carouselGo(_carouselIndex - 1));
+    if (carouselNext) carouselNext.addEventListener('click', () => _carouselGo(_carouselIndex + 1));
+
+    // ─── Split Screen ────────────────────────────────────────────
+    const splitLeftSel = document.getElementById('splitLeftSelect');
+    const splitRightSel = document.getElementById('splitRightSelect');
+
+    if (splitLeftSel) splitLeftSel.addEventListener('change', _splitUpdate);
+    if (splitRightSel) splitRightSel.addEventListener('change', _splitUpdate);
+
     // Activate layout on initial load
     const currentLayout = localStorage.getItem('SuiteRhythm_layout') || '';
     _activateLayout(currentLayout);
+}
+
+/* ─── Module-scope helpers for Carousel / Split / Accordion ─── */
+let _carouselIndex = 0;
+let _accordionBarsInjected = false;
+
+function _carouselSections() {
+    return Array.from(document.querySelectorAll('.app-section'));
+}
+
+function _carouselGo(idx) {
+    const sections = _carouselSections();
+    if (!sections.length) return;
+    _carouselIndex = ((idx % sections.length) + sections.length) % sections.length;
+    sections.forEach((s, i) => {
+        if (i === _carouselIndex) {
+            s.classList.remove('hidden');
+            s.classList.add('section-visible');
+        } else {
+            s.classList.add('hidden');
+            s.classList.remove('section-visible');
+        }
+    });
+    const dotsWrap = document.getElementById('carouselDots');
+    if (dotsWrap) {
+        dotsWrap.querySelectorAll('.carousel-dot').forEach((d, i) => {
+            d.classList.toggle('active', i === _carouselIndex);
+        });
+    }
+}
+
+function _carouselBuildDots() {
+    const dotsWrap = document.getElementById('carouselDots');
+    if (!dotsWrap) return;
+    dotsWrap.innerHTML = '';
+    const sectionNames = ['Home', 'Auto Detect', 'Story Editor', 'Control Board', 'Sound Library', 'Settings'];
+    _carouselSections().forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', sectionNames[i] || 'Section ' + (i + 1));
+        dot.title = sectionNames[i] || 'Section ' + (i + 1);
+        dot.addEventListener('click', () => _carouselGo(i));
+        dotsWrap.appendChild(dot);
+    });
+}
+
+function _splitUpdate() {
+    const splitLeftSel = document.getElementById('splitLeftSelect');
+    const splitRightSel = document.getElementById('splitRightSelect');
+    if (!splitLeftSel || !splitRightSel) return;
+    const leftId = splitLeftSel.value;
+    const rightId = splitRightSel.value;
+    document.querySelectorAll('.app-section').forEach(s => {
+        s.classList.remove('split-visible', 'hidden');
+        s.classList.add('hidden');
+    });
+    const left = document.getElementById(leftId);
+    const right = document.getElementById(rightId);
+    if (left) { left.classList.remove('hidden'); left.classList.add('split-visible'); }
+    if (right && rightId !== leftId) { right.classList.remove('hidden'); right.classList.add('split-visible'); }
+}
+
+function _accordionInjectBars() {
+    if (_accordionBarsInjected) return;
+    _accordionBarsInjected = true;
+    const names = {
+        dashboardPanel: 'Home',
+        dndAutoDetect: 'Auto Detect',
+        dndCreateCampaign: 'Story Editor',
+        dndControlBoard: 'Control Board',
+        soundLibrarySection: 'Sound Library',
+        settingsSection: 'Settings'
+    };
+    document.querySelectorAll('.app-section').forEach(section => {
+        const bar = document.createElement('button');
+        bar.className = 'accordion-bar';
+        bar.setAttribute('data-accordion-target', section.id);
+        const label = names[section.id] || section.id;
+        bar.innerHTML = label + ' <svg class="accordion-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>';
+        section.parentNode.insertBefore(bar, section);
+
+        bar.addEventListener('click', () => {
+            const isOpen = section.classList.contains('accordion-open');
+            document.querySelectorAll('.app-section').forEach(s => s.classList.remove('accordion-open'));
+            document.querySelectorAll('.accordion-bar').forEach(b => b.classList.remove('active'));
+            if (!isOpen) {
+                section.classList.add('accordion-open');
+                bar.classList.add('active');
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
 }
 
 /** Apply layout-specific side effects when layout changes */
@@ -10774,16 +10880,39 @@ function _activateLayout(layout) {
     // Reset all layout-specific states
     document.documentElement.removeAttribute('data-spotlight-open');
     document.querySelectorAll('.app-section').forEach(s => {
-        s.classList.remove('spotlight-active', 'persona-hidden');
+        s.classList.remove('spotlight-active', 'persona-hidden', 'split-visible', 'accordion-open');
     });
 
     // Reset focus dock active markers
     document.querySelectorAll('.focus-dock-btn').forEach(b => b.classList.remove('active'));
 
+    // Reset accordion bar active states
+    document.querySelectorAll('.accordion-bar').forEach(b => b.classList.remove('active'));
+
     // Command Center: since all sections are force-visible via CSS, clear hidden so engine
     // sidebar clicks don't fight the grid. For other layouts, re-navigate to the current section.
-    if (layout === 'command-center') {
-        // Nothing extra needed — CSS handles show-all
+    if (layout === 'command-center' || layout === 'single-page') {
+        // CSS handles show-all — just make sure no sections are hidden
+        document.querySelectorAll('.app-section').forEach(s => s.classList.remove('hidden'));
+    } else if (layout === 'carousel') {
+        // Build dots and show first slide
+        _carouselBuildDots();
+        _carouselIndex = 0;
+        _carouselGo(0);
+    } else if (layout === 'split-screen') {
+        // Show the two default panels
+        const splitL = document.getElementById('splitLeftSelect');
+        const splitR = document.getElementById('splitRightSelect');
+        if (splitL) splitL.value = 'dashboardPanel';
+        if (splitR) splitR.value = 'dndAutoDetect';
+        _splitUpdate();
+    } else if (layout === 'accordion') {
+        // Inject bars if not done yet, then open the first section
+        _accordionInjectBars();
+        const firstSection = document.querySelector('.app-section');
+        const firstBar = document.querySelector('.accordion-bar');
+        if (firstSection) firstSection.classList.add('accordion-open');
+        if (firstBar) firstBar.classList.add('active');
     } else {
         // Re-trigger current section visibility so only 1 is shown
         const activeNav = document.querySelector('.sidebar-nav-item.active');

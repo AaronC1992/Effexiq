@@ -184,6 +184,38 @@ export default function AppShell() {
               Back
             </button>
 
+            {/* Carousel nav — only visible in carousel layout */}
+            <div id="carouselNav" className="carousel-nav">
+              <button id="carouselPrev" className="carousel-arrow carousel-prev" aria-label="Previous section">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <div id="carouselDots" className="carousel-dots" />
+              <button id="carouselNext" className="carousel-arrow carousel-next" aria-label="Next section">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+
+            {/* Split screen panel selectors — only visible in split-screen layout */}
+            <div id="splitControls" className="split-controls">
+              <select id="splitLeftSelect" className="split-select" aria-label="Left panel section">
+                <option value="dashboardPanel">Home</option>
+                <option value="dndAutoDetect">Auto Detect</option>
+                <option value="dndCreateCampaign">Story Editor</option>
+                <option value="dndControlBoard">Control Board</option>
+                <option value="soundLibrarySection">Sound Library</option>
+                <option value="settingsSection">Settings</option>
+              </select>
+              <span className="split-divider-label">|</span>
+              <select id="splitRightSelect" className="split-select" aria-label="Right panel section">
+                <option value="dndAutoDetect">Auto Detect</option>
+                <option value="dashboardPanel">Home</option>
+                <option value="dndCreateCampaign">Story Editor</option>
+                <option value="dndControlBoard">Control Board</option>
+                <option value="soundLibrarySection">Sound Library</option>
+                <option value="settingsSection">Settings</option>
+              </select>
+            </div>
+
             {/* Firefox compatibility warning — shown only in Firefox by the engine */}
             <div
               id="firefoxWarning"

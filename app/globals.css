@@ -5033,6 +5033,341 @@ body.cb-visualizer .visualizer-bar-alt {
     }
 }
 
+/* ======================================================================
+   NEW UI ELEMENTS — Carousel, Split Screen, Accordion (hidden by default)
+   ====================================================================== */
+
+/* ── Carousel Nav ────────────────────────────────────────────── */
+.carousel-nav {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 12px 0;
+    position: sticky;
+    top: 0;
+    z-index: 160;
+    background: var(--body-grad-end, #0a0a14);
+}
+.carousel-arrow {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--surface, #151522);
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, border-color 0.2s;
+    flex-shrink: 0;
+}
+.carousel-arrow:hover {
+    background: var(--tint-primary);
+    border-color: var(--primary);
+}
+.carousel-dots {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+.carousel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.15);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    padding: 0;
+}
+.carousel-dot:hover { background: rgba(255,255,255,0.3); }
+.carousel-dot.active {
+    background: var(--primary, #8a2be2);
+    transform: scale(1.3);
+}
+.carousel-dot-label {
+    display: none; /* shown on hover via JS title attr */
+}
+
+/* ── Split Screen Controls ───────────────────────────────────── */
+.split-controls {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 10px 16px;
+    background: var(--sidebar-bg, rgba(12,12,20,0.95));
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 160;
+}
+.split-select {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface, #151522);
+    color: var(--text);
+    font-size: 0.85rem;
+    cursor: pointer;
+    min-width: 140px;
+}
+.split-select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+.split-divider-label {
+    color: var(--muted-2);
+    font-size: 1.2rem;
+    font-weight: 300;
+}
+
+/* ── Accordion Bar (injected by JS) ──────────────────────────── */
+.accordion-bar {
+    display: none; /* shown only in accordion layout */
+    width: 100%;
+    padding: 16px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--surface, #151522);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s, border-color 0.2s;
+    margin-bottom: 6px;
+    align-items: center;
+    justify-content: space-between;
+}
+.accordion-bar:hover {
+    background: var(--tint-primary);
+    border-color: var(--primary);
+}
+.accordion-bar.active {
+    border-color: var(--primary-2);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-bottom: 0;
+}
+.accordion-bar .accordion-chevron {
+    transition: transform 0.2s;
+    flex-shrink: 0;
+}
+.accordion-bar.active .accordion-chevron {
+    transform: rotate(180deg);
+}
+
+/* ======================================================================
+   LAYOUT MODE 10: SINGLE PAGE
+   All sections visible on one continuous scroll. No navigation.
+   Clean dividers between sections. Sidebar hidden.
+   ====================================================================== */
+[data-layout="single-page"] #platformSidebar { display: none; }
+[data-layout="single-page"] #platformShell { flex-direction: column; }
+[data-layout="single-page"] .now-playing-strip {
+    position: sticky;
+    top: 0;
+    z-index: 155;
+}
+[data-layout="single-page"] #platformMain {
+    padding: 0 40px 80px;
+    max-width: 960px;
+    margin: 0 auto;
+}
+/* Force ALL sections visible and stacked */
+[data-layout="single-page"] .app-section,
+[data-layout="single-page"] .app-section.hidden {
+    display: block !important;
+    opacity: 1 !important;
+    max-width: 100%;
+    margin: 0;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+}
+[data-layout="single-page"] .app-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+/* Clean, magazine-like section spacing */
+[data-layout="single-page"] .section-header {
+    padding: 32px 0 12px;
+}
+[data-layout="single-page"] .section-header h2 {
+    font-size: 1.8rem;
+    letter-spacing: -0.02em;
+}
+[data-layout="single-page"] .section-intro {
+    font-size: 1rem;
+    max-width: 640px;
+}
+[data-layout="single-page"] .dashboard-hero {
+    padding: 48px 0 32px;
+    text-align: center;
+}
+[data-layout="single-page"] .dashboard-title { font-size: 3rem; }
+[data-layout="single-page"] .use-case-grid {
+    max-width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+@media (max-width: 600px) {
+    [data-layout="single-page"] #platformMain { padding: 0 16px 60px; }
+}
+
+/* ======================================================================
+   LAYOUT MODE 11: CAROUSEL
+   Full-screen slides. One section visible at a time.
+   Left/right arrows + dot indicators. Sidebar hidden.
+   ====================================================================== */
+[data-layout="carousel"] #platformSidebar { display: none; }
+[data-layout="carousel"] #platformShell { flex-direction: column; }
+[data-layout="carousel"] .carousel-nav { display: flex; }
+[data-layout="carousel"] .now-playing-strip { display: none; }
+[data-layout="carousel"] #platformMain {
+    padding: 0 40px 40px;
+}
+[data-layout="carousel"] .app-section {
+    max-width: 900px;
+    margin: 0 auto;
+    min-height: calc(100vh - 120px);
+}
+[data-layout="carousel"] .dashboard-hero {
+    padding: 60px 20px;
+    min-height: 40vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+[data-layout="carousel"] .dashboard-title { font-size: 3.5rem; }
+[data-layout="carousel"] .section-header {
+    text-align: center;
+    padding: 40px 0 16px;
+}
+[data-layout="carousel"] .section-header h2 { font-size: 2rem; }
+[data-layout="carousel"] .section-intro {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 28px;
+}
+@media (max-width: 600px) {
+    [data-layout="carousel"] #platformMain { padding: 0 16px 24px; }
+    .carousel-arrow { width: 34px; height: 34px; }
+}
+
+/* ======================================================================
+   LAYOUT MODE 12: SPLIT SCREEN
+   Two sections visible side-by-side. Dropdown selectors at top.
+   Sidebar hidden. Each panel scrolls independently.
+   ====================================================================== */
+[data-layout="split-screen"] #platformSidebar { display: none; }
+[data-layout="split-screen"] #platformShell { flex-direction: column; }
+[data-layout="split-screen"] .split-controls { display: flex; }
+[data-layout="split-screen"] .now-playing-strip { display: none; }
+[data-layout="split-screen"] #platformMain {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    height: calc(100vh - 50px);
+    overflow: hidden;
+    gap: 0;
+}
+/* Hide all sections by default */
+[data-layout="split-screen"] .app-section {
+    display: none !important;
+    max-width: 100%;
+    margin: 0;
+}
+/* Show the two selected panels */
+[data-layout="split-screen"] .app-section.split-visible {
+    display: block !important;
+    opacity: 1 !important;
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 28px 60px;
+    min-width: 0;
+}
+/* Divider between panels */
+[data-layout="split-screen"] .app-section.split-visible + .app-section.split-visible {
+    border-left: 1px solid var(--border);
+}
+[data-layout="split-screen"] .section-header h2 { font-size: 1.2rem; }
+[data-layout="split-screen"] .section-intro { font-size: 0.85rem; }
+[data-layout="split-screen"] .use-case-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+[data-layout="split-screen"] .dashboard-title { font-size: 1.8rem; }
+@media (max-width: 768px) {
+    [data-layout="split-screen"] #platformMain {
+        flex-direction: column;
+        height: auto;
+        overflow: visible;
+    }
+    [data-layout="split-screen"] .app-section.split-visible {
+        max-height: 50vh;
+        border-left: none !important;
+        border-bottom: 1px solid var(--border);
+    }
+}
+
+/* ======================================================================
+   LAYOUT MODE 13: ACCORDION
+   All sections collapsed to titled rows. Click to expand one.
+   Clean minimal look. Sidebar hidden.
+   ====================================================================== */
+[data-layout="accordion"] #platformSidebar { display: none; }
+[data-layout="accordion"] #platformShell { flex-direction: column; }
+[data-layout="accordion"] .now-playing-strip {
+    position: sticky;
+    top: 0;
+    z-index: 155;
+}
+[data-layout="accordion"] #platformMain {
+    padding: 24px 40px 80px;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+}
+/* Show the accordion bars */
+[data-layout="accordion"] .accordion-bar {
+    display: flex;
+}
+/* All sections hidden by default (accordion JS controls visibility) */
+[data-layout="accordion"] .app-section {
+    display: none !important;
+    max-width: 100%;
+    margin: 0;
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    padding: 24px;
+    margin-bottom: 12px;
+}
+[data-layout="accordion"] .app-section.accordion-open {
+    display: block !important;
+    opacity: 1 !important;
+}
+/* Hide section headers inside accordion (the bar IS the header) */
+[data-layout="accordion"] .app-section .section-header {
+    display: none;
+}
+[data-layout="accordion"] .app-section .dashboard-hero {
+    padding: 16px 0;
+}
+[data-layout="accordion"] .dashboard-title { font-size: 1.8rem; }
+[data-layout="accordion"] .use-case-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+@media (max-width: 600px) {
+    [data-layout="accordion"] #platformMain { padding: 16px 12px 60px; }
+    .accordion-bar { padding: 14px 16px; font-size: 0.9rem; }
+}
+
 /* ============================================================ */
 /* UI ENHANCEMENTS (Batch 8) - appended block, overrides earlier  */
 /* rules via source order. Pure additive, no IDs removed.        */

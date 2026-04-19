@@ -228,6 +228,54 @@ export default function SettingsSection() {
                 <div className="layout-card-name">Spotlight</div>
                 <div className="layout-card-desc">Card overview of all sections, click to expand</div>
               </button>
+
+              {/* ── Single Page ── */}
+              <button className="layout-card" data-layout-value="single-page" aria-label="Single Page layout">
+                <div className="layout-card-preview" style={{ display: 'flex', flexDirection: 'column', gap: 2, padding: 4 }}>
+                  <div style={{ background: 'rgba(255,255,255,0.10)', borderRadius: 3, height: 8 }} />
+                  <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: 3, height: 8 }} />
+                  <div style={{ background: 'rgba(255,255,255,0.10)', borderRadius: 3, height: 8 }} />
+                  <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: 3, height: 8 }} />
+                  <div style={{ background: 'rgba(255,255,255,0.10)', borderRadius: 3, height: 8 }} />
+                </div>
+                <div className="layout-card-name">Single Page</div>
+                <div className="layout-card-desc">Everything on one continuous scroll</div>
+              </button>
+
+              {/* ── Carousel ── */}
+              <button className="layout-card" data-layout-value="carousel" aria-label="Carousel layout">
+                <div className="layout-card-preview" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, padding: 8 }}>
+                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'rgba(255,255,255,0.15)' }} />
+                  <div style={{ flex: 1, background: 'rgba(255,255,255,0.10)', borderRadius: 4, height: 28 }} />
+                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'rgba(255,255,255,0.15)' }} />
+                </div>
+                <div className="layout-card-name">Carousel</div>
+                <div className="layout-card-desc">Full-screen slides with arrow navigation</div>
+              </button>
+
+              {/* ── Split Screen ── */}
+              <button className="layout-card" data-layout-value="split-screen" aria-label="Split Screen layout">
+                <div className="layout-card-preview" style={{ display: 'flex', gap: 2, padding: 4 }}>
+                  <div style={{ flex: 1, background: 'rgba(255,255,255,0.10)', borderRadius: 3 }} />
+                  <div style={{ width: 1, background: 'rgba(255,255,255,0.15)' }} />
+                  <div style={{ flex: 1, background: 'rgba(255,255,255,0.06)', borderRadius: 3 }} />
+                </div>
+                <div className="layout-card-name">Split Screen</div>
+                <div className="layout-card-desc">Two sections side-by-side with selectors</div>
+              </button>
+
+              {/* ── Accordion ── */}
+              <button className="layout-card" data-layout-value="accordion" aria-label="Accordion layout">
+                <div className="layout-card-preview" style={{ display: 'flex', flexDirection: 'column', gap: 2, padding: 4 }}>
+                  <div style={{ background: 'rgba(255,255,255,0.15)', borderRadius: 3, height: 5 }} />
+                  <div style={{ background: 'rgba(255,255,255,0.08)', borderRadius: 3, height: 14, marginBottom: 2 }} />
+                  <div style={{ background: 'rgba(255,255,255,0.15)', borderRadius: 3, height: 5 }} />
+                  <div style={{ background: 'rgba(255,255,255,0.15)', borderRadius: 3, height: 5 }} />
+                  <div style={{ background: 'rgba(255,255,255,0.15)', borderRadius: 3, height: 5 }} />
+                </div>
+                <div className="layout-card-name">Accordion</div>
+                <div className="layout-card-desc">Collapsible rows, one section open at a time</div>
+              </button>
             </div>
           </div>
         </section>
