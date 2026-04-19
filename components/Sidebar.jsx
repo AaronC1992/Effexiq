@@ -13,7 +13,35 @@ export default function Sidebar() {
     <aside id="platformSidebar" aria-label="Platform navigation">
       <div className="sidebar-brand">
         <div className="sidebar-brand-row">
-          <span className="sidebar-logo-text">SuiteRhythm</span>
+          {/* Logo variant: Wordmark (default) */}
+          <span className="sidebar-logo-text logo-variant logo-wordmark">SuiteRhythm</span>
+
+          {/* Logo variant: Icon + Text */}
+          <span className="logo-variant logo-icon-text">
+            <svg className="logo-icon-svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+            </svg>
+            <span className="logo-icon-label">SuiteRhythm</span>
+          </span>
+
+          {/* Logo variant: Minimal Icon */}
+          <span className="logo-variant logo-minimal">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary-2, #bb86fc)" strokeWidth="2">
+              <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+            </svg>
+          </span>
+
+          {/* Logo variant: Stacked */}
+          <span className="logo-variant logo-stacked">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary-2, #bb86fc)" strokeWidth="2">
+              <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+            </svg>
+            <span className="logo-stacked-name">Suite<br/>Rhythm</span>
+          </span>
+
+          {/* Logo variant: Monogram */}
+          <span className="logo-variant logo-monogram">SR</span>
+
           <EngineStatusDot />
         </div>
         <span className="sidebar-tagline">Reactive Sound Design</span>

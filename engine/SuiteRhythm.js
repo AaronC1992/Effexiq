@@ -10701,6 +10701,37 @@ function initializeMenuToggles() {
         });
     }
 
+    // ─── Generic customization picker helper ─────────────────────
+    function _wireCustomPicker(pickerId, cardClass, dataValueAttr, dataAttr, storageKey) {
+        const picker = document.getElementById(pickerId);
+        if (!picker) return;
+        const saved = localStorage.getItem(storageKey) || '';
+        if (saved) document.documentElement.setAttribute('data-' + dataAttr, saved);
+        picker.querySelectorAll('.' + cardClass).forEach(card => {
+            const val = card.getAttribute(dataValueAttr);
+            if (val === saved) { card.classList.add('active'); } else { card.classList.remove('active'); }
+        });
+        picker.addEventListener('click', (e) => {
+            const card = e.target.closest('.' + cardClass);
+            if (!card) return;
+            const value = card.getAttribute(dataValueAttr);
+            if (value) { document.documentElement.setAttribute('data-' + dataAttr, value); }
+            else { document.documentElement.removeAttribute('data-' + dataAttr); }
+            localStorage.setItem(storageKey, value);
+            picker.querySelectorAll('.' + cardClass).forEach(c => c.classList.remove('active'));
+            card.classList.add('active');
+        });
+    }
+
+    // Logo picker
+    _wireCustomPicker('logoPicker', 'logo-card', 'data-logo-value', 'logo', 'SuiteRhythm_logo');
+    // Font picker
+    _wireCustomPicker('fontPicker', 'font-card', 'data-font-value', 'font', 'SuiteRhythm_font');
+    // Corner picker
+    _wireCustomPicker('cornerPicker', 'corner-card', 'data-corners-value', 'corners', 'SuiteRhythm_corners');
+    // Animation picker
+    _wireCustomPicker('animPicker', 'anim-card', 'data-anim-value', 'animation', 'SuiteRhythm_animation');
+
     // ─── Persona Tabs ────────────────────────────────────────────
     const personaBar = document.getElementById('personaTabBar');
     if (personaBar) {

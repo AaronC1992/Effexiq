@@ -317,6 +317,120 @@ export default function SettingsSection() {
                 <div className="layout-card-desc">Zero chrome, floating menu button</div>
               </button>
             </div>
+
+            {/* Logo Variant */}
+            <h3 style={{ marginTop: 24 }}>Logo Style</h3>
+            <p className="info-text" style={{ marginBottom: 8, fontSize: '0.85rem' }}>
+              Change the sidebar logo appearance.
+            </p>
+            <div className="logo-picker-grid" id="logoPicker">
+              <button className="logo-card active" data-logo-value="" aria-label="Wordmark logo">
+                <div className="logo-card-preview" style={{ fontSize: '0.8rem', fontWeight: 700 }}>SuiteRhythm</div>
+                <div className="logo-card-name">Wordmark</div>
+              </button>
+              <button className="logo-card" data-logo-value="icon-text" aria-label="Icon + Text logo">
+                <div className="logo-card-preview">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                  <span style={{ marginLeft: 4 }}>Aa</span>
+                </div>
+                <div className="logo-card-name">Icon + Text</div>
+              </button>
+              <button className="logo-card" data-logo-value="minimal" aria-label="Minimal icon logo">
+                <div className="logo-card-preview">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                </div>
+                <div className="logo-card-name">Minimal</div>
+              </button>
+              <button className="logo-card" data-logo-value="stacked" aria-label="Stacked logo">
+                <div className="logo-card-preview" style={{ flexDirection: 'column', display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                  <span style={{ fontSize: '0.55rem', fontWeight: 700, lineHeight: 1 }}>SR</span>
+                </div>
+                <div className="logo-card-name">Stacked</div>
+              </button>
+              <button className="logo-card" data-logo-value="monogram" aria-label="Monogram logo">
+                <div className="logo-card-preview">
+                  <span style={{ width: 24, height: 24, borderRadius: 6, background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '0.6rem', fontWeight: 800 }}>SR</span>
+                </div>
+                <div className="logo-card-name">Monogram</div>
+              </button>
+            </div>
+
+            {/* Font Preset */}
+            <h3 style={{ marginTop: 24 }}>Font</h3>
+            <p className="info-text" style={{ marginBottom: 8, fontSize: '0.85rem' }}>
+              Change the typeface used across the interface.
+            </p>
+            <div className="font-picker-grid" id="fontPicker">
+              <button className="font-card active" data-font-value="" aria-label="System font">
+                <div className="font-card-preview">Aa Bb Cc</div>
+                <div className="font-card-name">System</div>
+                <div className="font-card-desc">Default OS font</div>
+              </button>
+              <button className="font-card" data-font-value="mono" aria-label="Mono font">
+                <div className="font-card-preview">Aa Bb Cc</div>
+                <div className="font-card-name">Mono</div>
+                <div className="font-card-desc">Techy / code</div>
+              </button>
+              <button className="font-card" data-font-value="rounded" aria-label="Rounded font">
+                <div className="font-card-preview">Aa Bb Cc</div>
+                <div className="font-card-name">Rounded</div>
+                <div className="font-card-desc">Friendly / soft</div>
+              </button>
+              <button className="font-card" data-font-value="serif" aria-label="Serif font">
+                <div className="font-card-preview">Aa Bb Cc</div>
+                <div className="font-card-name">Serif</div>
+                <div className="font-card-desc">Editorial / classic</div>
+              </button>
+              <button className="font-card" data-font-value="clean" aria-label="Clean font">
+                <div className="font-card-preview">Aa Bb Cc</div>
+                <div className="font-card-name">Clean</div>
+                <div className="font-card-desc">Geometric / modern</div>
+              </button>
+            </div>
+
+            {/* Corner Style */}
+            <h3 style={{ marginTop: 24 }}>Corners</h3>
+            <p className="info-text" style={{ marginBottom: 8, fontSize: '0.85rem' }}>
+              Change the roundness of buttons, cards, and panels.
+            </p>
+            <div className="corner-picker-grid" id="cornerPicker">
+              <button className="corner-card" data-corners-value="sharp" aria-label="Sharp corners">
+                <div className="corner-card-preview" />
+                <div className="corner-card-name">Sharp</div>
+              </button>
+              <button className="corner-card active" data-corners-value="" aria-label="Rounded corners">
+                <div className="corner-card-preview" />
+                <div className="corner-card-name">Rounded</div>
+              </button>
+              <button className="corner-card" data-corners-value="pill" aria-label="Pill corners">
+                <div className="corner-card-preview" />
+                <div className="corner-card-name">Pill</div>
+              </button>
+            </div>
+
+            {/* Animation Level */}
+            <h3 style={{ marginTop: 24 }}>Animation</h3>
+            <p className="info-text" style={{ marginBottom: 8, fontSize: '0.85rem' }}>
+              Control how much motion the interface uses.
+            </p>
+            <div className="anim-picker-grid" id="animPicker">
+              <button className="anim-card" data-anim-value="none" aria-label="No animations">
+                <div className="anim-card-preview" />
+                <div className="anim-card-name">None</div>
+                <div className="anim-card-desc">No motion</div>
+              </button>
+              <button className="anim-card active" data-anim-value="" aria-label="Subtle animations">
+                <div className="anim-card-preview" />
+                <div className="anim-card-name">Subtle</div>
+                <div className="anim-card-desc">Default transitions</div>
+              </button>
+              <button className="anim-card" data-anim-value="full" aria-label="Full animations">
+                <div className="anim-card-preview" />
+                <div className="anim-card-name">Full</div>
+                <div className="anim-card-desc">Extra motion</div>
+              </button>
+            </div>
           </div>
         </section>
 

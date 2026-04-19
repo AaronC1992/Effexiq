@@ -5609,6 +5609,324 @@ body.cb-visualizer .visualizer-bar-alt {
 }
 
 /* ============================================================ */
+/* CUSTOMIZATION: LOGO VARIANTS                                  */
+/* ============================================================ */
+
+/* Hide all logo variants by default, show only the active one */
+.logo-variant { display: none !important; }
+
+/* Default (wordmark) — show .logo-wordmark when no data-logo or data-logo="" */
+:root:not([data-logo]) .logo-wordmark,
+[data-logo=""] .logo-wordmark { display: block !important; }
+
+/* Wordmark */
+[data-logo="wordmark"] .logo-wordmark { display: block !important; }
+
+/* Icon + Text */
+[data-logo="icon-text"] .logo-icon-text {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 8px;
+}
+.logo-icon-svg {
+    stroke: var(--primary-2, #bb86fc);
+    flex-shrink: 0;
+}
+.logo-icon-label {
+    font-size: 1.3rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-2), var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+}
+
+/* Minimal Icon */
+[data-logo="minimal"] .logo-minimal {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Stacked */
+[data-logo="stacked"] .logo-stacked {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+.logo-stacked-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1.1;
+    text-align: center;
+    background: linear-gradient(135deg, var(--primary-2), var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Monogram */
+[data-logo="monogram"] .logo-monogram {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--primary), var(--teal));
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+/* Hide tagline for minimal / monogram variants */
+[data-logo="minimal"] .sidebar-tagline,
+[data-logo="monogram"] .sidebar-tagline { display: none; }
+
+/* ── Logo Picker Card Styles ── */
+.logo-picker-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+}
+.logo-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 8px;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    color: var(--text);
+    font-size: 0.78rem;
+    text-align: center;
+}
+.logo-card:hover { border-color: var(--primary-2); }
+.logo-card.active {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.25);
+}
+.logo-card-preview {
+    width: 48px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--primary-2);
+    font-size: 0.7rem;
+}
+.logo-card-preview svg { stroke: var(--primary-2); }
+.logo-card-name { font-weight: 600; }
+
+/* ============================================================ */
+/* CUSTOMIZATION: FONT PRESETS                                   */
+/* ============================================================ */
+
+/* System (default) — no override needed */
+
+[data-font="mono"] body {
+    font-family: ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, monospace;
+}
+[data-font="rounded"] body {
+    font-family: 'Nunito', 'Varela Round', system-ui, sans-serif;
+}
+[data-font="serif"] body {
+    font-family: Georgia, 'Times New Roman', 'Noto Serif', serif;
+}
+[data-font="clean"] body {
+    font-family: Inter, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+/* ── Font Picker Card Styles ── */
+.font-picker-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+}
+.font-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 8px;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    color: var(--text);
+    text-align: center;
+}
+.font-card:hover { border-color: var(--primary-2); }
+.font-card.active {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.25);
+}
+.font-card-preview {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-2);
+    line-height: 1.2;
+}
+.font-card[data-font-value="mono"] .font-card-preview {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+}
+.font-card[data-font-value="rounded"] .font-card-preview {
+    font-family: 'Nunito', 'Varela Round', system-ui, sans-serif;
+}
+.font-card[data-font-value="serif"] .font-card-preview {
+    font-family: Georgia, 'Times New Roman', serif;
+}
+.font-card[data-font-value="clean"] .font-card-preview {
+    font-family: Inter, -apple-system, 'Segoe UI', sans-serif;
+}
+.font-card-name { font-weight: 600; font-size: 0.8rem; }
+.font-card-desc { font-size: 0.72rem; color: var(--muted-2); }
+
+/* ============================================================ */
+/* CUSTOMIZATION: CORNER STYLES                                  */
+/* ============================================================ */
+
+[data-corners="sharp"] {
+    --radius: 0px;
+    --radius-lg: 0px;
+}
+/* "rounded" is default — no override */
+[data-corners="pill"] {
+    --radius: 999px;
+    --radius-lg: 999px;
+}
+
+/* ── Corner Picker Card Styles ── */
+.corner-picker-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+.corner-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 8px;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    color: var(--text);
+    text-align: center;
+}
+.corner-card:hover { border-color: var(--primary-2); }
+.corner-card.active {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.25);
+}
+.corner-card-preview {
+    width: 40px;
+    height: 28px;
+    border: 2px solid var(--primary-2);
+    background: rgba(138, 43, 226, 0.08);
+}
+.corner-card[data-corners-value="sharp"] .corner-card-preview { border-radius: 0; }
+.corner-card[data-corners-value="rounded"] .corner-card-preview { border-radius: 8px; }
+.corner-card[data-corners-value="pill"] .corner-card-preview { border-radius: 999px; }
+.corner-card-name { font-weight: 600; font-size: 0.8rem; }
+
+/* ============================================================ */
+/* CUSTOMIZATION: ANIMATION LEVELS                               */
+/* ============================================================ */
+
+[data-animation="none"] *,
+[data-animation="none"] *::before,
+[data-animation="none"] *::after {
+    animation-duration: 0s !important;
+    transition-duration: 0s !important;
+}
+
+/* "subtle" is default — no override */
+
+[data-animation="full"] .sidebar-nav-item:hover {
+    transform: translateX(4px);
+}
+[data-animation="full"] .theme-card:hover,
+[data-animation="full"] .layout-card:hover,
+[data-animation="full"] .logo-card:hover,
+[data-animation="full"] .font-card:hover,
+[data-animation="full"] .corner-card:hover,
+[data-animation="full"] .anim-card:hover {
+    transform: translateY(-3px);
+}
+[data-animation="full"] .sidebar-brand {
+    animation: brandPulse 3s ease-in-out infinite;
+}
+@keyframes brandPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.85; }
+}
+[data-animation="full"] button:active {
+    transform: scale(0.96);
+}
+
+/* ── Animation Picker Card Styles ── */
+.anim-picker-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+.anim-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 8px;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    color: var(--text);
+    text-align: center;
+}
+.anim-card:hover { border-color: var(--primary-2); }
+.anim-card.active {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.25);
+}
+.anim-card-preview {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--primary-2);
+}
+.anim-card[data-anim-value="none"] .anim-card-preview { opacity: 0.4; }
+.anim-card[data-anim-value="subtle"] .anim-card-preview {
+    animation: subtleBounce 2s ease-in-out infinite;
+}
+.anim-card[data-anim-value="full"] .anim-card-preview {
+    animation: fullBounce 1s ease-in-out infinite;
+}
+@keyframes subtleBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+@keyframes fullBounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-6px) scale(1.15); }
+}
+.anim-card-name { font-weight: 600; font-size: 0.8rem; }
+.anim-card-desc { font-size: 0.72rem; color: var(--muted-2); }
+
+/* ============================================================ */
 /* UI ENHANCEMENTS (Batch 8) - appended block, overrides earlier  */
 /* rules via source order. Pure additive, no IDs removed.        */
 /* ============================================================ */

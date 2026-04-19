@@ -40,7 +40,7 @@ export default function RootLayout({ children }) {
         {/* Restore saved theme instantly to prevent flash of default colours */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('SuiteRhythm_theme');if(t)document.documentElement.setAttribute('data-theme',t);var l=localStorage.getItem('SuiteRhythm_layout');if(l)document.documentElement.setAttribute('data-layout',l)}catch(e){}})();`,
+            __html: `(function(){try{var d=document.documentElement,s=localStorage,g=function(k,a){var v=s.getItem('SuiteRhythm_'+k);if(v)d.setAttribute('data-'+a,v)};g('theme','theme');g('layout','layout');g('logo','logo');g('font','font');g('corners','corners');g('animation','animation')}catch(e){}})();`,
           }}
         />
       </head>
