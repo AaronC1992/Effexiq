@@ -33,6 +33,20 @@ const nextConfig = {
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'X-Frame-Options', value: 'DENY' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          {
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://plausible.io",
+              "style-src 'self' 'unsafe-inline'",
+              "img-src 'self' data: blob: https:",
+              "media-src 'self' blob: https://pub-b8fe695f5b4b490ebe0dc151042193e2.r2.dev",
+              "connect-src 'self' https://plausible.io https://*.supabase.co wss://*.supabase.co https://api.openai.com https://pixabay.com https://irc-ws.chat.twitch.tv",
+              "font-src 'self'",
+              "worker-src 'self' blob:",
+              "frame-src 'none'",
+            ].join('; '),
+          },
         ],
       },
     ];

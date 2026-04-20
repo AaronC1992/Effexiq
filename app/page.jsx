@@ -168,6 +168,78 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Pricing */}
+      <section id="pricing" className="landing-pricing">
+        <h2 className="landing-section-title">Simple Pricing</h2>
+        <div className="landing-pricing-grid">
+          <div className="landing-pricing-card">
+            <h3>Free</h3>
+            <div className="landing-pricing-price">$0</div>
+            <ul className="landing-pricing-features">
+              <li>Core auto-detect mode</li>
+              <li>Limited sound library</li>
+              <li>Basic scene presets</li>
+            </ul>
+            <Link href="/dashboard" className="landing-btn-secondary">
+              Get Started
+            </Link>
+          </div>
+          <div className="landing-pricing-card featured">
+            <span className="landing-pricing-badge">Most Popular</span>
+            <h3>Pro</h3>
+            <div className="landing-pricing-price">$10<span>/mo</span></div>
+            <ul className="landing-pricing-features">
+              <li>Full 450+ sound library</li>
+              <li>Story mode &amp; editor</li>
+              <li>Custom sound uploads</li>
+              <li>Priority AI analysis</li>
+              <li>OBS overlay</li>
+            </ul>
+            <Link href="/dashboard" className="landing-btn-primary">
+              Start Free Trial
+            </Link>
+          </div>
+          <div className="landing-pricing-card">
+            <h3>Table License</h3>
+            <div className="landing-pricing-price">$20<span>/mo</span></div>
+            <ul className="landing-pricing-features">
+              <li>Everything in Pro</li>
+              <li>Multi-device sync</li>
+              <li>Shared sessions</li>
+              <li>Commercial use</li>
+            </ul>
+            <Link href="/dashboard" className="landing-btn-secondary">
+              Contact Us
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Waitlist / Email Capture */}
+      <section className="landing-waitlist">
+        <h2 className="landing-section-title">Join the Waitlist</h2>
+        <p className="landing-waitlist-sub">
+          Be the first to know when we launch on Kickstarter. No spam, just one
+          email when it&apos;s live.
+        </p>
+        <form
+          className="landing-waitlist-form"
+          action="https://formspree.io/f/mgorzzaj"
+          method="POST"
+        >
+          <input
+            type="email"
+            name="email"
+            placeholder="you@example.com"
+            required
+            className="landing-waitlist-input"
+          />
+          <button type="submit" className="landing-btn-primary">
+            Notify Me
+          </button>
+        </form>
+      </section>
+
       {/* CTA */}
       <section className="landing-cta">
         <h2>Ready to bring your stories to life?</h2>
@@ -177,6 +249,10 @@ export default function Home() {
       </section>
 
       <footer className="landing-footer">
+        <div className="landing-footer-links">
+          <Link href="/terms">Terms</Link>
+          <Link href="/privacy">Privacy</Link>
+        </div>
         <span>&copy; {new Date().getFullYear()} SuiteRhythm</span>
       </footer>
     </div>

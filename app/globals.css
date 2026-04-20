@@ -4011,6 +4011,183 @@ kbd {
     color: #666;
     font-size: 0.85rem;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.landing-footer-links {
+    display: flex;
+    gap: 16px;
+}
+
+.landing-footer-links a {
+    color: #888;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.landing-footer-links a:hover {
+    color: #bb86fc;
+}
+
+/* Pricing */
+.landing-pricing {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 80px 20px;
+}
+
+.landing-pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    align-items: start;
+}
+
+.landing-pricing-card {
+    position: relative;
+    padding: 36px 28px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    text-align: center;
+    transition: border-color 0.3s, transform 0.2s;
+}
+
+.landing-pricing-card:hover {
+    transform: translateY(-4px);
+}
+
+.landing-pricing-card.featured {
+    border-color: #8a2be2;
+    background: rgba(138, 43, 226, 0.08);
+    box-shadow: 0 0 40px rgba(138, 43, 226, 0.15);
+}
+
+.landing-pricing-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 16px;
+    background: linear-gradient(135deg, #8a2be2, #bb86fc);
+    border-radius: 20px;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.landing-pricing-card h3 {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.landing-pricing-price {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #bb86fc;
+    margin-bottom: 20px;
+}
+
+.landing-pricing-price span {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #888;
+}
+
+.landing-pricing-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 28px;
+    text-align: left;
+}
+
+.landing-pricing-features li {
+    padding: 8px 0;
+    color: #ccc;
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.landing-pricing-features li::before {
+    content: '\2713';
+    color: #03dac6;
+    margin-right: 10px;
+    font-weight: 700;
+}
+
+/* Waitlist */
+.landing-waitlist {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.landing-waitlist-sub {
+    color: #999;
+    font-size: 1rem;
+    margin-bottom: 28px;
+    line-height: 1.6;
+}
+
+.landing-waitlist-form {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.landing-waitlist-input {
+    flex: 1;
+    min-width: 200px;
+    padding: 14px 18px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.landing-waitlist-input::placeholder {
+    color: #666;
+}
+
+.landing-waitlist-input:focus {
+    border-color: #8a2be2;
+}
+
+/* 404 Page */
+.not-found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 20px;
+}
+
+.not-found h1 {
+    font-size: 6rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #8a2be2, #03dac6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+}
+
+.not-found p {
+    color: #999;
+    font-size: 1.2rem;
+    margin-bottom: 32px;
 }
 
 @media (max-width: 600px) {

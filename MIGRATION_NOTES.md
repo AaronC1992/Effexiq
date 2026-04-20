@@ -67,12 +67,10 @@ All sections are **always rendered** in the DOM (hidden via the CSS `hidden` cla
 - **Next step**: Move the OpenAI call into the Next.js route handler directly. The API key stays server-side only and is never sent to the browser. Remove the Render dependency.
 
 ### 5. Service Worker (DONE)
-- `public/service-worker.js` is present but the registration script from `index.html` was not automatically carried over (it was a raw `<script>` tag).
-- **Next step**: Add service worker registration in a `useEffect` in `app/layout.jsx` or use a library like `next-pwa`.
+- Registration handled via `useEffect` in `AppShell.jsx`.
 
-### 7. Custom domain terms/privacy pages (TODO)
-- Links to `/terms` and `/privacy` are in the modals and settings. These pages don't exist yet.
-- **Next step**: Create `app/terms/page.jsx` and `app/privacy/page.jsx`.
+### 7. Terms & Privacy Pages (DONE)
+- `app/terms/page.jsx` and `app/privacy/page.jsx` created with full content.
 
 ---
 
@@ -80,9 +78,9 @@ All sections are **always rendered** in the DOM (hidden via the CSS `hidden` cla
 
 | Issue | Severity | Notes |
 |---|---|---|
-| No favicon.svg in `/public` | Low | Add `favicon.svg` to the `/public` folder. Referenced in `app/layout.jsx`. |
-| Service worker not registered | Medium | Registration script was inline in `index.html`. Needs `useEffect` in layout or `next-pwa` |
-| `/terms` and `/privacy` links 404 | Low | Pages not created yet |
+| ~~No favicon.svg in `/public`~~ | ~~Low~~ | **RESOLVED** — `favicon.svg` added |
+| ~~Service worker not registered~~ | ~~Medium~~ | **RESOLVED** — registered via `useEffect` in `AppShell.jsx` |
+| ~~`/terms` and `/privacy` links 404~~ | ~~Low~~ | **RESOLVED** — pages created |
 | Manage Billing URL hardcoded | Low | `https://billing.stripe.com/p/login/` — should be env var |
 | External Render backend still required | Medium | `/api/analyze` proxies to Render. Render must be running for AI features |
 | `window.Howl` CDN reference removed | Fixed | Howler now imported as npm package — no action needed |
@@ -91,10 +89,10 @@ All sections are **always rendered** in the DOM (hidden via the CSS `hidden` cla
 
 ## Recommended Next Steps (in order)
 
-1. **Smoke test**: Run `npm run dev` and verify the UI loads at `http://localhost:3000/dashboard`. Check browser console for engine init errors.
-2. **Add favicon**: Drop `favicon.svg` (or `favicon.ico`) into `/public`.
+1. ~~**Smoke test**~~ — Done
+2. ~~**Add favicon**~~ — Done
 3. **Add `.env.local`**: Copy `.env.example` → `.env.local` and set `NEXT_PUBLIC_BACKEND_URL`.
-4. **Service worker**: Add registration via `next-pwa` or a `useEffect` in the root layout.
+4. ~~**Service worker**~~ — Done
 5. **Auth layer**: Add NextAuth.js or Clerk. Gate the dashboard behind session check.
 6. **Stripe**: Build the subscription checkout flow.
 7. **Database**: Connect Supabase. Migrate localStorage data (stories, boards, custom sounds) to the DB.

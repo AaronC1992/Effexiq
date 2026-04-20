@@ -43,6 +43,8 @@ export default function RootLayout({ children }) {
             __html: `(function(){try{var t=localStorage.getItem('SuiteRhythm_theme')||'light';document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','light')}}())`,
           }}
         />
+        {/* Plausible Analytics — privacy-friendly, no cookies, no banner needed */}
+        <script defer data-domain="suiterhythm.vercel.app" src="https://plausible.io/js/script.js" />
       </head>
       <body>
         {/* Global zombie-audio killer — runs on every route, including landing. */}

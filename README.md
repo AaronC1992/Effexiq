@@ -109,7 +109,7 @@ Current alternatives require manual playlist management (Syrinscape, Tabletop Au
 | Tier | Price | Features |
 |---|---|---|
 | **Free** | $0 | Core auto-detect, limited sound library |
-| **Pro** | $8/mo | Full library, story mode, custom sounds, priority AI |
+| **Pro** | $10/mo | Full library, story mode, custom sounds, priority AI |
 | **Table License** | $20/mo | Multi-device sync, shared sessions, commercial use |
 
 ## Roadmap
