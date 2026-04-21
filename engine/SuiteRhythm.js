@@ -10834,16 +10834,17 @@ function initializeMenuToggles() {
         'toxic-goblin':     'Toxic Goblin',
     };
     if (palettePicker) {
-        const savedPalette = localStorage.getItem('SuiteRhythm_palette') || '';
-        if (savedPalette) {
-            document.documentElement.setAttribute('data-color-palette', savedPalette);
+        const savedPalette = localStorage.getItem('SuiteRhythm_palette') ?? null;
+        const activePalette = savedPalette !== null ? savedPalette : 'crimson-circuit';
+        if (activePalette) {
+            document.documentElement.setAttribute('data-color-palette', activePalette);
         } else {
             document.documentElement.removeAttribute('data-color-palette');
         }
-        if (paletteNameEl) paletteNameEl.textContent = paletteNames[savedPalette] ?? 'Deep Violet';
+        if (paletteNameEl) paletteNameEl.textContent = paletteNames[activePalette] ?? 'Deep Violet';
         palettePicker.querySelectorAll('.palette-swatch').forEach(btn => {
             const btnVal = btn.dataset.paletteValue ?? '';
-            btn.classList.toggle('active', btnVal === savedPalette);
+            btn.classList.toggle('active', btnVal === activePalette);
             btn.addEventListener('click', () => {
                 const val = btn.dataset.paletteValue ?? '';
                 if (val) {
