@@ -43,20 +43,6 @@ export default function SettingsSection() {
               <button className="palette-swatch"        data-palette-value="toxic-goblin"      type="button" title="Toxic Goblin"   style={{ '--swatch-a': '#6200ea', '--swatch-b': '#76ff03' }} />
             </div>
             <div className="palette-label" id="paletteName">Crimson Circuit</div>
-
-            <h3 style={{ marginTop: 20 }}>Logo Style</h3>
-            <div className="logo-style-picker" id="logoStylePicker">
-              <button className="logo-style-btn active" data-logo-style=""                type="button">Wordmark</button>
-              <button className="logo-style-btn"        data-logo-style="lettermark"      type="button">Lettermark</button>
-              <button className="logo-style-btn"        data-logo-style="icon-horizontal"  type="button">Icon + Text</button>
-              <button className="logo-style-btn"        data-logo-style="icon-stacked"     type="button">Stacked</button>
-              <button className="logo-style-btn"        data-logo-style="badge"            type="button">Badge</button>
-              <button className="logo-style-btn"        data-logo-style="mascot"           type="button">Mascot</button>
-              <button className="logo-style-btn"        data-logo-style="abstract"         type="button">Shimmer</button>
-              <button className="logo-style-btn"        data-logo-style="minimalist"       type="button">Minimalist</button>
-              <button className="logo-style-btn"        data-logo-style="retro"            type="button">Retro</button>
-              <button className="logo-style-btn"        data-logo-style="glitch"           type="button">Glitch/Neon</button>
-            </div>
           </div>
         </section>
 
@@ -78,7 +64,7 @@ export default function SettingsSection() {
               id="manageSubscriptionBtn2"
               className="btn-secondary"
               style={{ width: '100%', marginTop: 8 }}
-              onClick={() => window.open('https://billing.stripe.com/p/login/', '_blank')}
+              onClick={() => window.open(process.env.NEXT_PUBLIC_STRIPE_BILLING_URL || 'https://billing.stripe.com/p/login/', '_blank', 'noopener,noreferrer')}
             >
               Manage Billing
             </button>

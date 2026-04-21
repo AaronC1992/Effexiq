@@ -36,8 +36,9 @@ export default function ObsShell() {
       } catch (_) {}
 
       try {
-        const { default: SuiteRhythm } = await import('../engine/SuiteRhythm');
+        const { default: SuiteRhythm, initializeMenuToggles } = await import('../engine/SuiteRhythm');
         engineInstance = new SuiteRhythm();
+        initializeMenuToggles();
         window.gameInstance = engineInstance;
       } catch (e) {
         console.error('[ObsShell] Engine failed:', e);

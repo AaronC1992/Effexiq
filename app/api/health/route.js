@@ -12,8 +12,8 @@ export async function GET() {
   // Supabase
   try {
     const { error } = await supabaseAdmin.from('sounds').select('name').limit(1);
-    checks.supabase = error ? `error: ${error.message}` : 'ok';
-  } catch (e) { checks.supabase = `error: ${e.message}`; }
+    checks.supabase = error ? 'error' : 'ok';
+  } catch (_) { checks.supabase = 'error'; }
 
   // Cloudflare R2 — optional; only check if credentials are configured
   if (process.env.R2_ACCOUNT_ID && process.env.R2_ACCESS_KEY_ID && process.env.R2_SECRET_ACCESS_KEY) {
@@ -21,7 +21,7 @@ export async function GET() {
       const { listFiles } = await import('../../../lib/r2.js');
       const files = await listFiles('');
       checks.r2 = `ok (${files.length} files)`;
-    } catch (e) { checks.r2 = `error: ${e.message}`; }
+    } catch (_) { checks.r2 = 'error'; }
   } else {
     checks.r2 = 'skipped (no credentials)';
   }

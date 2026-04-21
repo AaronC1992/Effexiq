@@ -11,7 +11,7 @@ export function SubscribeModal() {
   return (
     <div
       id="subscribeModal"
-      className="modal"
+      className="modal hidden"
       role="dialog"
       aria-modal="true"
       aria-labelledby="subscribeModalTitle"

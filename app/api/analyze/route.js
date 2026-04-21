@@ -234,6 +234,9 @@ export async function POST(request) {
   if (!transcript || typeof transcript !== 'string' || !transcript.trim()) {
     return NextResponse.json({ error: 'transcript is required' }, { status: 400 });
   }
+  if (transcript.length > 3000) {
+    return NextResponse.json({ error: 'transcript exceeds maximum length' }, { status: 400 });
+  }
 
   // Check response cache for identical recent requests
   const cacheKey = getCacheKey(transcript, mode, context);
@@ -260,6 +263,7 @@ export async function POST(request) {
     });
 
     const raw = completion.choices[0]?.message?.content;
+    if (!raw) throw new Error('Empty response from OpenAI');
     const data = JSON.parse(raw);
 
     // Cache the response for dedup

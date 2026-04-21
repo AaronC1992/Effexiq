@@ -12,10 +12,14 @@
  */
 
 import { NextResponse } from 'next/server';
+import { requireAuth } from '../../../lib/api-auth.js';
 
 const PIXABAY_KEY = process.env.PIXABAY_API_KEY;
 
 export async function GET(request) {
+  const denied = requireAuth(request);
+  if (denied) return denied;
+
   if (!PIXABAY_KEY) {
     return NextResponse.json(
       { error: 'Pixabay API key not configured on server' },

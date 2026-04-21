@@ -4,10 +4,12 @@ const nextConfig = {
   // eslint-disable-next-line no-unused-vars
   webpack(config, { isServer }) {
     if (isServer) {
-      // Howler and audio APIs are browser-only – never bundle for the server
+      // Howler and audio APIs are browser-only – mark as false so Webpack
+      // replaces imports with an empty module instead of referencing a
+      // non-existent global (the 'Howl' global does not exist server-side).
       config.externals = [
         ...(config.externals || []),
-        { howler: 'Howl' },
+        { howler: false },
       ];
     }
     return config;

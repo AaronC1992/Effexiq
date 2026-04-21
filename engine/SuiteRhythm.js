@@ -10860,32 +10860,6 @@ function initializeMenuToggles() {
             });
         });
     }
-    // Logo style picker
-    const logoStylePicker = document.getElementById('logoStylePicker');
-    if (logoStylePicker) {
-        const savedStyle = localStorage.getItem('SuiteRhythm_logoStyle') ?? '';
-        if (savedStyle) {
-            document.documentElement.setAttribute('data-logo-style', savedStyle);
-        } else {
-            document.documentElement.removeAttribute('data-logo-style');
-        }
-        logoStylePicker.querySelectorAll('.logo-style-btn').forEach(btn => {
-            const btnVal = btn.dataset.logoStyle ?? '';
-            btn.classList.toggle('active', btnVal === savedStyle);
-            btn.addEventListener('click', () => {
-                const val = btn.dataset.logoStyle ?? '';
-                if (val) {
-                    document.documentElement.setAttribute('data-logo-style', val);
-                } else {
-                    document.documentElement.removeAttribute('data-logo-style');
-                }
-                localStorage.setItem('SuiteRhythm_logoStyle', val);
-                logoStylePicker.querySelectorAll('.logo-style-btn').forEach(b => {
-                    b.classList.toggle('active', (b.dataset.logoStyle ?? '') === val);
-                });
-            });
-        });
-    }
 }
 
 // ===== EXPORTS FOR NEXT.JS =====
