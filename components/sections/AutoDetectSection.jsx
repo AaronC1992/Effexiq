@@ -12,13 +12,6 @@ export default function AutoDetectSection() {
           SuiteRhythm will listen and automatically play contextual sounds and music.
         </p>
 
-        {/* Mode — Auto only (other modes have dedicated sections) */}
-        <div className="mode-selector">
-          <div className="mode-buttons">
-            <button className="mode-btn active" data-mode="auto" data-auto-select="true">Auto</button>
-          </div>
-        </div>
-
         {/* Scene Presets Bar — populated by SuiteRhythm engine */}
         <div className="scene-presets-bar" id="scenePresetsBar" />
 
@@ -33,30 +26,6 @@ export default function AutoDetectSection() {
             Describe the setting, genre, or mood to help SuiteRhythm choose better sounds.
           </p>
         </div>
-
-        {/* Session Stats */}
-        <section className="session-stats" id="sessionStats">
-          <div className="stat-item">
-            <span className="stat-value" id="statSounds">0</span>
-            <span className="stat-label">Sounds</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-value" id="statTriggers">0</span>
-            <span className="stat-label">Triggers</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-value" id="statTransitions">0</span>
-            <span className="stat-label">Music</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-value" id="statKeywords">0</span>
-            <span className="stat-label">Keywords</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-value" id="statAnalyses">0</span>
-            <span className="stat-label">Scenes</span>
-          </div>
-        </section>
 
         {/* Audio Visualizer */}
         <section className="visualizer-section" id="visualizerSection">
@@ -74,50 +43,6 @@ export default function AutoDetectSection() {
           <button id="stopBtn" className="btn-stop hidden">Stop Listening</button>
           <button id="stopAudioBtn" className="btn-stop-audio">Stop Audio</button>
           <button id="undoMusicBtn" className="btn-secondary" title="Revert the most recent music change">Undo Music</button>
-        </section>
-
-        {/* Bedtime auto fade-out */}
-        <section className="bedtime-timer-panel" style={{ margin: '12px 0' }}>
-          <label htmlFor="bedtimeTimerSelect" style={{ marginRight: 8 }}>Bedtime fade-out:</label>
-          <select id="bedtimeTimerSelect" defaultValue="0">
-            <option value="0">Off</option>
-            <option value="5">5 min</option>
-            <option value="15">15 min</option>
-            <option value="30">30 min</option>
-            <option value="60">60 min</option>
-            <option value="90">90 min</option>
-          </select>
-          <span className="info-text" style={{ marginLeft: 8 }}>
-            Master fades over the final 60s, then stops all audio.
-          </span>
-        </section>
-
-        {/* Captions feed — mirrored from the microphone transcript */}
-        <section id="captionsPanel">
-          <h4>Captions</h4>
-          <div id="captionsFeed" />
-        </section>
-
-        {/* Session Recording (Audio Export) */}
-        <section className="session-recording-panel">
-          <h3>Session Recording</h3>
-          <p className="info-text">
-            Record everything — all sounds, music, and ambience — into a single
-            downloadable audio file.
-          </p>
-          <div className="session-rec-controls">
-            <button id="recStartBtn" className="btn-primary">Record Session</button>
-            <button id="recStopBtn" className="btn-stop hidden">Stop Recording</button>
-            <span id="recTimer" className="rec-timer hidden">0:00</span>
-            <span id="recIndicator" className="rec-indicator hidden" />
-          </div>
-          <div id="recDownload" className="rec-download hidden">
-            <audio id="recAudio" controls style={{ width: '100%', marginBottom: 8 }} />
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-              <button id="recDownloadBtn" className="btn-secondary" style={{ flex: 1 }}>Download Mix</button>
-              <button id="recDownloadStemsBtn" className="btn-secondary" style={{ flex: 1 }}>Download Stems</button>
-            </div>
-          </div>
         </section>
 
         {/* Audio Controls */}

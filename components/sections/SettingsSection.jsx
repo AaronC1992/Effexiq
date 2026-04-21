@@ -287,6 +287,58 @@ export default function SettingsSection() {
           </div>
         </section>
 
+        {/* Bedtime Timer */}
+        <section className="menu-section">
+          <button className="menu-toggle" id="bedtimeMenuToggle">
+            Bedtime Timer
+            <span className="toggle-indicator">&#9660;</span>
+          </button>
+          <div className="menu-content hidden" id="bedtimeMenuContent">
+            <p className="info-text">
+              Automatically fade out all audio after a set time. The master volume fades over the
+              final 60 seconds, then stops all audio.
+            </p>
+            <div className="slider-container">
+              <label htmlFor="bedtimeTimerSelect">Fade-out after:</label>
+              <select id="bedtimeTimerSelect" defaultValue="0">
+                <option value="0">Off</option>
+                <option value="5">5 min</option>
+                <option value="15">15 min</option>
+                <option value="30">30 min</option>
+                <option value="60">60 min</option>
+                <option value="90">90 min</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        {/* Session Recording */}
+        <section className="menu-section">
+          <button className="menu-toggle" id="sessionRecMenuToggle">
+            Session Recording
+            <span className="toggle-indicator">&#9660;</span>
+          </button>
+          <div className="menu-content hidden" id="sessionRecMenuContent">
+            <p className="info-text">
+              Record everything — all sounds, music, and ambience — into a single downloadable
+              audio file.
+            </p>
+            <div className="session-rec-controls">
+              <button id="recStartBtn" className="btn-primary">Record Session</button>
+              <button id="recStopBtn" className="btn-stop hidden">Stop Recording</button>
+              <span id="recTimer" className="rec-timer hidden">0:00</span>
+              <span id="recIndicator" className="rec-indicator hidden" />
+            </div>
+            <div id="recDownload" className="rec-download hidden">
+              <audio id="recAudio" controls style={{ width: '100%', marginBottom: 8 }} />
+              <div className="rec-download-actions">
+                <button id="recDownloadBtn" className="btn-secondary">Download Mix</button>
+                <button id="recDownloadStemsBtn" className="btn-secondary">Download Stems</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* OBS WebSocket Integration */}
         <section className="menu-section">
           <button className="menu-toggle" id="obsSettingsToggle">
