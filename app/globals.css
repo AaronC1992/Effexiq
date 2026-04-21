@@ -4682,6 +4682,153 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
     color: var(--muted);
 }
 
+/* ===== COLOR PALETTES =====
+   Each palette only overrides accent vars so it composes with
+   both dark (default) and light [data-theme] freely.
+   Applied via: <html data-color-palette="name">
+   ===================================================== */
+
+/* 1: Deep Violet — default, no attribute needed */
+
+/* 2: Midnight Ocean */
+[data-color-palette="midnight-ocean"] {
+    --primary: #1565c0;
+    --primary-2: #00e5ff;
+    --teal: #00acc1;
+    --brand-grad-from: #1565c0;
+    --brand-grad-to: #00acc1;
+    --brand-grad-mid: #00e5ff;
+    --tint-primary: rgba(21, 101, 192, 0.14);
+    --ring: 0 0 0 2px rgba(21, 101, 192, 0.35), 0 0 0 4px rgba(0, 172, 193, 0.25);
+}
+
+/* 3: Crimson Circuit */
+[data-color-palette="crimson-circuit"] {
+    --primary: #b71c1c;
+    --primary-2: #ff5252;
+    --teal: #ff8f00;
+    --brand-grad-from: #b71c1c;
+    --brand-grad-to: #ff8f00;
+    --brand-grad-mid: #ff5252;
+    --tint-primary: rgba(183, 28, 28, 0.14);
+    --ring: 0 0 0 2px rgba(183, 28, 28, 0.35), 0 0 0 4px rgba(255, 143, 0, 0.25);
+}
+
+/* 4: Forest Synth */
+[data-color-palette="forest-synth"] {
+    --primary: #2e7d32;
+    --primary-2: #69f0ae;
+    --teal: #b2ff59;
+    --brand-grad-from: #2e7d32;
+    --brand-grad-to: #76ff03;
+    --brand-grad-mid: #69f0ae;
+    --tint-primary: rgba(46, 125, 50, 0.14);
+    --ring: 0 0 0 2px rgba(46, 125, 50, 0.35), 0 0 0 4px rgba(178, 255, 89, 0.25);
+}
+
+/* 5: Rose Gold */
+[data-color-palette="rose-gold"] {
+    --primary: #ad1457;
+    --primary-2: #f06292;
+    --teal: #ffb300;
+    --brand-grad-from: #ad1457;
+    --brand-grad-to: #ffb300;
+    --brand-grad-mid: #f06292;
+    --tint-primary: rgba(173, 20, 87, 0.14);
+    --ring: 0 0 0 2px rgba(173, 20, 87, 0.35), 0 0 0 4px rgba(255, 179, 0, 0.25);
+}
+
+/* 6: Arctic Minimal */
+[data-color-palette="arctic-minimal"] {
+    --primary: #0277bd;
+    --primary-2: #4fc3f7;
+    --teal: #00bcd4;
+    --brand-grad-from: #0277bd;
+    --brand-grad-to: #00bcd4;
+    --brand-grad-mid: #4fc3f7;
+    --tint-primary: rgba(2, 119, 189, 0.14);
+    --ring: 0 0 0 2px rgba(2, 119, 189, 0.35), 0 0 0 4px rgba(0, 188, 212, 0.25);
+}
+
+/* 7: Sunset Funk */
+[data-color-palette="sunset-funk"] {
+    --primary: #e65100;
+    --primary-2: #ff8f00;
+    --teal: #ffd600;
+    --brand-grad-from: #e65100;
+    --brand-grad-to: #ffd600;
+    --brand-grad-mid: #ff8f00;
+    --tint-primary: rgba(230, 81, 0, 0.14);
+    --ring: 0 0 0 2px rgba(230, 81, 0, 0.35), 0 0 0 4px rgba(255, 214, 0, 0.25);
+}
+
+/* 8: Pastel Vaporwave */
+[data-color-palette="pastel-vaporwave"] {
+    --primary: #8e24aa;
+    --primary-2: #ce93d8;
+    --teal: #80deea;
+    --brand-grad-from: #8e24aa;
+    --brand-grad-to: #80deea;
+    --brand-grad-mid: #ce93d8;
+    --tint-primary: rgba(142, 36, 170, 0.14);
+    --ring: 0 0 0 2px rgba(142, 36, 170, 0.35), 0 0 0 4px rgba(128, 222, 234, 0.25);
+}
+
+/* 9: Monochrome Pro */
+[data-color-palette="monochrome-pro"] {
+    --primary: #424242;
+    --primary-2: #9e9e9e;
+    --teal: #bdbdbd;
+    --brand-grad-from: #424242;
+    --brand-grad-to: #bdbdbd;
+    --brand-grad-mid: #9e9e9e;
+    --tint-primary: rgba(66, 66, 66, 0.14);
+    --ring: 0 0 0 2px rgba(66, 66, 66, 0.35), 0 0 0 4px rgba(189, 189, 189, 0.25);
+}
+
+/* 10: Toxic Goblin */
+[data-color-palette="toxic-goblin"] {
+    --primary: #6200ea;
+    --primary-2: #b2ff59;
+    --teal: #76ff03;
+    --brand-grad-from: #6200ea;
+    --brand-grad-to: #76ff03;
+    --brand-grad-mid: #b2ff59;
+    --tint-primary: rgba(98, 0, 234, 0.14);
+    --ring: 0 0 0 2px rgba(98, 0, 234, 0.35), 0 0 0 4px rgba(118, 255, 3, 0.25);
+}
+
+/* ===== PALETTE PICKER SWATCH UI ===== */
+.palette-picker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+.palette-swatch {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    cursor: pointer;
+    background: conic-gradient(var(--swatch-a) 50%, var(--swatch-b) 50%);
+    transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+    padding: 0;
+    flex-shrink: 0;
+}
+.palette-swatch:hover { transform: scale(1.15); border-color: var(--text); }
+.palette-swatch.active {
+    border-color: var(--text);
+    box-shadow: 0 0 0 3px var(--tint-primary);
+    transform: scale(1.1);
+}
+.palette-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 8px;
+    min-height: 1.2em;
+}
+
 /* Theme picker cards */
 .theme-picker { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
 .theme-card {

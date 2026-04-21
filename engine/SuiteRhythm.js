@@ -10817,6 +10817,48 @@ function initializeMenuToggles() {
             });
         });
     }
+
+    // Color palette picker
+    const palettePicker = document.getElementById('palettePicker');
+    const paletteNameEl = document.getElementById('paletteName');
+    const paletteNames = {
+        '':                 'Deep Violet',
+        'midnight-ocean':   'Midnight Ocean',
+        'crimson-circuit':  'Crimson Circuit',
+        'forest-synth':     'Forest Synth',
+        'rose-gold':        'Rose Gold',
+        'arctic-minimal':   'Arctic Minimal',
+        'sunset-funk':      'Sunset Funk',
+        'pastel-vaporwave': 'Pastel Vaporwave',
+        'monochrome-pro':   'Monochrome Pro',
+        'toxic-goblin':     'Toxic Goblin',
+    };
+    if (palettePicker) {
+        const savedPalette = localStorage.getItem('SuiteRhythm_palette') || '';
+        if (savedPalette) {
+            document.documentElement.setAttribute('data-color-palette', savedPalette);
+        } else {
+            document.documentElement.removeAttribute('data-color-palette');
+        }
+        if (paletteNameEl) paletteNameEl.textContent = paletteNames[savedPalette] ?? 'Deep Violet';
+        palettePicker.querySelectorAll('.palette-swatch').forEach(btn => {
+            const btnVal = btn.dataset.paletteValue ?? '';
+            btn.classList.toggle('active', btnVal === savedPalette);
+            btn.addEventListener('click', () => {
+                const val = btn.dataset.paletteValue ?? '';
+                if (val) {
+                    document.documentElement.setAttribute('data-color-palette', val);
+                } else {
+                    document.documentElement.removeAttribute('data-color-palette');
+                }
+                localStorage.setItem('SuiteRhythm_palette', val);
+                if (paletteNameEl) paletteNameEl.textContent = paletteNames[val] ?? 'Deep Violet';
+                palettePicker.querySelectorAll('.palette-swatch').forEach(s => {
+                    s.classList.toggle('active', (s.dataset.paletteValue ?? '') === val);
+                });
+            });
+        });
+    }
 }
 
 // ===== EXPORTS FOR NEXT.JS =====

@@ -28,6 +28,21 @@ export default function SettingsSection() {
                 <div className="theme-card-label">Light</div>
               </button>
             </div>
+
+            <h3 style={{ marginTop: 20 }}>Color Palette</h3>
+            <div className="palette-picker" id="palettePicker">
+              <button className="palette-swatch active" data-palette-value=""          type="button" title="Deep Violet"    style={{ '--swatch-a': '#8a2be2', '--swatch-b': '#03dac6' }} />
+              <button className="palette-swatch"        data-palette-value="midnight-ocean"    type="button" title="Midnight Ocean"  style={{ '--swatch-a': '#1565c0', '--swatch-b': '#00acc1' }} />
+              <button className="palette-swatch"        data-palette-value="crimson-circuit"   type="button" title="Crimson Circuit" style={{ '--swatch-a': '#b71c1c', '--swatch-b': '#ff8f00' }} />
+              <button className="palette-swatch"        data-palette-value="forest-synth"      type="button" title="Forest Synth"   style={{ '--swatch-a': '#2e7d32', '--swatch-b': '#b2ff59' }} />
+              <button className="palette-swatch"        data-palette-value="rose-gold"         type="button" title="Rose Gold"      style={{ '--swatch-a': '#ad1457', '--swatch-b': '#ffb300' }} />
+              <button className="palette-swatch"        data-palette-value="arctic-minimal"    type="button" title="Arctic Minimal" style={{ '--swatch-a': '#0277bd', '--swatch-b': '#00bcd4' }} />
+              <button className="palette-swatch"        data-palette-value="sunset-funk"       type="button" title="Sunset Funk"    style={{ '--swatch-a': '#e65100', '--swatch-b': '#ffd600' }} />
+              <button className="palette-swatch"        data-palette-value="pastel-vaporwave"  type="button" title="Pastel Vaporwave" style={{ '--swatch-a': '#8e24aa', '--swatch-b': '#80deea' }} />
+              <button className="palette-swatch"        data-palette-value="monochrome-pro"    type="button" title="Monochrome Pro" style={{ '--swatch-a': '#424242', '--swatch-b': '#bdbdbd' }} />
+              <button className="palette-swatch"        data-palette-value="toxic-goblin"      type="button" title="Toxic Goblin"   style={{ '--swatch-a': '#6200ea', '--swatch-b': '#76ff03' }} />
+            </div>
+            <div className="palette-label" id="paletteName">Deep Violet</div>
           </div>
         </section>
 
