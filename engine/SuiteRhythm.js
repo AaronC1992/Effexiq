@@ -10832,6 +10832,12 @@ function initializeMenuToggles() {
         'pastel-vaporwave': 'Pastel Vaporwave',
         'monochrome-pro':   'Monochrome Pro',
         'toxic-goblin':     'Toxic Goblin',
+        'neon-pink':        'Neon Pink',
+        'deep-space':       'Deep Space',
+        'matrix':           'Matrix',
+        'cobalt-storm':     'Cobalt Storm',
+        'amber-dusk':       'Amber Dusk',
+        'neon-arcade':      'Neon Arcade',
     };
     if (palettePicker) {
         const savedPalette = localStorage.getItem('SuiteRhythm_palette') ?? null;

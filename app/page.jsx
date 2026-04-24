@@ -173,11 +173,11 @@ export default function Home() {
         <h2 className="landing-section-title">Simple Pricing</h2>
         <div className="landing-pricing-grid">
           <div className="landing-pricing-card">
-            <h3>Free</h3>
-            <div className="landing-pricing-price">$0</div>
+            <h3>Auto Detect</h3>
+            <div className="landing-pricing-price">$10<span>/mo</span></div>
             <ul className="landing-pricing-features">
               <li>Core auto-detect mode</li>
-              <li>Limited sound library</li>
+              <li>Full 450+ sound library</li>
               <li>Basic scene presets</li>
             </ul>
             <Link href="/dashboard" className="landing-btn-secondary">
@@ -187,9 +187,9 @@ export default function Home() {
           <div className="landing-pricing-card featured">
             <span className="landing-pricing-badge">Most Popular</span>
             <h3>Pro</h3>
-            <div className="landing-pricing-price">$10<span>/mo</span></div>
+            <div className="landing-pricing-price">$15<span>/mo</span></div>
             <ul className="landing-pricing-features">
-              <li>Full 450+ sound library</li>
+              <li>Everything in Auto Detect</li>
               <li>Story mode &amp; editor</li>
               <li>Custom sound uploads</li>
               <li>Priority AI analysis</li>

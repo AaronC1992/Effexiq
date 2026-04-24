@@ -41,6 +41,12 @@ export default function SettingsSection() {
               <button className="palette-swatch"        data-palette-value="pastel-vaporwave"  type="button" title="Pastel Vaporwave" style={{ '--swatch-a': '#8e24aa', '--swatch-b': '#80deea' }} />
               <button className="palette-swatch"        data-palette-value="monochrome-pro"    type="button" title="Monochrome Pro" style={{ '--swatch-a': '#424242', '--swatch-b': '#bdbdbd' }} />
               <button className="palette-swatch"        data-palette-value="toxic-goblin"      type="button" title="Toxic Goblin"   style={{ '--swatch-a': '#6200ea', '--swatch-b': '#76ff03' }} />
+              <button className="palette-swatch"        data-palette-value="neon-pink"         type="button" title="Neon Pink"      style={{ '--swatch-a': '#e91e63', '--swatch-b': '#00e5ff' }} />
+              <button className="palette-swatch"        data-palette-value="deep-space"        type="button" title="Deep Space"     style={{ '--swatch-a': '#1a237e', '--swatch-b': '#ffd740' }} />
+              <button className="palette-swatch"        data-palette-value="matrix"            type="button" title="Matrix"         style={{ '--swatch-a': '#1b5e20', '--swatch-b': '#00e676' }} />
+              <button className="palette-swatch"        data-palette-value="cobalt-storm"      type="button" title="Cobalt Storm"   style={{ '--swatch-a': '#283593', '--swatch-b': '#cfd8dc' }} />
+              <button className="palette-swatch"        data-palette-value="amber-dusk"        type="button" title="Amber Dusk"     style={{ '--swatch-a': '#f57f17', '--swatch-b': '#00838f' }} />
+              <button className="palette-swatch"        data-palette-value="neon-arcade"       type="button" title="Neon Arcade"    style={{ '--swatch-a': '#00b0ff', '--swatch-b': '#ff6d00' }} />
             </div>
             <div className="palette-label" id="paletteName">Crimson Circuit</div>
           </div>

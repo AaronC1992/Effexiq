@@ -4798,6 +4798,78 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
     --ring: 0 0 0 2px rgba(98, 0, 234, 0.35), 0 0 0 4px rgba(118, 255, 3, 0.25);
 }
 
+/* 11: Neon Pink */
+[data-color-palette="neon-pink"] {
+    --primary: #e91e63;
+    --primary-2: #f48fb1;
+    --teal: #00e5ff;
+    --brand-grad-from: #e91e63;
+    --brand-grad-to: #00e5ff;
+    --brand-grad-mid: #f48fb1;
+    --tint-primary: rgba(233, 30, 99, 0.14);
+    --ring: 0 0 0 2px rgba(233, 30, 99, 0.35), 0 0 0 4px rgba(0, 229, 255, 0.25);
+}
+
+/* 12: Deep Space */
+[data-color-palette="deep-space"] {
+    --primary: #1a237e;
+    --primary-2: #7986cb;
+    --teal: #ffd740;
+    --brand-grad-from: #1a237e;
+    --brand-grad-to: #ffd740;
+    --brand-grad-mid: #7986cb;
+    --tint-primary: rgba(26, 35, 126, 0.14);
+    --ring: 0 0 0 2px rgba(26, 35, 126, 0.35), 0 0 0 4px rgba(255, 215, 64, 0.25);
+}
+
+/* 13: Matrix */
+[data-color-palette="matrix"] {
+    --primary: #1b5e20;
+    --primary-2: #00e676;
+    --teal: #69f0ae;
+    --brand-grad-from: #1b5e20;
+    --brand-grad-to: #69f0ae;
+    --brand-grad-mid: #00e676;
+    --tint-primary: rgba(27, 94, 32, 0.14);
+    --ring: 0 0 0 2px rgba(27, 94, 32, 0.35), 0 0 0 4px rgba(0, 230, 118, 0.25);
+}
+
+/* 14: Cobalt Storm */
+[data-color-palette="cobalt-storm"] {
+    --primary: #283593;
+    --primary-2: #82b1ff;
+    --teal: #cfd8dc;
+    --brand-grad-from: #283593;
+    --brand-grad-to: #cfd8dc;
+    --brand-grad-mid: #82b1ff;
+    --tint-primary: rgba(40, 53, 147, 0.14);
+    --ring: 0 0 0 2px rgba(40, 53, 147, 0.35), 0 0 0 4px rgba(207, 216, 220, 0.25);
+}
+
+/* 15: Amber Dusk */
+[data-color-palette="amber-dusk"] {
+    --primary: #f57f17;
+    --primary-2: #ffca28;
+    --teal: #00838f;
+    --brand-grad-from: #f57f17;
+    --brand-grad-to: #00838f;
+    --brand-grad-mid: #ffca28;
+    --tint-primary: rgba(245, 127, 23, 0.14);
+    --ring: 0 0 0 2px rgba(245, 127, 23, 0.35), 0 0 0 4px rgba(0, 131, 143, 0.25);
+}
+
+/* 16: Neon Arcade */
+[data-color-palette="neon-arcade"] {
+    --primary: #00b0ff;
+    --primary-2: #40c4ff;
+    --teal: #ff6d00;
+    --brand-grad-from: #00b0ff;
+    --brand-grad-to: #ff6d00;
+    --brand-grad-mid: #40c4ff;
+    --tint-primary: rgba(0, 176, 255, 0.14);
+    --ring: 0 0 0 2px rgba(0, 176, 255, 0.35), 0 0 0 4px rgba(255, 109, 0, 0.25);
+}
+
 /* ===== PALETTE PICKER SWATCH UI ===== */
 .palette-picker {
     display: flex;
